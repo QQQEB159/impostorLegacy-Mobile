@@ -22,11 +22,20 @@ jobs:
         with:
           haxe-version: 4.3.7
       
-      - name: Install Haxelib
+      - name: Prepare Android Lime rebuild
+        env:
+          CC: gcc-13
+          CXX: g++-13
         run: |
-          haxelib install hxpkg
+          set -euo pipefail
+          haxelib setup ~/haxelib
+          haxelib install hxpkg --quiet
           haxelib run hxpkg install
-          haxelib run lime rebuild cpp
+          rm -rf .haxelib/lime
+          git clone https://github.com/FunkinCrew/lime .haxelib/lime/git
+          git -C .haxelib/lime/git checkout 6421de16b9dfa4fb55c19f12db65d392a57585c8
+          git -C .haxelib/lime/git submodule update --init --recursive --force
+          haxelib dev lime .haxelib/lime/git
       
       - name: Setup Lime
         run: |
@@ -35,6 +44,17 @@ jobs:
           haxelib run lime config JAVA_HOME $JAVA_HOME_21_arm64
           haxelib run lime config ANDROID_SETUP true
           
+      - name: Rebuild Android Lime so
+        env:
+          CC: gcc-13
+          CXX: g++-13
+        run: |
+          haxelib run lime rebuild android -release
+          if [ ! -f .haxelib/lime/git/ndll/Android/liblime-64.so ]; then
+            echo "ERROR: Missing Liblime 64 so"
+            exit 1
+          fi
+      
       - name: Compile
         run: haxelib run lime build android -ONLY_ARM64
       
