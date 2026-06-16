@@ -27,7 +27,9 @@ class Init extends FlxState
 		
 		FlxSprite.defaultAntialiasing = ClientPrefs.globalAntialiasing;
 		
+		#if DISCORD_ALLOWED
 		DiscordClient.check();
+		#end
 		
 		#if MODS_ALLOWED
 		funkin.Mods.pushGlobalMods();
