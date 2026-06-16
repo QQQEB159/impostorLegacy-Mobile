@@ -655,7 +655,9 @@ class ClientPrefs
 	{
 		discordRPC = now;
 		
+		#if DISCORD_ALLOWED
 		funkin.api.DiscordClient.check();
+		#end
 		
 		return now;
 	}

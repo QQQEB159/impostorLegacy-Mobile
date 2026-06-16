@@ -86,7 +86,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		add(itemText);
 
 		leftArrow = new FlxSprite(0, itemText.y - 25);
-		leftArrow.frames = Paths.getSparrowAtlas('menus/story/ui_elements');
+		leftArrow.frames = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 		leftArrow.animation.addByPrefix('idle', 'arrow left');
 		leftArrow.animation.addByPrefix('press', "arrow push left");
 		leftArrow.animation.play('idle');

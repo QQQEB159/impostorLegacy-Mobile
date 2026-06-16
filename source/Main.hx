@@ -124,6 +124,7 @@ class Main extends Sprite
 		#end
 	}
 	
+	@:access(funkin.backend.DebugDisplay)
 	@:access(flixel.FlxCamera)
 	static function onResize(w:Int, h:Int)
 	{
