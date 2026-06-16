@@ -57,7 +57,6 @@ class Main extends Sprite
 		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());
 		#end
-		funkin.mobile.CrashHandler.init();
 		
 		super();
 		

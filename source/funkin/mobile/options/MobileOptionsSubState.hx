@@ -42,10 +42,10 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		title = 'Mobile Options';
 		rpcTitle = 'Mobile Options Menu'; // for Discord Rich Presence, fuck it
 
-		var option:Option = new Option('Mobile Controls', 'Choose which control to play.', '', 'button', true);
+		var option:Option = new Option(Lang.str('opt_mobilecontrols', 'Mobile Controls'), Lang.str('opt_mobilecontrols_desc', 'Choose which control to play.'), '', 'button', true);
 		option.callback = function() {
 		    openSubState(new funkin.mobile.MobileControlSelectSubState());
-		    touchPad.active = touchPad.visible = false;
+		    //touchPad.active = touchPad.visible = false;
 		}
 		addOption(option);
 		

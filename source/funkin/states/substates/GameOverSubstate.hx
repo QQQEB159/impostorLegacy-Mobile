@@ -113,6 +113,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		bottomControls.camera = camCTRL;
 		add(bottomControls);
 		
+		addTouchPad("NONE", "A_B");
+		addTouchPadCamera();
+		
 		super.create();
 		
 		PlayState.instance?.scripts.call('onGameOverPost', []);

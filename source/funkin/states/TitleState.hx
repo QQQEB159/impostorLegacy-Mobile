@@ -89,7 +89,7 @@ class TitleState extends MusicBeatState
 		
 		persistentUpdate = true;
 		
-		FlxG.mouse.visible = true;
+		FlxG.mouse.visible = !controls.mobileC;
 	}
 	
 	function startIntro()
