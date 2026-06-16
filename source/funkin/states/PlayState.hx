@@ -823,6 +823,13 @@ class PlayState extends MusicBeatState
 		
 		scripts.call('preNoteGeneration', []);
 		
+		#if !android
+		addTouchPad("NONE", "P");
+		addTouchPadCamera();
+		touchPad.visible = true;
+		#end
+		addMobileControls();
+		
 		if (genNotesBeforeCountdown) generatePlayfields();
 		generateSong(SONG.song);
 		

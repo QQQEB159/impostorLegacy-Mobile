@@ -36,8 +36,8 @@
             },
             {
                 "name": "hxcpp",
-                "link": "https://github.com/FunkinCrew/hxcpp",
-                "branch": "bfe01edc20cdc54fe7f54f1f2124b8959646144c"
+                "link": "https://github.com/ShadowEngineTeam/hxcpp",
+                "branch": "main"
             },
             {
                 "name": "hxvlc",
@@ -45,13 +45,13 @@
             },
             {
                 "name": "lime",
-                "link": "https://github.com/FunkinCrew/lime",
-                "branch": "b86a6d533c53ae39dc302bbf67a8d348dfb14b14"
+                "link": "https://github.com/ShadowEngineTeam/lime",
+                "branch": "main"
             },
             {
                 "name": "openfl",
-                "link": "https://github.com/FunkinCrew/openfl",
-                "branch": "a85b45f21c7e1a4c19663a193bf4ea961faf0dfa"
+                "link": "https://github.com/QQQEB159/openfl-Funkin",
+                "branch": "master"
             },
             {
                 "name": "hxdiscord_rpc",
@@ -94,10 +94,6 @@
             {
                 "name": "json5hx",
                 "version": "1.0.2"
-            },
-            {
-                "name": "extension-androidtools",
-                "version": "2.1.1"
             }
         ]
     }
