@@ -47,6 +47,21 @@ enum abstract VsyncMode(String) from String to String
 @:build(funkin.backend.macro.SaveMacro.buildSaveVars('im gonna make this do smth later okay just not rn'))
 class ClientPrefs
 {
+	// Mobile and Mobile Controls Releated ------------------------------------------------------------------------//
+	@saveVar public static var extraButtons:String = "NONE";
+	
+	@saveVar public static var hitboxPos:Bool = true;
+	
+	@saveVar public static var controlsAlpha:Float = FlxG.onMobile ? 0.6 : 0;
+	
+	@saveVar public static var screensaver:Bool = false;
+	
+	#if android
+	@saveVar public static var storageType:String = "EXTERNAL";
+	#end
+	
+	@saveVar public static var hitboxType:String = "Gradient";
+	
 	// legacy ------------------------------------------------------------------------//
 	@saveVar public static var finaleState:FinaleState = INACTIVE;
 	

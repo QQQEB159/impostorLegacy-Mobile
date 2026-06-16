@@ -28,7 +28,7 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" vsync="false"/>
 
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
+	<window if="mobile" orientation="landscape" fullscreen="true" resizable="false" allow-shaders="true" require-shaders="true" />
 
 	<!--Switch-specific-->
 	<window if="switch" orientation="landscape" fullscreen="true" width="0" height="0" resizable="true" />
@@ -36,9 +36,9 @@
 	<!-- _____________________________ Engine Config Settings ____________________________ -->
 
 	<!--ENGINE CUSTOMIZATION-->
-	<define name="MODS_ALLOWED" if="desktop" />
+	<define name="MODS_ALLOWED" if="desktop || mobile" />
 	<define name="VIDEOS_ALLOWED" if="cpp" />
-	<define name="DISCORD_ALLOWED" if="cpp"/>
+	<define name="DISCORD_ALLOWED" if="desktop"/>
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -57,7 +57,7 @@
 	<section unless="ASSET_REDIRECT">
 		<log info="INCLUDING ASSETS!!" />
 		<log info="INCLUDING DLC!!" if="DLC" />
-		<assets path="content/securitydlc" embed="false" if="MODS_ALLOWED DLC"/>
+		<assets path="content/securitydlc" embed="false" if="MODS_ALLOWED"/>
 		<assets path="assets/embeds" rename="assets" embed="true"/>
 		<assets path="assets/legacy" rename="assets"/>
 	</section>
@@ -138,6 +138,12 @@
 	<haxedef name="HXCPP_STACK_TRACE" if="CRASH_HANDLER"/>
 	<haxedef name="openfl-enable-handle-error" if="CRASH_HANDLER"/>
 
+	<!-- Allow Access to Engine Files in MOBILE -->
+	<haxedef name="SHARE_MOBILE_FILES" if="mobile" />
+	
+	<!-- Do whatever you want I'm tired uninstall and install everytime -->
+	<certificate path="key.keystore" password="psychengine" alias="psychport" alias-password="psychengine" if="android" unless="debug" />
+	
 	<!--Disables all tracing abilities. Enable this for a small performance improvement-->
 	<!-- <define name="DISABLE_TRACES" if="desktop release"/> -->
 

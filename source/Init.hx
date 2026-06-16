@@ -74,6 +74,8 @@ class Init extends FlxState
 		
 		FunkinAssets.cache.currentTrackedSounds.addPermanentKey('assets/music/freakyMenu.ogg');
 		
+		MobileData.init();
+		
 		super.create();
 		
 		final nextState:Class<FlxState> = Main.startMeta.skipSplash || !ClientPrefs.toggleSplashScreen ? Main.startMeta.initialState : Splash;

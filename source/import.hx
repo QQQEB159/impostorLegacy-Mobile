@@ -1,6 +1,18 @@
 #if !macro
 import haxe.io.Path;
 
+// mobile
+import funkin.mobile.StorageUtil;
+import funkin.mobile.MobileData;
+import funkin.mobile.IMobileControls;
+import funkin.mobile.MobileControls;
+import funkin.mobile.Hitbox;
+import funkin.mobile.TouchPad;
+import funkin.mobile.TouchUtil;
+import funkin.mobile.TouchButton;
+import funkin.mobile.input.MobileInputID;
+import funkin.mobile.input.MobileInputManager;
+
 // flixel
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -21,7 +33,9 @@ import sys.*;
 import sys.io.*;
 #end
 
+#if DISCORD_ALLOWED
 import funkin.api.DiscordClient;
+#end
 
 #if VIDEOS_ALLOWED
 import hxvlc.flixel.*;
