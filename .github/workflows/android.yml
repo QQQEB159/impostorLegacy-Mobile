@@ -26,6 +26,7 @@ jobs:
         run: |
           haxelib install hxpkg
           haxelib run hxpkg install
+          haxelib run lime rebuild cpp
       
       - name: Setup Lime
         run: |
