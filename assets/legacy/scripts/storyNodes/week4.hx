@@ -72,6 +72,7 @@ function onAccept():Void {
 	} else {
 		lockMovement = true;
 		openSubState(new funkin.states.substates.MissCounterSubstate(function(misses:Int) StoryMenuState.loadWeek(meta)));
+		removeTouchPad();
 	}
 	
 	return Function_Stop;

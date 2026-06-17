@@ -321,6 +321,10 @@ class StoryMenuState extends AmongUIState
 		super.closeSubState();
 		
 		lockMovement = false;
+		
+		removeTouchPad();
+        addTouchPad("LEFT_FULL", "A_B");
+	    addTouchPadCamera();
 	}
 	
 	public function moveCruiser(direction:NodeDirection):Void
