@@ -317,7 +317,7 @@ class OptionsState extends MusicBeatState
 				mouseControlActive = false;
 			}
 			
-			if (subState != null && subState is funkin.states.substates.CreditsRollSubState) mouseControlActive = false;
+			if (subState != null && (subState is funkin.states.substates.CreditsRollSubState || subState is funkin.mobile.MobileControlSelectSubState)) mouseControlActive = false;
 			
 			if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(menuBackButton) && !blockAllInput)
 			{
