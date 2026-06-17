@@ -230,8 +230,9 @@ class FreeplayState extends AmongUIState
 		sectionText.zIndex = 20;
 		add(sectionText);
 		
-		addTouchPad("LEFT_FULL" , "A_B_T_R");
-		addTouchPadCamera();
+		addTouchPad("NONE", "A_B_T_R");
+		if (touchPad != null) touchPad.cameras = [camUpper];
+		//addTouchPadCamera();
 		
 		scriptGroup.call('onCreatePost', []);
 		changeSection(0, false);
@@ -589,8 +590,9 @@ class FreeplayState extends AmongUIState
 		lockMovement = false;
 		
 		removeTouchPad();
-		addTouchPad("LEFT_FULL" , "A_B_T_R");
-		addTouchPadCamera();
+		addTouchPad("NONE", "A_B_T_R");
+		if (touchPad != null) touchPad.cameras = [camUpper];
+		//addTouchPadCamera();
 	}
 	
 	override function update(elapsed:Float)
@@ -649,7 +651,7 @@ class FreeplayState extends AmongUIState
 		{
 			moveCard(c, smoothSelect);
 			
-			if (FlxG.mouse.y >= (upperBar.y + upperBar.height) && FlxG.mouse.overlaps(c) && FlxG.mouse.justPressed && !lockMovement && cutscenePhase == NONE && !controls.mobileC)
+			if (FlxG.mouse.y >= (upperBar.y + upperBar.height) && FlxG.mouse.overlaps(c) && FlxG.mouse.justPressed && !lockMovement && cutscenePhase == NONE)
 			{
 				if (curSelect != c.ID)
 				{
