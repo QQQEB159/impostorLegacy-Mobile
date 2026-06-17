@@ -143,6 +143,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			MobileData.forcedMode = null;
 			FlxTimer.wait(0.1, () -> {
 			    close();
+			    funkin.states.options.OptionsState.qqqeb = false;
 			});
 		});
 		exit.color = FlxColor.LIME;

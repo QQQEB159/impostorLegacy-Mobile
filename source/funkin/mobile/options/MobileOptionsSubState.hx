@@ -55,6 +55,7 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		var option:Option = new Option(Lang.str('opt_mobilecontrols', 'Mobile Controls'), Lang.str('opt_mobilecontrols_desc', 'Choose which control to play.'), '', 'button', true);
 		option.callback = function() {
 		    openSubState(new funkin.mobile.MobileControlSelectSubState());
+		    funkin.states.options.OptionsState.qqqeb = true;
 		    //touchPad.active = touchPad.visible = false;
 		}
 		addOption(option);

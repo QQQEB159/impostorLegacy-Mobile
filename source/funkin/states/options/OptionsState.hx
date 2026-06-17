@@ -39,6 +39,7 @@ class OptionsState extends MusicBeatState
 	var blockAllInput:Bool = false;
 	
 	var blockInput:Bool = false;
+	public static var qqqeb:Bool = false;
 	var pendingSubstate:Null<String> = null;
 	var titleText:FlxText;
 	var versionText:FlxText;
@@ -317,7 +318,7 @@ class OptionsState extends MusicBeatState
 				mouseControlActive = false;
 			}
 			
-			if (subState != null && (subState is funkin.states.substates.CreditsRollSubState || subState is funkin.mobile.MobileControlSelectSubState)) mouseControlActive = false;
+			if (subState != null && subState is funkin.states.substates.CreditsRollSubState) mouseControlActive = false;
 			
 			if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(menuBackButton) && !blockAllInput)
 			{
@@ -332,7 +333,7 @@ class OptionsState extends MusicBeatState
 				return;
 			}
 			
-			if (mouseControlActive && !blockAllInput)
+			if (mouseControlActive && !blockAllInput && !qqqeb)
 			{
 				// left bar mouse
 				var themouseshit2 = FlxG.mouse;
