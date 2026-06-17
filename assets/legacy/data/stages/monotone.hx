@@ -160,7 +160,7 @@ function onCreatePost()
 	copyPet.x -= (copyPet._petOffset.x * 2);
 	copyPet.setColorTransform(1, 1, 1, 1, -16, -16, -16);
 	
-	if (Paths.fileExists('scripts/vent.hx')) initScript('scripts/vent');
+	if (Paths.fileExists('data/scripts/vent.hx')) initScript('data/scripts/vent');
 	add(copyPet);
 	
 	// cache characters
@@ -248,6 +248,8 @@ function onCreatePost()
 function onSongStart()
 {
 	if (hasBfSkin) game.unlockAchievementPopup('double_trouble');
+	
+	if (pet.shader != null) copyPet.shader = pet.shader;
 }
 
 function onEvent(n, v1, v2)

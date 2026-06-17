@@ -58,7 +58,7 @@ function onLoad()
 	henryTeleporter.visible = has_teleporter;
 	add(henryTeleporter);
 	
-	henryTeleporter2 = new FlxSprite(5, 30).loadGraphic(Paths.image(ext + 'Teleporter'));
+	henryTeleporter2 = new FlxSprite(5, ClientPrefs.downScroll ? 600 : 30).loadGraphic(Paths.image(ext + 'Teleporter'));
 	henryTeleporter2.visible = false;
 	henryTeleporter2.camera = camOther;
 	henryTeleporter2.scale.set(0.7, 0.7);
