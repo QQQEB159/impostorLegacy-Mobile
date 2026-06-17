@@ -24,6 +24,7 @@ function onCreatePost() pauseOverwrite = 'henry';
 
 function iSeeYouEnry()
 {
+	mobileControls.instance.visible = false;
 	canPause = false;
 	inCutscene = true;
 	FlxTween.tween(camHUD, {alpha: 0}, 0.4);
