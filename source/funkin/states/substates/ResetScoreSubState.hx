@@ -173,6 +173,9 @@ class ResetScoreSubState extends MusicBeatSubstate
 		}
 		
 		new FlxTimer().start(.35, function(_) lockMovement = false);
+		
+		addTouchPad("LEFT_RIGHT", "A_B");
+		addTouchPadCamera();
 	}
 	
 	override function update(elapsed:Float)
@@ -185,7 +188,7 @@ class ResetScoreSubState extends MusicBeatSubstate
 		
 		if (!lockMovement)
 		{
-			if (FlxG.mouse.justPressed)
+			if (FlxG.mouse.justPressed && !controls.mobileC)
 			{
 				mouseMode = true;
 				var mousePos = FlxG.mouse.getWorldPosition();

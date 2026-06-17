@@ -191,7 +191,7 @@ class CosmicubeSubState extends MusicBeatSubstate
 		FlxTween.tween(cubeCamera, {alpha: 1, y: cubeCamera.y - 120}, .35, {ease: FlxEase.circOut});
 		FlxTween.tween(awardCamera, {alpha: 1}, .35, {ease: FlxEase.circOut});
 		
-		addTouchPad("LEFT_FULL" , "NONE");
+		addTouchPad("LEFT_FULL", "NONE");
 		addTouchPadCamera();
 		
 		scriptGroup.call('onCreatePost', []);

@@ -106,7 +106,7 @@ var credits:Array<CreditInfo> = [
 	{icon: 'flags/chile', name: 'Kakow0'},
 	{icon: 'flags/uk', name: 'Lethrial'},
 	{icon: 'flags/greek', name: 'Noobaki'},
-	{icon: 'flags/noogurt', name: 'noogurt'},
+	{icon: 'flags/chinese', name: 'noogurt'},
 	{icon: 'flags/chinese', name: 'DramaCa'},
 	{icon: 'flags/chinese', name: 'Yoruseri'},
 	{icon: 'flags/polish', name: 'NotQuba'},

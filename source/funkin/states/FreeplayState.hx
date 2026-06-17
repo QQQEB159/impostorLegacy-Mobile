@@ -230,6 +230,9 @@ class FreeplayState extends AmongUIState
 		sectionText.zIndex = 20;
 		add(sectionText);
 		
+		addTouchPad("LEFT_FULL" , "A_B_T_R");
+		addTouchPadCamera();
+		
 		scriptGroup.call('onCreatePost', []);
 		changeSection(0, false);
 	}
@@ -565,10 +568,12 @@ class FreeplayState extends AmongUIState
 			{
 				case 'Defeat':
 					openSubState(new MissCounterSubstate(function(misses:Int) loadSong(week_songs[curSelect][0])));
+					removeTouchPad();
 					return;
 					
 				case 'Monotone Attack':
 					openSubState(new AttackCharSelectSubstate());
+					removeTouchPad();
 					return;
 			}
 			
@@ -582,26 +587,32 @@ class FreeplayState extends AmongUIState
 		super.closeSubState();
 		
 		lockMovement = false;
+		
+		removeTouchPad();
+		addTouchPad("LEFT_FULL" , "A_B_T_R");
+		addTouchPadCamera();
 	}
 	
 	override function update(elapsed:Float)
 	{
 		if (!lockMovement && cutscenePhase == NONE)
 		{
-			if (FlxG.keys.justPressed.TAB || FlxG.gamepads.anyJustPressed(X))
+			if (FlxG.keys.justPressed.TAB || touchPad != null && touchPad.buttonT.justPressed || FlxG.gamepads.anyJustPressed(X))
 			{
 				lockMovement = true;
 				FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 				openSubState(new CosmeticsSubstate());
+				removeTouchPad();
 			}
 			if (FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(Y) || (FlxG.mouse.overlaps(menuWeekSelect) && FlxG.mouse.justPressed))
 			{
 				lockMovement = true;
 				FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 				openSubState(new WeekPickerSubstate(this, curMonth));
+				removeTouchPad();
 			}
 			
-			if (controls.RESET) resetScorePrompt();
+			if (controls.RESET || touchPad != null && touchPad.buttonR.justPressed) resetScorePrompt();
 			
 			if (FlxG.sound.music.volume < 0.7)
 			{
@@ -638,7 +649,7 @@ class FreeplayState extends AmongUIState
 		{
 			moveCard(c, smoothSelect);
 			
-			if (FlxG.mouse.y >= (upperBar.y + upperBar.height) && FlxG.mouse.overlaps(c) && FlxG.mouse.justPressed && !lockMovement && cutscenePhase == NONE)
+			if (FlxG.mouse.y >= (upperBar.y + upperBar.height) && FlxG.mouse.overlaps(c) && FlxG.mouse.justPressed && !lockMovement && cutscenePhase == NONE && !controls.mobileC)
 			{
 				if (curSelect != c.ID)
 				{
@@ -672,6 +683,7 @@ class FreeplayState extends AmongUIState
 		var song:SongInformation = week_songs[curSelect];
 		
 		openSubState(new funkin.states.substates.ResetScoreSubState(song.songName, 1, song.icon));
+		removeTouchPad();
 		
 		subStateClosed.addOnce(function(_) {
 			cards.members[curSelect].initCard(song);
