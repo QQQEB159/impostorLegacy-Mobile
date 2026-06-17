@@ -39,7 +39,7 @@ class MobileOptionsSubState extends BaseOptionsMenu
 	{
 		#if android if (!externalPaths.contains('\n'))
 			storageTypes = storageTypes.concat(externalPaths); #end
-		title = 'Mobile Options';
+		title = 'mobileoptions';
 		rpcTitle = 'Mobile Options Menu'; // for Discord Rich Presence, fuck it
 
 		var option:Option = new Option(Lang.str('opt_mobilecontrols', 'Mobile Controls'), Lang.str('opt_mobilecontrols_desc', 'Choose which control to play.'), '', 'button', true);

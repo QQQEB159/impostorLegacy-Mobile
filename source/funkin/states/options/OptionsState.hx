@@ -62,7 +62,7 @@ class OptionsState extends MusicBeatState
 	// left panel button layout
 	var buttonBaseX:Float = 95;
 	var buttonBaseY:Float = 112;
-	var buttonSpacing:Float = 65;
+	var buttonSpacing:Float = 45;
 	
 	var bottomControls:AmongControls;
 	
@@ -94,7 +94,7 @@ class OptionsState extends MusicBeatState
 				openSubState(new funkin.states.options.LanguageSubState());
 			case 'misc':
 				openSubState(new funkin.states.options.MiscSubState());
-			case 'Mobile Options':
+			case 'mobileoptions':
 				openSubState(new funkin.mobile.options.MobileOptionsSubState());
 			case 'credits':
 				openSubState(new funkin.states.substates.CreditsRollSubState(true, resumeMenuMusic, resumeMenuMusic));
