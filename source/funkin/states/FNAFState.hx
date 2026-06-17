@@ -254,6 +254,9 @@ class FNAFState extends MusicBeatState
 			dialogueActive = true;
 			beginLine(dialogueLines, 0);
 		}
+		
+		addTouchPad("NONE" , "B");
+		addTouchPadCamera();
 	}
 	
 	// shader helpers
@@ -828,7 +831,7 @@ class FNAFState extends MusicBeatState
 			if (inputCooldown < 0) inputCooldown = 0;
 		}
 		
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (FlxG.keys.justPressed.ESCAPE || touchPad != null && touchPad.buttonB.justPressed)
 		{
 			if (!passwordReady) return;
 			closeComputer();
@@ -1324,7 +1327,7 @@ class FNAFState extends MusicBeatState
 		
 		if (imageShowing)
 		{
-			if (FlxG.keys.justPressed.ESCAPE)
+			if (FlxG.keys.justPressed.ESCAPE || touchPad != null && touchPad.buttonB.justPressed)
 			{
 				hideImageAndReturn();
 				return;
@@ -1335,7 +1338,7 @@ class FNAFState extends MusicBeatState
 		
 		if (audioPlaying)
 		{
-			if (FlxG.keys.justPressed.ESCAPE)
+			if (FlxG.keys.justPressed.ESCAPE || touchPad != null && touchPad.buttonB.justPressed)
 			{
 				FlxG.sound.play(Paths.sound('type'));
 				stopAudioAndReturn();
@@ -1418,7 +1421,7 @@ class FNAFState extends MusicBeatState
 		if (!cameraUnlocked || camTarget == null || camTarget.alpha <= 0 || monitorDialogueActive) return;
 		
 		// esc to leave
-		if (!exiting && !videoPlaying && !screenZooming && FlxG.keys.justPressed.ESCAPE)
+		if (!exiting && !videoPlaying && !screenZooming && (FlxG.keys.justPressed.ESCAPE || touchPad != null && touchPad.buttonB.justPressed))
 		{
 			exiting = true;
 			var fade = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);

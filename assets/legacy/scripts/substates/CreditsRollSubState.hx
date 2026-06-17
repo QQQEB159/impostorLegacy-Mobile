@@ -432,6 +432,9 @@ function onLoad():Void
 	music.time = Conductor.beatToSeconds(0);
 	
 	if (ClientPrefs.inDevMode) canSkip = true;
+	
+	addTouchPad("NONE", "B");
+	addTouchPadCamera();
 }
 
 function victory():Void

@@ -121,7 +121,7 @@ class HenryState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('henrycutscene/' + objNames[i.ID]), 0.6);
 						i.animation.play('select', true);
 					}
-					else if (FlxG.mouse.pressed)
+					else if (FlxG.mouse.justPressed)
 					{
 						fail(objNames[i.ID]);
 					}

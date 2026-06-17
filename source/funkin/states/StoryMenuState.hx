@@ -139,6 +139,9 @@ class StoryMenuState extends AmongUIState
 		FlxG.camera.follow(cruiser, TOPDOWN, .15);
 		FlxG.camera.snapToTarget();
 		
+		addTouchPad("LEFT_FULL", "A_B");
+		addTouchPadCamera();
+		
 		scriptGroup.call('onCreatePost', []);
 	}
 	
@@ -286,11 +289,11 @@ class StoryMenuState extends AmongUIState
 			if (controls.UI_UP_P) moveCruiser(NORTH);
 			if (controls.ACCEPT) accept();
 			
-			if (FlxG.mouse.justPressed)
+			if (FlxG.mouse.justPressed && !controls.mobileC)
 			{
 				wasPressingCruiser = FlxG.mouse.overlaps(cruiser);
 			}
-			else if (FlxG.mouse.justReleased && wasPressingCruiser && FlxG.mouse.overlaps(cruiser))
+			else if (FlxG.mouse.justReleased && wasPressingCruiser && FlxG.mouse.overlaps(cruiser) && !controls.mobileC)
 			{
 				accept();
 			}
@@ -299,10 +302,10 @@ class StoryMenuState extends AmongUIState
 			var hDeadzone:Float = Math.min(950 - (FlxG.height + 800) * (1 - FlxG.camera.zoom), (FlxG.camera.height - cruiser.height) * .5);
 			FlxG.camera.deadzone.set(wDeadzone, hDeadzone, FlxG.camera.width - wDeadzone * 2, FlxG.camera.height - hDeadzone * 2);
 			
-			if (canZoom && FlxG.mouse.wheel != 0) FlxG.camera.zoom = FlxMath.bound(FlxG.camera.zoom + FlxG.mouse.wheel * FlxG.camera.zoom / 10, .25, .45);
+			if (canZoom && FlxG.mouse.wheel != 0 && !controls.mobileC) FlxG.camera.zoom = FlxMath.bound(FlxG.camera.zoom + FlxG.mouse.wheel * FlxG.camera.zoom / 10, .25, .45);
 		}
 		
-		final cruiserScaleMult:Float = (!lockMovement && FlxG.mouse.overlaps(cruiser) ? (FlxG.mouse.pressed && wasPressingCruiser ? .9 : 1.1) : 1);
+		final cruiserScaleMult:Float = (!controls.mobileC && !lockMovement && FlxG.mouse.overlaps(cruiser) ? (FlxG.mouse.pressed && wasPressingCruiser ? .9 : 1.1) : 1);
 		cruiser.scale.x = cruiser.scale.y = MathUtil.fpsLerp(cruiser.scale.x, cruiserScaleMult, .35);
 		
 		lerpScore = FlxMath.lerp(lerpScore, intendedScore, Math.min(elapsed * 30, 1));
