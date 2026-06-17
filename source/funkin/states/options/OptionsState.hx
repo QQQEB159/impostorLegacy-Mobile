@@ -62,7 +62,7 @@ class OptionsState extends MusicBeatState
 	// left panel button layout
 	var buttonBaseX:Float = 95;
 	var buttonBaseY:Float = 112;
-	var buttonSpacing:Float = 45;
+	var buttonSpacing:Float = 55;
 	
 	var bottomControls:AmongControls;
 	

@@ -1,5 +1,6 @@
 import flixel.addons.text.FlxTypeText;
 import funkin.FunkinAssets;
+import funkin.mobile.TouchUtil;
 
 using StringTools;
 
@@ -509,12 +510,12 @@ function getSquish(text)
 **/
 function dialogueUpdate(elapsed:Float)
 {
-	if (controls.BACK)
+	if (controls.BACK || FlxG.android.justReleased.BACK)
 	{
 		swagDialogue.skip();
 		goodBialogue();
 	}
-	if (controls.ACCEPT)
+	if (controls.ACCEPT || TouchUtil.justPressed)
 	{
 		if (dialogueEnded)
 		{
@@ -564,7 +565,7 @@ function onUpdate(elapsed)
 			if (controls.UI_LEFT_P) video.time = Math.min(video.time - 5, 0);
 		}
 		
-		if (controls.BACK && skippableVideo)
+		if ((controls.BACK || FlxG.android.justReleased.BACK) && skippableVideo)
 		{
 			video.kill();
 			video.bitmap.onEndReached.dispatch();

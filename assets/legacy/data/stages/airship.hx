@@ -58,6 +58,13 @@ function onLoad()
 	henryTeleporter.visible = has_teleporter;
 	add(henryTeleporter);
 	
+	henryTeleporter2 = new FlxSprite(5, 30).loadGraphic(Paths.image(ext + 'Teleporter'));
+	henryTeleporter2.visible = false;
+	henryTeleporter2.camera = camOther;
+	henryTeleporter2.scale.set(0.7, 0.7);
+	henryTeleporter2.updateHitbox();
+	add(henryTeleporter2);
+	
 	deadbody = new FlxSprite(-400, 620).loadGraphic(Paths.image(ext + 'YELLOW'));
 	deadbody.visible = isyellowdead;
 	add(deadbody);
@@ -87,11 +94,13 @@ function onSongStart()
 			if (boyfriend.curCharacter == 'yellowplayable')
 				game.unlockAchievementPopup('revenge');
 	}
+	
+	henryTeleporter2.visible = has_teleporter && Controls.instance.mobileC;
 }
 
 function onUpdate()
 {
-	if (!game.startingSong && !game.endingSong && FlxG.mouse.justPressed && canPause && henryTeleporter.visible && you_can_press_the_teleporter && FlxG.mouse.overlaps(henryTeleporter))
+	if (!game.startingSong && !game.endingSong && FlxG.mouse.justPressed && canPause && henryTeleporter.visible && you_can_press_the_teleporter && (FlxG.mouse.overlaps(henryTeleporter) && !Controls.instance.mobileC || FlxG.mouse.overlaps(henryTeleporter2) && Controls.instance.mobileC && henryTeleporter2.visible))
 	{
 		henryTeleport();
 	}
@@ -122,6 +131,7 @@ function henryTeleport()
 	camZooming = false;
 	teleporting = true;
 	henryTeleporter.visible = false;
+	henryTeleporter2.visible = false;
 	
 	KillNotes();
 	

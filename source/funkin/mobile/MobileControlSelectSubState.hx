@@ -141,7 +141,9 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			FlxG.mouse.visible = false;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MobileData.forcedMode = null;
-			close();
+			FlxTimer.wait(0.1, () -> {
+			    close();
+			});
 		});
 		exit.color = FlxColor.LIME;
 		exit.setGraphicSize(Std.int(exit.width) * 3);

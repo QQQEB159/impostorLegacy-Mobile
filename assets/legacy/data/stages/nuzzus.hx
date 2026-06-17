@@ -21,7 +21,7 @@ function onCreatePost()
 	
 	// This might be a bad idea
 	var blah:String = Paths.font('apple_kid.ttf');
-	var sobEmoji:Bool = StringTools.endsWith(blah, 'apple_kid.ttf') && ClientPrefs.language != 'english';
+	var sobEmoji:Bool = ClientPrefs.language != 'english';
 	scoreTxt.setFormat(sobEmoji ? Paths.font('vcr.ttf') : Paths.font("apple_kid.ttf"), sobEmoji ? scoreTxt.size : 50, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 	
 	iconP1.alpha = 0;
