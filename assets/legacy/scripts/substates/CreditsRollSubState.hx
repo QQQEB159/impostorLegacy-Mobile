@@ -433,8 +433,11 @@ function onLoad():Void
 	
 	if (ClientPrefs.inDevMode) canSkip = true;
 	
-	addTouchPad("NONE", "B");
-	addTouchPadCamera();
+	if (!inPlaystate)
+	{
+	    addTouchPad("NONE", "B");
+	    addTouchPadCamera();
+	}
 }
 
 function victory():Void
