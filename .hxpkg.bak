@@ -50,7 +50,7 @@
             },
             {
 				"name": "openfl",
-				"version": "9.5.1"
+				"version": "9.5.0"
 			},
             {
                 "name": "hxdiscord_rpc",

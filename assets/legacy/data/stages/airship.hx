@@ -1,4 +1,5 @@
 import StringTools;
+import funkin.mobile.TouchUtil;
 
 public var whiteAwkward:FlxSprite;
 var henryTeleporter:FlxSprite;
@@ -100,7 +101,7 @@ function onSongStart()
 
 function onUpdate()
 {
-	if (!game.startingSong && !game.endingSong && FlxG.mouse.justPressed && canPause && henryTeleporter.visible && you_can_press_the_teleporter && (FlxG.mouse.overlaps(henryTeleporter) && !Controls.instance.mobileC || FlxG.mouse.overlaps(henryTeleporter2) && Controls.instance.mobileC && henryTeleporter2.visible))
+	if (!game.startingSong && !game.endingSong && FlxG.mouse.justPressed && canPause && henryTeleporter.visible && you_can_press_the_teleporter && (FlxG.mouse.overlaps(henryTeleporter) && !Controls.instance.mobileC || TouchUtil.overlaps(henryTeleporter2) && Controls.instance.mobileC && henryTeleporter2.visible))
 	{
 		henryTeleport();
 	}
