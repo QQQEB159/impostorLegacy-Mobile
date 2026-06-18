@@ -307,6 +307,7 @@ class ClientPrefs
 	{
 		defaultKeys = keyBinds.copy();
 		defaultGamepadBinds = gamepadBinds.copy();
+		defaultMobileBinds = mobileBinds.copy();
 	}
 	
 	@saveVar(false, false) public static var gamepadBinds:Map<Action, Array<FlxGamepadInputID>> = [
@@ -318,6 +319,15 @@ class ClientPrefs
 	];
 	
 	public static var defaultGamepadBinds:Map<Action, Array<FlxGamepadInputID>> = null;
+	
+	@saveVar(false, false) public static var mobileBinds:Map<Action, Array<MobileInputID>> = [
+		'ui_up' => [UP, NOTE_UP],
+		'ui_left' => [LEFT, NOTE_LEFT],
+		'ui_down' => [DOWN, NOTE_DOWN],
+		'ui_right' => [RIGHT, NOTE_RIGHT]
+	];
+	
+	public static var defaultMobileBinds:Map<Action, Array<MobileInputID>> = null;
 	
 	// Editor Colours ------------------------------------------------------------------------//
 	@saveVar public static var editorUIColor:FlxColor = FlxColor.fromRGB(102, 163, 255);
@@ -380,6 +390,7 @@ class ClientPrefs
 		var save:FlxSave = getControlsSave(); // Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		save.data.customControls = keyBinds;
 		save.data.customGamepadControls = gamepadBinds;
+		save.data.customMobileControls = mobileBinds;
 		save.close();
 	}
 	
