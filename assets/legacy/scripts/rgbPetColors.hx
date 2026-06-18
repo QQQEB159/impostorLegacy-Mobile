@@ -61,14 +61,13 @@ function onCreatePost()
 	petRGB.setFloatArray('green', [96 / 255, 208 / 255, 1]);
 	petRGB.setFloat('visor', 1);
 	
-	/*for (layer in pet.timeline.layers)
+	for (layer in pet.timeline.layers)
 	{
 		layer.forEachFrame(function(frame) {
 			for (element in frame.elements)
 				element.shader = petRGB;
 		});
-	}*/
-	pet.shader = petRGB;
+	}
 	pet.useRenderTexture = true;
 	
 	updateRGB(boyfriend);
