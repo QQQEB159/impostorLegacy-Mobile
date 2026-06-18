@@ -312,8 +312,8 @@ class CosmeticsSubstate extends MusicBeatSubstate
 				});
 		}
 		
-		//addTouchPad("LEFT_FULL", "NONE");
-		//addTouchPadCamera();
+		addTouchPad("LEFT_FULL", "NONE");
+		addTouchPadCamera();
 		
 		super.create();
 	}
