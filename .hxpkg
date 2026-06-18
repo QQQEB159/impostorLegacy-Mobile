@@ -18,8 +18,8 @@
             },
             {
                 "name": "flixel-animate",
-                "link": "https://github.com/QQQEB159/flixel-animate",
-                "branch": "main"
+                "link": "https://github.com/MaybeMaru/flixel-animate",
+                "branch": "4fb307acac9379966dfa0b7619b37036fcd39b32"
             },
             {
                 "name": "hscript",
@@ -50,7 +50,7 @@
             },
             {
 				"name": "openfl",
-				"version": "9.5.1"
+				"version": "9.5.0"
 			},
             {
                 "name": "hxdiscord_rpc",
