@@ -57,7 +57,7 @@ class ClientPrefs
 	@saveVar public static var screensaver:Bool = false;
 	
 	#if android
-	@saveVar public static var storageType:String = "EXTERNAL_DATA";
+	@saveVar public static var storageType:String = "EXTERNAL";
 	#end
 	
 	@saveVar public static var hitboxType:String = "Gradient";

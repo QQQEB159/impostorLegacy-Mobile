@@ -32,6 +32,8 @@ import flixel.addons.util.FlxAsyncLoop;
 import flixel.ui.FlxBar;
 import flixel.ui.FlxBar.FlxBarFillDirection;
 
+import funkin.utils.WindowUtil;
+
 /**
  * ...
  * @author: Karim Akra
@@ -64,6 +66,14 @@ class CopyState extends MusicBeatState
 		{
 			FlxG.switchState(new Init());
 			return;
+		}
+		
+		if (FlxG.save.data.gameLaunched == null)
+		{
+		    FlxG.save.data.gameLaunched = true;
+		    CoolUtil.showPopUp("Restart game to apply!", "Notice!");
+		    WindowUtil.exit();
+		    return;
 		}
 		
 		CoolUtil.showPopUp("Seems like you have some missing files that are necessary to run the game\nPress OK to begin the copy process", "Notice!");
