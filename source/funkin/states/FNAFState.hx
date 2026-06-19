@@ -927,11 +927,11 @@ class FNAFState extends MusicBeatState
 			case "SECRET":
 				playAudio("secretsong");
 			case "DIRECT":
-				playAudio("directWIP");
+				playAudio("directwip");
 			case "REACTOR":
 				playAudio("reactor");
 			case "FINALE":
-				playAudio("finaleWIP");
+				playAudio("finalewip");
 			case "RIVALS":
 				playAudio("rivals");
 			case "RASPBERRY":

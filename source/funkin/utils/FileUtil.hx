@@ -22,7 +22,7 @@ typedef BrowseOptions =
 @:nullSafety
 class FileUtil
 {
-	/*public static function browseForFile(options:BrowseOptions, ?onSelect:String->Void, ?onCancel:Void->Void)
+	public static function browseForFile(options:BrowseOptions, ?onSelect:String->Void, ?onCancel:Void->Void)
 	{
 		final title = options.title;
 		final filters = options.typeFilter;
@@ -110,5 +110,5 @@ class FileUtil
 		bytes.writeUTFBytes(Std.string(input));
 		
 		return bytes;
-	}*/
+	}
 }

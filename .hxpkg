@@ -4,13 +4,13 @@
         "pkgs": [
             {
                 "name": "flixel",
-                "link": "https://github.com/HaxeFlixel/flixel",
-                "branch": "64a1970940c4ea1e05c538ba28b49ea30e2ba422"
+                "link": "https://github.com/FunkinCrew/flixel",
+                "branch": "622bb65e7f49f0e1a03826b6593369d3ad5e54fa"
             },
             {
                 "name": "flixel-addons",
-                "link": "https://github.com/HaxeFlixel/flixel-addons",
-                "branch": "9c4b1b5770594d87bbb366b44cf483b862a25a02"
+                "link": "https://github.com/FunkinCrew/flixel-addons",
+                "branch": "187f93b34f93c6a405d634a42913c745e443463a"
             },
             {
                 "name": "flixel-ui",
@@ -45,13 +45,14 @@
             },
             {
                 "name": "lime",
-                "link": "https://github.com/QQQEB159/lime-8.2.2",
-                "branch": "main"
+                "link": "https://github.com/PsychEngine-report/lime-FOR-NMV",
+                "branch": "master"
             },
             {
-				"name": "openfl",
-				"version": "9.5.0"
-			},
+                "name": "openfl",
+                "link": "https://github.com/FunkinCrew/openfl",
+                "branch": "a85b45f21c7e1a4c19663a193bf4ea961faf0dfa"
+            },
             {
                 "name": "hxdiscord_rpc",
                 "version": "1.2.4"
