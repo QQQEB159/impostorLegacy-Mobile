@@ -55,8 +55,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 	public function new()
 	{
 		super();
-		if (ClientPrefs.extraButtons != 'NONE')
-			options.push('Pad-Extra');
+		funkin.states.PlayState.qqqeb = true;
 
 		bg = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true,
 			FlxColor.fromRGB(FlxG.random.int(0, 255), FlxG.random.int(0, 255), FlxG.random.int(0, 255)),
@@ -146,6 +145,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			    FlxTransitionableState.skipNextTransIn = true;
 			    FlxTransitionableState.skipNextTransOut = true;
 			    FlxG.resetState();
+			    funkin.states.PlayState.qqqeb = false;
 			    funkin.states.options.OptionsState.qqqeb = false;
 			});
 		});

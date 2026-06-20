@@ -121,7 +121,7 @@ class TouchPad extends MobileInputManager implements IMobileControls
 				setExtrasPos();
 			case NONE:
 			    if (ClientPrefs.extraButton)
-			        if (MobileData.mode != 3 && (FlxG.state is PlayState || MusicBeatState.getSubState()?.subState is funkin.mobile.MobileControlSelectSubState)) add(buttonExtra = createButton(1149, FlxG.height - 137, 's', 0xFF0066FF));
+			        if (MobileData.mode != 3 && funkin.states.PlayState.qqqeb) add(buttonExtra = createButton(1149, FlxG.height - 137, 's', 0xFF0066FF));
 		}
 
 		alpha = ClientPrefs.controlsAlpha;

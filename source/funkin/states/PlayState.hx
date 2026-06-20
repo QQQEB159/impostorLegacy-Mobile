@@ -608,6 +608,8 @@ class PlayState extends MusicBeatState
 	// null checking
 	function callHUDFunc(hud:BaseHUD->Void):Void if (playHUD != null) hud(playHUD);
 	
+	public static var qqqeb:Bool = false;
+	
 	override public function create():Void
 	{
 		FlxG.sound.music?.stop();
@@ -618,6 +620,7 @@ class PlayState extends MusicBeatState
 		
 		skipCountdown = false;
 		countdownSounds = true;
+		qqqeb = true;
 		
 		instance = this;
 		
@@ -915,6 +918,12 @@ class PlayState extends MusicBeatState
 		super.create();
 		
 		FunkinAssets.cache.clearUnusedMemory();
+		
+		#if cpp
+		cpp.NativeGc.enable(false);
+		#elseif hl
+		hl.Gc.enable(false);
+		#end
 		
 		refreshZ(stage);
 	}
@@ -3385,6 +3394,8 @@ class PlayState extends MusicBeatState
 	override function destroy()
 	{
 		instance = null;
+		
+		qqqeb = false;
 		
 		scripts.call('onDestroy', [], true);
 		
