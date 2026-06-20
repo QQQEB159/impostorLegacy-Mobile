@@ -103,7 +103,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		add(rightArrow);
 
 		positionText = new FlxText(0, FlxG.height, FlxG.width / 4, '');
-		positionText.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, FlxTextAlign.LEFT);
+		positionText.setFormat(Paths.font("vcr.ttf", false), 18, FlxColor.WHITE, FlxTextAlign.LEFT);
 		positionText.visible = false;
 
 		positionTextBg = FlxGradient.createGradientFlxSprite(250, 150, [FlxColor.BLACK, FlxColor.BLACK, FlxColor.BLACK, FlxColor.TRANSPARENT], 1, 360);
@@ -142,7 +142,10 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MobileData.forcedMode = null;
 			FlxTimer.wait(0.1, () -> {
-			    close();
+			    //close();
+			    FlxTransitionableState.skipNextTransIn = true;
+			    FlxTransitionableState.skipNextTransOut = true;
+			    FlxG.resetState();
 			    funkin.states.options.OptionsState.qqqeb = false;
 			});
 		});
@@ -254,7 +257,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		super.update(elapsed);
 	}
 
-	function changeControls(?type:Int, ?extraMode:Bool = false)
+	function changeControls(?type:Int, ?extraMode:Bool = true)
 	{
 		if (type == null)
 			type = curOption;

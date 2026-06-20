@@ -119,7 +119,9 @@ class TouchPad extends MobileInputManager implements IMobileControls
 				add(buttonExtra = createButton(0, FlxG.height - 137, 's', 0xFF0066FF));
 				add(buttonExtra2 = createButton(FlxG.width - 132, FlxG.height - 137, 'g', 0xA6FF00));
 				setExtrasPos();
-			case NONE: // nothing
+			case NONE:
+			    if (ClientPrefs.extraButton)
+			        if (MobileData.mode != 3) add(buttonExtra = createButton(1149, FlxG.height - 137, 's', 0xFF0066FF));
 		}
 
 		alpha = ClientPrefs.controlsAlpha;

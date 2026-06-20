@@ -43,6 +43,11 @@ class MobileOptionsSubState extends BaseOptionsMenu
         Lang.str('hint_gradient', 'Gradient'),
         Lang.str('hint_hidden', 'Hidden')
     ];
+    var spacePosOptions:Array<String> = [
+        Lang.str('pos_bottom', 'Bottom'),
+        Lang.str('pos_middle', 'Middle'),
+        Lang.str('pos_top', 'Top')
+    ];
 	var option:Option;
 
 	public function new()
@@ -78,10 +83,16 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		addOption(option);
 		#end
 
+		var option:Option = new Option(Lang.str('opt_spaceControl', 'Space Control'), Lang.str('opt_spaceControl_desc', 'If checked, the space bar will be enabled.'), 'extraButton', 'bool', false);
+        addOption(option);
+		
 		if (MobileData.mode == 3)
 		{
 			var option:Option = new Option(Lang.str('opt_hitboxDesign', 'Hitbox Design'), Lang.str('opt_hitboxDesign_desc', 'Choose how your hitbox should look like.'), 'hitboxType', 'string', 'Gradient', hintOptions, ['No Gradient', 'No Gradient (Old)', 'Gradient', 'Hidden']);
 			addOption(option);
+			
+			var option:Option = new Option(Lang.str('opt_spacePosition', 'Space Position'), Lang.str('opt_spacePosition_desc', "Choose Space Control Position For Hitbox"), 'hitboxLocation', 'string', 'Bottom', spacePosOptions, ['Bottom', 'Middle', 'Top']);
+            addOption(option);
 		}
 
 		#if android

@@ -62,6 +62,10 @@ class ClientPrefs
 	
 	@saveVar public static var hitboxType:String = "Gradient";
 	
+	@saveVar public static var extraButton:Bool = false;
+	
+	@saveVar public static var hitboxLocation:String = 'Bottom';
+	
 	// legacy ------------------------------------------------------------------------//
 	@saveVar public static var finaleState:FinaleState = INACTIVE;
 	
