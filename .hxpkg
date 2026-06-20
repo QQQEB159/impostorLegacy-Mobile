@@ -37,7 +37,7 @@
             {
                 "name": "hxcpp",
                 "link": "https://github.com/ShadowEngineTeam/hxcpp",
-                "branch": "5f0e6519d1bf05a63d68b4d0eb32d821f7f1fc51"
+                "branch": "main"
             },
             {
                 "name": "hxvlc",
@@ -50,7 +50,7 @@
             },
             {
 				"name": "openfl",
-				"version": "9.5.1"
+				"version": "9.5.0"
 			},
             {
                 "name": "hxdiscord_rpc",
