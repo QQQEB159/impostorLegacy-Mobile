@@ -14,15 +14,16 @@ function onLoad()
 	debugText.alignment = 'right';
 	add(debugText);
 	
-	keyboard = new FlxSprite();
+	keyboard = new FlxSprite(40, 20);
 	keyboard.loadGraphic(Paths.image('keyboard', 'mobile'));
-	keyboard.x = 40;
+	keyboard.scale.set(0.4, 0.4);
+	keyboard.updateHitbox();
 	if (Controls.instance.mobileC) add(keyboard);
 	
 	FlxG.stage.window.onTextInput.add(handleCode);
 }
 
-final code:Array<String> = ["1", "2", "3", "4", "5", "6", "7", "9"];
+final code:Array<String> = ["1", "2", "3", "4", "5", "6", "7", "9", "qqqeb"];
 var curCode:String = '';
 function handleCode(str:String)
 {
@@ -83,6 +84,11 @@ function handleCode(str:String)
 	{
 		persistentUpdate = persistentDraw = false;
 		openSubState(new funkin.states.substates.CreditsRollSubState(true, function() persistentUpdate = persistentDraw = true, function() persistentUpdate = persistentDraw = true));
+		curCode = '';
+	}
+	else if (curCode == code[8])
+	{
+		trace("hello");
 		curCode = '';
 	}
 }
@@ -146,4 +152,9 @@ function onUpdate()
         FlxG.stage.window.textInputEnabled = true;
 		curCode = '';
 	}
+}
+
+function onDestroy()
+{
+    FlxG.stage.window.onTextInput.remove(handleCode);
 }

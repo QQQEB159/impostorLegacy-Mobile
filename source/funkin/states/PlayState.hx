@@ -919,12 +919,6 @@ class PlayState extends MusicBeatState
 		
 		FunkinAssets.cache.clearUnusedMemory();
 		
-		#if cpp
-		cpp.NativeGc.enable(false);
-		#elseif hl
-		hl.Gc.enable(false);
-		#end
-		
 		refreshZ(stage);
 	}
 	
