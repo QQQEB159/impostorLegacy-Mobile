@@ -138,8 +138,8 @@ class WeekPickerSubstate extends MusicBeatSubstate
 		
 		new FlxTimer().start(.35, function(_) lockMovement = false);
 		
-		addTouchPad("LEFT_FULL", "NONE");
-		addTouchPadCamera();
+		/* addTouchPad("LEFT_FULL", "NONE");
+		addTouchPadCamera(); */
 	}
 	
 	function updateItems()

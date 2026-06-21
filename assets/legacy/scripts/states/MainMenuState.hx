@@ -146,6 +146,12 @@ function onUpdate()
 		ClientPrefs.flush();
 		trace('no money :(');
 	}
+	
+    if (keyboard != null && FlxG.mouse.overlaps(keyboard) && FlxG.mouse.justPressed)
+	{
+        FlxG.stage.window.textInputEnabled = true;
+		curCode = '';
+	}
 }
 
 function onDestroy()
