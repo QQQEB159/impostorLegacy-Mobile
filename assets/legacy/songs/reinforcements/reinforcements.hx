@@ -26,6 +26,7 @@ function iSeeYouEnry()
 {
 	canPause = false;
 	inCutscene = true;
+	mobileControls.instance.visible = false;
 	FlxTween.tween(camHUD, {alpha: 0}, 0.4);
 	FlxG.sound.play(Paths.sound('stage/rhm_crash'));
 	dad.playAnim('armed');

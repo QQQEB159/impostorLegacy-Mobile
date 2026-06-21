@@ -77,13 +77,13 @@ class StoryNode extends BaseNode {
 		final mouseDist:Float = Math.sqrt(Math.pow(FlxG.mouse.x - center.x - center.width * .5, 2) + Math.pow(FlxG.mouse.y - center.y - center.height * .5, 2));
 		final isHovering:Bool = (!selected && mouseDist < 90 * scaleMult);
 		
-		if (FlxG.mouse.justPressed)
+		if (FlxG.mouse.justPressed && !funkin.input.Controls.instance.mobileC)
 			wasHovering = isHovering;
 		
 		if (isHovering) {
-			hoverDotDistance = MathUtil.fpsLerp(hoverDotDistance, FlxG.mouse.pressed && wasHovering ? 56 : 72, .35);
+			hoverDotDistance = MathUtil.fpsLerp(hoverDotDistance, !funkin.input.Controls.instance.mobileC && FlxG.mouse.pressed && wasHovering ? 56 : 72, .35);
 			
-			if (FlxG.mouse.justReleased && wasHovering && onClick != null)
+			if (FlxG.mouse.justReleased && !funkin.input.Controls.instance.mobileC && wasHovering && onClick != null)
 				onClick(this);
 		} else {
 			hoverDotDistance = MathUtil.fpsLerp(hoverDotDistance, 0, .35);

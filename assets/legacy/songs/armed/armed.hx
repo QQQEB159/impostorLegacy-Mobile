@@ -114,6 +114,7 @@ function armedOutro()
 	isCameraOnForcedPos = true;
 	canPause = false;
 	inCutscene = true;
+	mobileControls.instance.visible = false;
 	
 	colorShader = new ColorSwap();
 	boyfriend.shader = colorShader.shader;

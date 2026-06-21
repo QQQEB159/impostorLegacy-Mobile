@@ -24,6 +24,7 @@ class OptionsState extends MusicBeatState
 		'graphics',
 		'visualsui',
 		'misc',
+		'mobileoptions',
 		'credits'
 	];
 	
@@ -38,6 +39,7 @@ class OptionsState extends MusicBeatState
 	var blockAllInput:Bool = false;
 	
 	var blockInput:Bool = false;
+	public static var qqqeb:Bool = false;
 	var pendingSubstate:Null<String> = null;
 	var titleText:FlxText;
 	var versionText:FlxText;
@@ -61,7 +63,7 @@ class OptionsState extends MusicBeatState
 	// left panel button layout
 	var buttonBaseX:Float = 95;
 	var buttonBaseY:Float = 112;
-	var buttonSpacing:Float = 65;
+	var buttonSpacing:Float = 55;
 	
 	var bottomControls:AmongControls;
 	
@@ -93,6 +95,8 @@ class OptionsState extends MusicBeatState
 				openSubState(new funkin.states.options.LanguageSubState());
 			case 'misc':
 				openSubState(new funkin.states.options.MiscSubState());
+			case 'mobileoptions':
+				openSubState(new funkin.mobile.options.MobileOptionsSubState());
 			case 'credits':
 				openSubState(new funkin.states.substates.CreditsRollSubState(true, resumeMenuMusic, resumeMenuMusic));
 		}
@@ -107,7 +111,9 @@ class OptionsState extends MusicBeatState
 	
 	override function create()
 	{
+		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("Options Menu");
+		#end
 		
 		initStateScript();
 		persistentUpdate = true;
@@ -327,7 +333,7 @@ class OptionsState extends MusicBeatState
 				return;
 			}
 			
-			if (mouseControlActive && !blockAllInput)
+			if (mouseControlActive && !blockAllInput && !qqqeb)
 			{
 				// left bar mouse
 				var themouseshit2 = FlxG.mouse;

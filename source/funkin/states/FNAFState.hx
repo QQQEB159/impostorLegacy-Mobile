@@ -1,6 +1,9 @@
 package funkin.states;
 
 import openfl.filters.ShaderFilter;
+import openfl.events.KeyboardEvent;
+import openfl.events.TextEvent;
+import openfl.ui.Keyboard;
 
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.text.FlxTypeText;
@@ -254,6 +257,12 @@ class FNAFState extends MusicBeatState
 			dialogueActive = true;
 			beginLine(dialogueLines, 0);
 		}
+		
+		addTouchPad("NONE" , "B");
+		addTouchPadCamera();
+		
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onAnyKeyDown);
+		FlxG.stage.addEventListener(TextEvent.TEXT_INPUT, onTextInput);
 	}
 	
 	// shader helpers
@@ -828,7 +837,7 @@ class FNAFState extends MusicBeatState
 			if (inputCooldown < 0) inputCooldown = 0;
 		}
 		
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (FlxG.keys.justPressed.ESCAPE || touchPad != null && touchPad.buttonB.justPressed)
 		{
 			if (!passwordReady) return;
 			closeComputer();
@@ -866,6 +875,8 @@ class FNAFState extends MusicBeatState
 		
 		compInput.text = " " + enteredCode + (cursorVisible ? "|" : " ");
 		updateInputLayout();
+		
+		if (compInput.visible && FlxG.mouse.overlaps(compInput) && FlxG.mouse.justPressed) FlxG.stage.window.textInputEnabled = true;
 	}
 	
 	function errorMessage(msg:String)
@@ -1324,7 +1335,7 @@ class FNAFState extends MusicBeatState
 		
 		if (imageShowing)
 		{
-			if (FlxG.keys.justPressed.ESCAPE)
+			if (FlxG.keys.justPressed.ESCAPE || touchPad != null && touchPad.buttonB.justPressed)
 			{
 				hideImageAndReturn();
 				return;
@@ -1335,7 +1346,7 @@ class FNAFState extends MusicBeatState
 		
 		if (audioPlaying)
 		{
-			if (FlxG.keys.justPressed.ESCAPE)
+			if (FlxG.keys.justPressed.ESCAPE || touchPad != null && touchPad.buttonB.justPressed)
 			{
 				FlxG.sound.play(Paths.sound('type'));
 				stopAudioAndReturn();
@@ -1418,7 +1429,7 @@ class FNAFState extends MusicBeatState
 		if (!cameraUnlocked || camTarget == null || camTarget.alpha <= 0 || monitorDialogueActive) return;
 		
 		// esc to leave
-		if (!exiting && !videoPlaying && !screenZooming && FlxG.keys.justPressed.ESCAPE)
+		if (!exiting && !videoPlaying && !screenZooming && (FlxG.keys.justPressed.ESCAPE || touchPad != null && touchPad.buttonB.justPressed))
 		{
 			exiting = true;
 			var fade = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -1512,5 +1523,53 @@ class FNAFState extends MusicBeatState
 			if (selected < count) return v[i];
 		}
 		return v[v.length - 1];
+	}
+	
+	private function onAnyKeyDown(e:KeyboardEvent):Void 
+	{
+	    switch (e.keyCode) 
+	    {
+	        case Keyboard.ENTER:
+	            if (inputCooldown <= 0)
+		        {
+			        submitCode();
+			        inputCooldown = 0.08;
+			        cursorTimer = 0;
+			        cursorVisible = true;
+		        }
+				FlxG.stage.window.textInputEnabled = false;
+	            e.preventDefault();
+	        case Keyboard.BACKSPACE:
+				if (inputCooldown <= 0 && enteredCode.length > 0)
+		        {
+			        FlxG.sound.play(Paths.sound('type'));
+			        enteredCode = enteredCode.substr(0, enteredCode.length - 1);
+			        inputCooldown = 0.06;
+			        cursorTimer = 0;
+			        cursorVisible = true;
+		        }
+			    e.preventDefault();
+	        default:
+	            //nothing
+	    }
+	}
+	
+	private function onTextInput(e:TextEvent):Void 
+	{
+	    var char = e.text;
+	    if (enteredCode.length >= 16) return;
+		enteredCode += char;
+		FlxG.sound.play(Paths.sound('type'));
+		inputCooldown = 0.06;
+		cursorTimer = 0;
+		cursorVisible = true;
+	}
+	
+	override function destroy()
+	{
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onAnyKeyDown);
+		FlxG.stage.removeEventListener(TextEvent.TEXT_INPUT, onTextInput);
+		
+		super.destroy();
 	}
 }

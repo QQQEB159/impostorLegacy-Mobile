@@ -59,7 +59,9 @@ class MainMenuState extends MusicBeatState
 	{
 		Mods.currentModDirectory = null;
 		
+		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("In the Menus");
+		#end
 		Lang.reloadLangFile();
 		
 		persistentUpdate = persistentDraw = true;
@@ -155,7 +157,7 @@ class MainMenuState extends MusicBeatState
 		Conductor.bpm = 102;
 		Conductor.bpmChangeMap.resize(0);
 		
-		FlxG.mouse.visible = true;
+		FlxG.mouse.visible = !controls.mobileC;
 		
 		super.create();
 		

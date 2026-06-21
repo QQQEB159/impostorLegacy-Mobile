@@ -613,6 +613,8 @@ class PlayState extends MusicBeatState
 	// null checking
 	function callHUDFunc(hud:BaseHUD->Void):Void if (playHUD != null) hud(playHUD);
 	
+	public static var qqqeb:Bool = false;
+	
 	override public function create():Void
 	{
 		FlxG.sound.music?.stop();
@@ -623,6 +625,7 @@ class PlayState extends MusicBeatState
 		
 		skipCountdown = false;
 		countdownSounds = true;
+		qqqeb = true;
 		
 		instance = this;
 		
@@ -827,6 +830,15 @@ class PlayState extends MusicBeatState
 		addSongScripts('songs/${Paths.sanitize(SONG.song)}/scripts/');
 		
 		scripts.call('preNoteGeneration', []);
+		
+		#if !android
+		addTouchPad("NONE", "P");
+		addTouchPadCamera();
+		touchPad.visible = true;
+		#end
+		addMobileControls();
+		mobileControls.onButtonDown.add(onButtonPress);
+		mobileControls.onButtonUp.add(onButtonRelease);
 		
 		if (genNotesBeforeCountdown) generatePlayfields();
 		generateSong(SONG.song);
@@ -1221,7 +1233,7 @@ class PlayState extends MusicBeatState
 			if (!genNotesBeforeCountdown) generatePlayfields();
 			
 			new FlxTimer().start(countdownDelay, (t:FlxTimer) -> {
-				startedCountdown = true;
+				startedCountdown = mobileControls.instance.visible = true;
 				Conductor.songPosition = 0;
 				Conductor.songPosition -= Conductor.crotchet * 5;
 				scripts.call('onCountdownStarted', []);
@@ -1922,7 +1934,7 @@ class PlayState extends MusicBeatState
 		
 		if (generatedMusic && !endingSong && !isCameraOnForcedPos) moveCameraSection();
 		
-		if (controls.PAUSE && startedCountdown && canPause)
+		if ((#if android FlxG.android.justReleased.BACK || #end controls.PAUSE) && startedCountdown && canPause)
 		{
 			if (!ScriptConstants.stopping(scripts.call('onPause'))) openPauseMenu();
 		}
@@ -2876,6 +2888,8 @@ class PlayState extends MusicBeatState
 		deathCounter = 0;
 		seenCutscene = false;
 		
+		mobileControls.instance.visible = #if !android touchPad.visible = #end false;
+		
 		disableModifiers();
 		
 		if (!ScriptConstants.stopping(scripts.call('onEndSong')) && !transitioning)
@@ -3221,6 +3235,124 @@ class PlayState extends MusicBeatState
 		scripts.call('onInputRelease', [key]);
 	}
 	
+	function onButtonPress(button:TouchButton):Void
+	{
+		if (button.IDs.filter(id -> id.toString().startsWith("EXTRA")).length > 0)
+			return;
+
+		var buttonCode:Int = (button.IDs[0].toString().startsWith('NOTE')) ? button.IDs[0] : button.IDs[1];
+
+		if (cpuControlled || paused || !startedCountdown) return;
+		
+		if (buttonCode <= -1 || !button.justPressed) return;
+		
+		var prevTime:Float = getSongTime();
+		Conductor.songPosition -= (lime.system.System.getTimer() - lime.system.System.getTimer());
+		
+		if (generatedMusic && !endingSong)
+		{
+			var anyInput:Bool = false;
+			var ghostTapped:Bool = true;
+			
+			for (field in playFields.members)
+			{
+				if (!field.canInput()) continue;
+				
+				anyInput = true;
+				
+				var topNote:Note = null; // we only need the top most note !
+				
+				for (note in field.getNotes(buttonCode))
+				{
+					if (note.isSustainNote)
+					{
+						ghostTapped = false;
+						
+						continue;
+					}
+					
+					final higherPriority:Bool = (topNote == null || note.hitPriority > topNote.hitPriority);
+					if (higherPriority || (!higherPriority && note.strumTime < topNote.strumTime)) topNote = note;
+				}
+				
+				if (topNote != null)
+				{
+					field.onNoteHit.dispatch(topNote, field);
+					
+					ghostTapped = false;
+				}
+				else if (field.playAnims)
+				{
+					var strum = field.members[buttonCode];
+					
+					if (strum != null)
+					{
+						strum.playAnim('pressed');
+						strum.resetAnim = 0;
+					}
+				}
+			}
+			
+			if (ghostTapped && anyInput)
+			{
+				scripts.call('onGhostTap', [buttonCode]);
+				
+				if (!ClientPrefs.ghostTapping)
+				{
+					for (field in playFields.members)
+					{
+						if (field.canInput()) field.onMissPress.dispatch(buttonCode, field);
+					}
+					
+					if (!ScriptConstants.stopping(scripts.call('noteMissPress', [buttonCode])))
+					{
+						health -= (healthLoss * pressMissDamage * (++missCombo + 1) / 2);
+						
+						FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(.1, .2));
+					}
+				}
+			}
+		}
+		
+		Conductor.songPosition = prevTime;
+		
+		scripts.call('onKeyPress', [buttonCode]);
+		scripts.call('onInputPress', [buttonCode]);
+		scripts.call('onButtonPress', [buttonCode]);
+	}
+
+	function onButtonRelease(button:TouchButton):Void
+	{
+		if (button.IDs.filter(id -> id.toString().startsWith("EXTRA")).length > 0)
+			return;
+
+		var buttonCode:Int = (button.IDs[0].toString().startsWith('NOTE')) ? button.IDs[0] : button.IDs[1];
+
+		if (startedCountdown && !paused && buttonCode > -1)
+		{
+			for (field in playFields.members)
+		    {
+			    if (field.inControl && !field.autoPlayed && field.playerControls)
+			    {
+				    var spr:StrumNote = field.members[buttonCode];
+    				if (spr != null)
+    				{
+    					spr.playAnim('static');
+    					spr.resetAnim = 0;
+    				}
+    				
+    				for (splash in field.grpSusSplashes)
+    				{
+    					if (splash.alive && splash.noteData == buttonCode && !splash.completed) splash.kill();
+    				}
+    			}
+    		}
+			scripts.call('onKeyRelease', [buttonCode]);
+			scripts.call('onInputRelease', [buttonCode]);
+			scripts.call('onButtonRelease', [buttonCode]);
+		}
+	}
+	
 	// Hold notes
 	var holders:Array<Character> = [];
 	
@@ -3235,6 +3367,8 @@ class PlayState extends MusicBeatState
 		final left:Bool = controls.NOTE_LEFT;
 		final taunting:Bool = (controls.NOTE_TAUNT && (focusPlayer ?? boyfriend)?.canTaunt);
 		
+		final controlHoldArray:Array<Bool> = [left, down, up, right, taunt];
+		
 		var i:Int = notes.length;
 		while (--i >= 0)
 		{
@@ -3245,7 +3379,7 @@ class PlayState extends MusicBeatState
 			if (daNote.isSustainNote && !daNote.blockHit && !daNote.tooLate && !daNote.playField.autoPlayed
 				&& daNote.playField.inControl && daNote.playField.playerControls)
 			{
-				final holding:Bool = input.inputPressed(daNote.noteData);
+				final holding:Bool = controlHoldArray[daNote.noteData];
 				
 				if (daNote.wasGoodHit)
 				{
@@ -3311,6 +3445,8 @@ class PlayState extends MusicBeatState
 	override function destroy()
 	{
 		instance = null;
+		
+		qqqeb = false;
 		
 		playbackRate = 1;
 		

@@ -121,7 +121,7 @@ class HenryState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('henrycutscene/' + objNames[i.ID]), 0.6);
 						i.animation.play('select', true);
 					}
-					else if (FlxG.mouse.pressed)
+					else if (FlxG.mouse.justPressed)
 					{
 						fail(objNames[i.ID]);
 					}
@@ -167,7 +167,7 @@ class HenryState extends MusicBeatState
 		
 		new FlxTimer().start(3.25, function(tmr:FlxTimer) {
 			canClick = true;
-			FlxG.mouse.visible = true;
+			FlxG.mouse.visible = !controls.mobileC;
 		});
 	}
 	

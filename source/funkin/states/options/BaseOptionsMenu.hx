@@ -59,7 +59,9 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		if (title == null) title = 'Options';
 		if (rpcTitle == null) rpcTitle = 'Options Menu';
 		
+		#if DISCORD_ALLOWED
 		DiscordClient.changePresence(rpcTitle);
+		#end
 		
 		initStateScript('Options');
 		scriptGroup.set('this', this);
@@ -429,7 +431,14 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			{
 				if (item.y + item.height < topBound || item.y > bottomBound) continue;
 				
-				if (!isOverOptionBounds(item, getCheckboxById(item.ID)) && !isOverOptionBounds(item, getAddboxID(item.ID))) continue;
+				//if (!isOverOptionBounds(item, getCheckboxById(item.ID)) && !isOverOptionBounds(item, getAddboxID(item.ID))) continue;
+				
+				var hasCheckbox = getCheckboxById(item.ID) != null;
+                var hasAddbox = getAddboxID(item.ID) != null;
+
+                if (hasCheckbox && !isOverOptionBounds(item, getCheckboxById(item.ID))) continue;
+                if (hasAddbox && !isOverOptionBounds(item, getAddboxID(item.ID))) continue;
+                if (!hasCheckbox && !hasAddbox && !FlxG.mouse.overlaps(item)) continue;
 				
 				autoScroll = true;
 				

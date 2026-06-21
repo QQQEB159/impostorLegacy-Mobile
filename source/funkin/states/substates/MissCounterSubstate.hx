@@ -86,6 +86,9 @@ class MissCounterSubstate extends MusicBeatSubstate
 		bottomControls.alpha = 0;
 		FlxTween.tween(bottomControls, {alpha: 1}, 0.25, {ease: FlxEase.circIn});
 		
+		addTouchPad("LEFT_RIGHT", "A_B");
+		addTouchPadCamera();
+		
 		super.create();
 	}
 	
@@ -127,7 +130,7 @@ class MissCounterSubstate extends MusicBeatSubstate
 			if (controls.UI_RIGHT_P) changeSelection(1);
 			if (controls.UI_LEFT_P) changeSelection(-1);
 			
-			if (FlxG.mouse.justPressed)
+			if (FlxG.mouse.justPressed && !controls.mobileC)
 			{
 				for (d in dummySprites)
 				{

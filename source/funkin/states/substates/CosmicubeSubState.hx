@@ -75,7 +75,9 @@ class CosmicubeSubState extends MusicBeatSubstate
 		CosmicubeData.reload(false);
 		CosmeticsSubstate.preloadForFreeplay();
 		
+		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("Cosmicube Menu");
+		#end
 		
 		this.meta = (CosmicubeData.cosmicubeMetas.get(cosmicube) ?? CosmicubeData.fallbackMeta);
 		
@@ -189,6 +191,9 @@ class CosmicubeSubState extends MusicBeatSubstate
 		FlxTween.tween(cubeCamera, {alpha: 1, y: cubeCamera.y - 120}, .35, {ease: FlxEase.circOut});
 		FlxTween.tween(awardCamera, {alpha: 1}, .35, {ease: FlxEase.circOut});
 		
+		addTouchPad("LEFT_FULL", "NONE");
+		addTouchPadCamera();
+		
 		scriptGroup.call('onCreatePost', []);
 	}
 	
@@ -300,7 +305,7 @@ class CosmicubeSubState extends MusicBeatSubstate
 			var cubeFocus:Bool = (FlxG.mouse.x >= cubeCamera.x && FlxG.mouse.y >= cubeCamera.y
 				&& FlxG.mouse.x < (cubeCamera.x + cubeCamera.width) && FlxG.mouse.y < (cubeCamera.y + cubeCamera.height));
 				
-			if (dragging || cubeFocus)
+			if ((dragging || cubeFocus) && !controls.mobileC)
 			{
 				if (FlxG.mouse.justPressed) dragging = true;
 				

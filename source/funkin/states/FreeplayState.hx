@@ -184,7 +184,7 @@ class FreeplayState extends AmongUIState
 		PlayState.missLimit = false;
 		
 		persistentUpdate = true;
-		FlxG.mouse.visible = true;
+		FlxG.mouse.visible = !controls.mobileC;
 		
 		initStateScript(); // unnecessary
 		
@@ -232,6 +232,9 @@ class FreeplayState extends AmongUIState
 		sectionText.borderSize = 3;
 		sectionText.zIndex = 20;
 		add(sectionText);
+		
+		addTouchPad("LEFT_FULL", "A_B_T_R");
+		if (touchPad != null) touchPad.cameras = [camUpper];
 		
 		scriptGroup.call('onCreatePost', []);
 		changeSection(0, false);
@@ -574,10 +577,12 @@ class FreeplayState extends AmongUIState
 			{
 				case 'Defeat':
 					openSubState(new MissCounterSubstate(function(misses:Int) loadSong(week_songs[curSelect][0])));
+					removeTouchPad();
 					return;
 					
 				case 'Monotone Attack':
 					openSubState(new AttackCharSelectSubstate());
+					removeTouchPad();
 					return;
 			}
 			
@@ -591,26 +596,32 @@ class FreeplayState extends AmongUIState
 		super.closeSubState();
 		
 		lockMovement = false;
+		
+		removeTouchPad();
+		addTouchPad("LEFT_FULL", "A_B_T_R");
+		if (touchPad != null) touchPad.cameras = [camUpper];
 	}
 	
 	override function update(elapsed:Float)
 	{
 		if (!lockMovement && cutscenePhase == NONE)
 		{
-			if (FlxG.keys.justPressed.TAB || FlxG.gamepads.anyJustPressed(X))
+			if (FlxG.keys.justPressed.TAB || touchPad != null && touchPad.buttonT.justPressed || FlxG.gamepads.anyJustPressed(X))
 			{
 				lockMovement = true;
 				FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 				openSubState(new CosmeticsSubstate());
+				removeTouchPad();
 			}
 			if (FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(Y) || (FlxG.mouse.overlaps(menuWeekSelect) && FlxG.mouse.justPressed))
 			{
 				lockMovement = true;
 				FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 				openSubState(new WeekPickerSubstate(this, curMonth));
+				removeTouchPad();
 			}
 			
-			if (controls.RESET) resetScorePrompt();
+			if (controls.RESET || touchPad != null && touchPad.buttonR.justPressed) resetScorePrompt();
 			
 			if (FlxG.sound.music.volume < 0.7)
 			{
@@ -725,6 +736,7 @@ class FreeplayState extends AmongUIState
 		var song:SongInformation = week_songs[curSelect];
 		
 		openSubState(new funkin.states.substates.ResetScoreSubState(song.songName, 1, song.icon));
+		removeTouchPad();
 		
 		subStateClosed.addOnce(function(_) {
 			cards.members[curSelect].initCard(song);

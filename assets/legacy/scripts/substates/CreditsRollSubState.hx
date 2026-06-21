@@ -112,7 +112,7 @@ var credits:Array<CreditInfo> = [
 	{icon: 'flags/chile', name: 'Kakow0'},
 	{icon: 'flags/uk', name: 'Lethrial'},
 	{icon: 'flags/greek', name: 'Noobaki'},
-	{icon: 'flags/noogurt', name: 'noogurt'},
+	{icon: 'flags/chinese', name: 'noogurt'},
 	{icon: 'flags/chinese', name: 'DramaCa'},
 	{icon: 'flags/chinese', name: 'Yoruseri'},
 	{icon: 'flags/polish', name: 'NotQuba'},
@@ -441,6 +441,12 @@ function onLoad():Void
 	music.time = Conductor.beatToSeconds(0);
 	
 	if (ClientPrefs.inDevMode) canSkip = true;
+	
+	if (!inPlaystate)
+	{
+	    addTouchPad("NONE", "B");
+	    addTouchPadCamera();
+	}
 }
 
 function victory():Void

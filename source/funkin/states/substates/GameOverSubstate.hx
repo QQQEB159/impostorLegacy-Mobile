@@ -74,6 +74,8 @@ class GameOverSubstate extends MusicBeatSubstate
 	{
 		instance = this;
 		
+		funkin.states.PlayState.qqqeb = false;
+		
 		PlayState.instance?.scripts.set('inGameOver', true);
 		
 		Conductor.songPosition = 0;
@@ -113,6 +115,9 @@ class GameOverSubstate extends MusicBeatSubstate
 		bottomControls.camera = camCTRL;
 		add(bottomControls);
 		
+		addTouchPad("NONE", "A_B");
+		addTouchPadCamera();
+		
 		super.create();
 		
 		PlayState.instance?.scripts.call('onGameOverPost', []);
@@ -151,7 +156,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		PlayState.instance?.scripts.call('onUpdate', [elapsed]);
 		super.update(elapsed);
 		
-		if ((controls.ACCEPT || FlxG.mouse.justPressed) && !isEnding)
+		if ((controls.ACCEPT || FlxG.mouse.justPressed && !controls.mobileC) && !isEnding)
 		{
 			if (PlayState.instance?.scripts.call('onGameOverConfirm', []) != ScriptConstants.STOP_FUNC) endBullshit();
 		}

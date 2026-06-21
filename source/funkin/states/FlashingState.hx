@@ -22,13 +22,15 @@ class FlashingState extends MusicBeatState
 		warnText = new FlxText(0, 0, FlxG.width, "
 WARNING!\n
 This mod contains effects that may trigger photosensitivity.\n
-Press ESCAPE to disable these effects now.\n
-Press ENTER to keep them on.\n
+Press B to disable these effects now.\n
+Press A to keep them on.\n
 You may change this anytime in the Options menu.
 		", 32);
 		warnText.setFormat(Paths.DEFAULT_FONT, 32, FlxColor.WHITE, CENTER);
 		warnText.screenCenter();
 		add(warnText);
+		
+		addTouchPad("NONE", "A_B");
 	}
 	
 	override function update(elapsed:Float)

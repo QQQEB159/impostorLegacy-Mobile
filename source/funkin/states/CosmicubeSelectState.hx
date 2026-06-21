@@ -34,7 +34,9 @@ class CosmicubeSelectState extends AmongUIState
 		CosmicubeData.reload();
 		CosmeticsSubstate.preloadForFreeplay();
 		
+		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("Cosmicube Menu");
+		#end
 		
 		var prevMod:Null<String> = Mods.currentModDirectory;
 		Mods.currentModDirectory = null;
@@ -74,6 +76,9 @@ class CosmicubeSelectState extends AmongUIState
 		
 		select(0);
 		
+		addTouchPad("NONE" , "A_B_T");
+		addTouchPadCamera();
+		
 		scriptGroup.call('onCreatePost', []);
 	}
 	
@@ -84,19 +89,24 @@ class CosmicubeSelectState extends AmongUIState
 		lockMovement = false;
 		
 		for (card in cards) card.refresh();
+		
+		removeTouchPad();
+		addTouchPad("NONE" , "A_B_T");
+		addTouchPadCamera();
 	}
 	
 	override function update(elapsed:Float):Void
 	{
 		if (!lockMovement)
 		{
-			if (FlxG.keys.justPressed.TAB)
+			if (FlxG.keys.justPressed.TAB || touchPad != null && touchPad.buttonT.justPressed)
 			{
 				lockMovement = true;
 				
 				FlxG.sound.play(Paths.sound('scrollMenu'), .6);
 				
 				openSubState(new CosmeticsSubstate());
+				removeTouchPad();
 			}
 			
 			if (controls.UI_LEFT_P) selectLooksie(true);
@@ -186,6 +196,7 @@ class CosmicubeSelectState extends AmongUIState
 			FlxG.sound.play(Paths.sound('scrollMenu'), .6);
 			
 			openSubState(new CosmicubeSubState(card.id));
+			removeTouchPad();
 		}
 		else
 		{
