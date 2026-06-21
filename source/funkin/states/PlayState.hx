@@ -3379,7 +3379,7 @@ class PlayState extends MusicBeatState
 		final left:Bool = controls.NOTE_LEFT;
 		final taunting:Bool = (controls.NOTE_TAUNT && (focusPlayer ?? boyfriend)?.canTaunt);
 		
-		final controlHoldArray:Array<Bool> = [left, down, up, right, taunt];
+		final controlHoldArray:Array<Bool> = [left, down, up, right, taunting];
 		
 		var i:Int = notes.length;
 		while (--i >= 0)
