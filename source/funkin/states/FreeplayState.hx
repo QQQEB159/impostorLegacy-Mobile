@@ -702,7 +702,7 @@ class FreeplayState extends AmongUIState
 		{
 			moveCard(c, smoothSelect);
 			
-			if (FlxG.mouse.y >= (upperBar.y + upperBar.height) && FlxG.mouse.overlaps(c) && FlxG.mouse.justPressed && !lockMovement && cutscenePhase == NONE)
+			if (FlxG.mouse.y >= (upperBar.y + upperBar.height) && FlxG.mouse.overlaps(c) && FlxG.mouse.justPressed && !lockMovement && cutscenePhase == NONE && !controls.mobileC)
 			{
 				if (curSelect != c.ID)
 				{
