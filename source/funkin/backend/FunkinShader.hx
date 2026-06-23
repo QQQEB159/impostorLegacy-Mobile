@@ -5,7 +5,7 @@ import flixel.addons.system.macros.FlxRuntimeShaderMacro;
 /**
  * Modified runtime shader to prevent crashes.
  */
-class FunkinRuntimeShader extends flixel.addons.display.FlxRuntimeShader
+class FunkinRuntimeShader extends extensions.flixel.FlxRuntimeShaderEx
 {
 	override function __createGLProgram(vertexSource:String, fragmentSource:String):lime.graphics.opengl.GLProgram
 	{
