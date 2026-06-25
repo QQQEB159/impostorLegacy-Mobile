@@ -186,14 +186,14 @@ function onCreatePost()
 				'singLEFT' => 'singRIGHT',
 				'danceLeft' => 'danceRight'
 			];
-			
-			for (anim in dad.animation.getAnimationList())
+			var ogAnims = dad.animation.getNameList().copy();
+			for (animName in ogAnims)
 			{
 				for (name => newName in swapAnims)
 				{
-					if (StringTools.startsWith(anim.name, name))
+					if (StringTools.startsWith(animName, name))
 					{
-						dad.swapAnims(anim.name, newName + anim.name.substr(name.length));
+						dad.swapAnims(animName, newName + animName.substr(name.length));
 						break;
 					}
 				}
