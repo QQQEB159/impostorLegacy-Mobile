@@ -68,13 +68,13 @@ class CopyState extends MusicBeatState
 			return;
 		}
 		
-		/* if (FlxG.save.data.gameLaunched == null)
+		if (FlxG.save.data.gameLaunched == null)
 		{
 		    FlxG.save.data.gameLaunched = true;
 		    CoolUtil.showPopUp("Restart game to apply!", "Notice!");
 		    WindowUtil.exit();
 		    return;
-		} */
+		}
 		
 		CoolUtil.showPopUp("Seems like you have some missing files that are necessary to run the game\nPress OK to begin the copy process", "Notice!");
 

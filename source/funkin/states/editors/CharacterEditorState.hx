@@ -1503,7 +1503,7 @@ class CharacterEditorState extends UIState // MUST EXTEND UI STATE needed for ac
 				FlxG.sound.play(Paths.sound('ui/warn'));
 			}
 			
-			//FileUtil.saveFile(dataToSave, '$characterId.json', onFileSave, onFileCancel);
+			FileUtil.saveFile(dataToSave, '$characterId.json', onFileSave, onFileCancel);
 		}
 	}
 	

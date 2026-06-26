@@ -204,7 +204,7 @@ class ChartConverterState extends MusicBeatState
 					}
 				}
 				
-				//FileUtil.browseForMultipleFiles({typeFilter: [new FileFilter('json', 'json')]}, onSelect, onCancel);
+				FileUtil.browseForMultipleFiles({typeFilter: [new FileFilter('json', 'json')]}, onSelect, onCancel);
 				
 			case 1: // cne
 			
@@ -251,7 +251,7 @@ class ChartConverterState extends MusicBeatState
 					}
 				}
 				
-				//FileUtil.browseForMultipleFiles({typeFilter: [new FileFilter('json', 'json')]}, onSelect, onCancel);
+				FileUtil.browseForMultipleFiles({typeFilter: [new FileFilter('json', 'json')]}, onSelect, onCancel);
 				
 			case 2: // psych 1.0
 				function onSelect(path:String)
@@ -270,7 +270,7 @@ class ChartConverterState extends MusicBeatState
 					}
 				}
 				
-				//FileUtil.browseForFile({typeFilter: [new FileFilter('json', 'json')]}, onSelect, onCancel);
+				FileUtil.browseForFile({typeFilter: [new FileFilter('json', 'json')]}, onSelect, onCancel);
 				
 			case 3: // impostor
 				function onSelect(files:Array<String>)
@@ -317,7 +317,7 @@ class ChartConverterState extends MusicBeatState
 					}
 				}
 				
-				//FileUtil.browseForMultipleFiles({typeFilter: [new FileFilter('json', 'json')]}, onSelect, onCancel);
+				FileUtil.browseForMultipleFiles({typeFilter: [new FileFilter('json', 'json')]}, onSelect, onCancel);
 		}
 	}
 	
