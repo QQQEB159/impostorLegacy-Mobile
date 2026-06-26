@@ -3,6 +3,7 @@ package funkin.utils;
 #if macro
 import haxe.macro.Expr;
 import haxe.macro.Context;
+import haxe.io.Path
 
 using haxe.macro.Tools;
 
