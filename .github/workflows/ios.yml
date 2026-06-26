@@ -30,15 +30,44 @@ jobs:
       - name: Compile
         run: haxelib run lime build ios -nosign -final
       
-      - name: Making ipa file
+      - name: Make IPA
+        shell: bash
         run: |
           brew install ldid
-          cd export/release/ios/build/Release-iphoneos/ImpostorLegacy.app
-          ldid -S../../../ImpostorLegacy/ImpostorLegacy.entitlements ImpostorLegacy
-          cd ..
-          mkdir Payload
-          mv ImpostorLegacy.app Payload
-          zip -r ImpostorLegacy.ipa Payload
+          for config in Debug-iphoneos Debug-iphonesimulator Release-iphoneos Release-iphonesimulator; do
+            if [ ! -d "export/release/ios/build/$config" ]; then
+              continue
+            fi
+            cd "export/release/ios/build/$config/${{ env.PROJECT_NAME }}.app"
+            if [ -d Frameworks ]; then
+              for fw in Frameworks/*.framework; do
+                name=$(basename "$fw" .framework)
+                if [ -f "$fw/$name" ]; then
+                  ldid -S "$fw/$name"
+                fi
+              done
+            fi
+            ldid -S../../../${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.entitlements ${{ env.PROJECT_NAME }}
+            if [ -d Frameworks ]; then
+              for fw in Frameworks/*.framework; do
+                name=$(basename "$fw" .framework)
+                if [ -f "$fw/$name" ]; then
+                  echo "== entitlements: $name =="
+                  ldid -e "$fw/$name"
+                  echo "========================="
+                fi
+              done
+            fi
+            echo "== entitlements: ${{ env.PROJECT_NAME }} =="
+            ldid -e ${{ env.PROJECT_NAME }}
+            echo "========================="
+            cd ..
+            mkdir Payload
+            mv ${{ env.PROJECT_NAME }}.app Payload
+            zip -r ${{ env.PROJECT_NAME }}.ipa Payload
+            rm -rf Payload
+            cd ../../../../../..
+          done
       
       - name: Publish Artifact
         uses: actions/upload-artifact@main
