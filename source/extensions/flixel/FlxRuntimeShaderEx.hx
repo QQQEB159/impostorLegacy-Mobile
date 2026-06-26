@@ -2,7 +2,6 @@ package extensions.flixel;
 
 import flixel.addons.display.FlxRuntimeShader;
 
-import openfl.display.BitmapData;
 import openfl.display.ShaderInput;
 
 class FlxRuntimeShaderEx extends FlxRuntimeShader    
