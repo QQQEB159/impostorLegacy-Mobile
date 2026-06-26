@@ -299,7 +299,14 @@ class CosmicubeSubState extends MusicBeatSubstate
 			
 			if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(menuBackButton, overlayCamera))
 			{
-				closeTween();
+				if (selectedNode == null)
+				{
+					closeTween();
+				}
+				else
+				{
+					selectNode(null);
+				}
 			}
 			
 			var cubeFocus:Bool = (FlxG.mouse.x >= cubeCamera.x && FlxG.mouse.y >= cubeCamera.y
@@ -374,13 +381,6 @@ class CosmicubeSubState extends MusicBeatSubstate
 	public override function destroy():Void
 	{
 		ClientPrefs.flush();
-		
-		cubeCamera.stopShake();
-		
-		for (obj in members)
-		{
-			if (obj != null) FlxTween.cancelTweensOf(obj);
-		}
 		
 		FlxG.cameras.remove(overlayCamera, true);
 		FlxG.cameras.remove(cubeCamera, true);
