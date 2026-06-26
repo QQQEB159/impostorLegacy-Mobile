@@ -375,6 +375,13 @@ class CosmicubeSubState extends MusicBeatSubstate
 	{
 		ClientPrefs.flush();
 		
+		cubeCamera.stopShake();
+		
+		for (obj in members)
+		{
+			if (obj != null) FlxTween.cancelTweensOf(obj);
+		}
+		
 		FlxG.cameras.remove(overlayCamera, true);
 		FlxG.cameras.remove(cubeCamera, true);
 		FlxG.cameras.remove(awardCamera, true);
