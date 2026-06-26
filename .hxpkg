@@ -41,7 +41,8 @@
             },
             {
                 "name": "hxvlc",
-                "version": "2.2.6"
+                "link": "https://github.com/ShadowEngineTeam/hxvlc",
+                "branch": "main"
             },
             {
                 "name": "lime",
