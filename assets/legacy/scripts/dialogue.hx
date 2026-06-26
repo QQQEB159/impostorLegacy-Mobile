@@ -520,7 +520,7 @@ function getSquish(text)
 **/
 function dialogueUpdate(elapsed:Float)
 {
-	if (controls.BACK || FlxG.android.justReleased.BACK)
+	if (controls.BACK #if android || FlxG.android.justReleased.BACK #end)
 	{
 		swagDialogue.skip();
 		goodBialogue();
@@ -575,7 +575,7 @@ function onUpdate(elapsed)
 			if (controls.UI_LEFT_P) video.time = Math.min(video.time - 5, 0);
 		}
 		
-		if ((controls.BACK || FlxG.android.justReleased.BACK) && skippableVideo)
+		if ((controls.BACK #if android || FlxG.android.justReleased.BACK #end) && skippableVideo)
 		{
 			video.kill();
 			video.bitmap.onEndReached.dispatch();

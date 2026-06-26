@@ -76,14 +76,36 @@ class MacroUtil
 	public static macro function getPrecompliedContent(path:String)
 	{
 		#if !display
-		if (!sys.FileSystem.exists(path))
+		final resolvedPath = resolveCompileTimePath(path);
+		if (resolvedPath == null)
 		{
 			Context.fatalError('could not find content at $path', Context.currentPos());
 		}
 		
-		final ret = sys.io.File.getContent(path);
+		final ret = sys.io.File.getContent(resolvedPath);
 		
 		return macro $v{ret};
 		#end
 	}
+	
+	//coded by Dxgamer7405
+	#if macro
+	static function resolveCompileTimePath(path:String):Null<String>
+	{
+		if (sys.FileSystem.exists(path)) return path;
+
+		var current = sys.FileSystem.fullPath(".");
+		while (current != null && current.length > 0)
+		{
+			var candidate = current + "/" + path;
+			if (sys.FileSystem.exists(candidate)) return candidate;
+
+			var parent = Path.directory(current);
+			if (parent == current || parent.length == 0) break;
+			current = parent;
+		}
+
+		return null;
+	}
+	#end
 }
