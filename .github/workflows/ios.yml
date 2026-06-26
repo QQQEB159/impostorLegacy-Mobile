@@ -28,7 +28,7 @@ jobs:
           haxelib run hxpkg install
           
       - name: Compile
-        run: haxelib run lime build ios -nosign
+        run: haxelib run lime build ios -nosign -final
       
       - name: Making ipa file
         run: |
