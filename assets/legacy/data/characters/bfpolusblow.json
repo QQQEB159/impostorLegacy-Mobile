@@ -108,12 +108,7 @@
 			"anim": "singDOWN",
 			"fps": 24,
 			"name": "BF NOTE DOWN",
-			"indices": [
-				3,
-				4,
-				5,
-				6
-			],
+			"indices": [],
 			"flipX": false
 		},
 		{
