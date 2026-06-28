@@ -131,7 +131,7 @@ function onLoad()
 	bggreen.alpha = 0;
 	greentower.alpha = 0;
 	
-	platform = new FlxSprite(1340, 1090);
+	platform = new FlxSprite(1340, 1110);
 	platform.frames = Paths.getSparrowAtlas('stages/common/platform');
 	platform.animation.addByPrefix('bop', 'floating', 24, true);
 	platform.animation.play('bop');
@@ -158,15 +158,27 @@ function onCreatePost()
 	copyPet.loadPet(pet.curPet);
 	copyPet.flipX = !copyPet.flipX;
 	copyPet.x -= (copyPet._petOffset.x * 2);
-	copyPet.setColorTransform(1, 1, 1, 1, -16, -16, -16);
-	
-	if (Paths.fileExists('data/scripts/vent.hx')) initScript('data/scripts/vent');
 	add(copyPet);
+
+	var grayscale:ExtraDropShadowShader = new funkin.game.shaders.ExtraDropShadowShader();
+	grayscale.threshold = .05;
+	grayscale.strength = .85;
+	grayscale.setColorMatrix([
+		0.31, 0.52, 0.17, 0, 0,
+		0.31, 0.52, 0.17, 0, 0,
+		0.31, 0.52, 0.17, 0, 0,
+		0,    0,    0,    1, 0
+	]);
+	grayscale.attachedSprite = copyPet;
+	copyPet.useRenderTexture = true;
+
+	if (Paths.fileExists('scripts/vent.hx')) initScript('scripts/vent');
 	
 	// cache characters
 	preloadVariant('falling');
 	preloadVariant('defeat');
-	
+	preloadVariant('windy');
+
 	addCharacterToList('greenEjected', 1);
 	addCharacterToList('monotone', 1);
 	addCharacterToList('red', 1);
@@ -315,14 +327,13 @@ function onEvent(n, v1, v2)
 					bbg.alpha = 1;
 				case 'green':
 					setVariant('falling');
-					
+					spinPet = true;
 					triggerEventNote('Change Character', 'dad', 'greenEjected');
 					bggreen.alpha = 1;
 					lightoverlay2.alpha = 0.001;
 					greentower.alpha = 1;
 					speedlines.alpha = 0.5;
 					if (hasBfSkin && boyfriend.getFlag('floating') != true) platform.alpha = 1;
-					spinPet = true;
 					greentower.y = 0.001;
 					FlxTween.tween(greentower, {y: -300}, 20);
 					bbg.alpha = 0.001;
