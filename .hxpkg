@@ -37,7 +37,7 @@
             {
                 "name": "hxcpp",
                 "link": "https://github.com/ShadowEngineTeam/hxcpp",
-                "branch": "main"
+                "branch": "7f441f3790b650642e8c4e2a56e048c44de67194"
             },
             {
                 "name": "hxvlc",
@@ -47,7 +47,7 @@
             {
                 "name": "lime",
                 "link": "https://github.com/QQQEB159/lime-8.2.2",
-                "branch": "main"
+                "branch": "b60d13d75b97e927ef30abdbdb93d92078b8fa1e"
             },
             {
 				"name": "openfl",
