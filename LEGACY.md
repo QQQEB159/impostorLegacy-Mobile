@@ -46,11 +46,21 @@ Current version: **1.1.1b**
 - RHM's Z-value is fixed in the greenhouse stage.
 - Polus Boyfriend's windy variant now has correct looped poses.
 - Maroon's poses are now looped.
-- Parasite Maroon's healthbar color changed for effect.
 - Fixed inconsistency with Identity Crisis doppelgänger notes. (GitHub pull)
 - Grey given a correct healthbar color.
 - A bunch of offsets were fixed.
-- Pink's Pretender death animation was fixed up.
+- Pink's Pretender death animation was re-exported to fix effects.
+- Black's Defeat sprite was re-exported to fix effects.
+
+### Changes
+- The "VICTORY" text in Victory is now translatable and in higher quality.
+- Copy Pet in Identity Crisis is now in grayscale instead of an off colored filter.
+- Parasite Maroon's healthbar color changed for effect.
+- Defeat stage tweaked.
+- Few sprites were turned into atlases.
+- Variants used more in characters.
+- The Ejected cutscene is changed if using skins.
+- Meltdown uses a correct icon in the Freeplay menu.
 
 ## 1.1.1b (june 21 2026)
   
