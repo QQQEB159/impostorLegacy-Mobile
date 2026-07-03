@@ -333,9 +333,7 @@ class ChartEditorState extends MusicBeatState
 		
 		ClientPrefs.load();
 		
-		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("Chart Editor" /* sorry that was boring */);
-		#end
 		
 		camHUD = new FlxCamera();
 		camHUD.bgColor = 0x0;
