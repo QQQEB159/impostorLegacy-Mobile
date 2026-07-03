@@ -79,7 +79,7 @@ jobs:
           fi
       
       - name: Compile
-        run: haxelib run lime build android -HXCPP_ARM64 -D DLC
+        run: haxelib run lime build android -arm64 -D DLC
       
       - name: Publish Artifact
         uses: actions/upload-artifact@main
