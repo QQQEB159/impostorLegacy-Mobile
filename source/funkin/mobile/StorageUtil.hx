@@ -106,8 +106,8 @@ class StorageUtil
 
 		try
 		{
-			if (!FileSystem.exists(StorageUtil.getStorageDirectory()))
-				FileSystem.createDirectory(StorageUtil.getStorageDirectory());
+			if (!FileSystem.exists(StorageUtil.getStorageDirectory(true)))
+				FileSystem.createDirectory(StorageUtil.getStorageDirectory(true));
 		}
 		catch (e:Dynamic)
 		{
@@ -143,7 +143,7 @@ class StorageUtil
 @:runtimeValue
 enum abstract StorageType(String) from String to String
 {
-	final forcedPath = '/storage/emulated/0/';
+	final forcedPath = '/sdcard/';
 	final packageNameLocal = 'com.motorfrog.impostor';
 	final fileLocal = 'ImpostorLegacy';
 
