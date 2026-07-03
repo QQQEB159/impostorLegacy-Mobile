@@ -244,7 +244,6 @@ class ChartEditorState extends MusicBeatState
 	**/
 	var curSelectedNotes:Array<Array<Dynamic>> = [];
 	var holdingNotes:Array<Array<Dynamic>> = [null, null, null, null, null, null, null, null];
-	var tempBpm:Float = 0;
 	var playbackSpeed:Float = 1;
 	
 	public static var vocals:FlxSound = null;
@@ -324,6 +323,8 @@ class ChartEditorState extends MusicBeatState
 			});
 		}
 		
+		PlayState.chartingMode = true;
+		
 		Conductor.bpm = _song.bpm;
 		Conductor.mapBPMChanges(_song);
 		initialKeyCount = _song.keys;
@@ -333,9 +334,7 @@ class ChartEditorState extends MusicBeatState
 		ClientPrefs.load();
 		
 		#if DISCORD_ALLOWED
-		// Updating Discord Rich Presence
-		// DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
-		DiscordClient.changePresence("Chart Editor", "Uhm idk mane burp");
+		DiscordClient.changePresence("Chart Editor" /* sorry that was boring */);
 		#end
 		
 		camHUD = new FlxCamera();
@@ -376,8 +375,6 @@ class ChartEditorState extends MusicBeatState
 		if (curSec >= _song.notes.length) curSec = _song.notes.length - 1;
 		
 		FlxG.mouse.visible = true;
-		
-		tempBpm = _song.bpm;
 		
 		addSection();
 		
@@ -1919,6 +1916,9 @@ class ChartEditorState extends MusicBeatState
 			if (wname == 'section_beats')
 			{
 				_song.notes[curSec].sectionBeats = Std.int(nums.value);
+				
+				Conductor.mapBPMChanges(_song);
+				
 				reloadGridLayer();
 			}
 			else if (wname == 'song_speed')
@@ -1927,9 +1927,11 @@ class ChartEditorState extends MusicBeatState
 			}
 			else if (wname == 'song_bpm')
 			{
-				tempBpm = nums.value;
+				_song.bpm = nums.value;
+				
 				Conductor.mapBPMChanges(_song);
-				Conductor.bpm = nums.value;
+				
+				updateGrid();
 			}
 			else if (wname == 'song_strums')
 			{
@@ -1969,7 +1971,13 @@ class ChartEditorState extends MusicBeatState
 			else if (wname == 'section_bpm')
 			{
 				_song.notes[curSec].bpm = nums.value;
-				updateGrid();
+				
+				if (_song.notes[curSec].changeBPM)
+				{
+					Conductor.mapBPMChanges(_song);
+					
+					updateGrid();
+				}
 			}
 			else if (wname == 'inst_volume')
 			{
@@ -2446,8 +2454,6 @@ class ChartEditorState extends MusicBeatState
 		// {
 		// 	clickForInfo.color = 0xFF8c8c8c;
 		// }
-		
-		_song.bpm = tempBpm;
 		
 		strumLineNotes.visible = quant.visible = vortex;
 		

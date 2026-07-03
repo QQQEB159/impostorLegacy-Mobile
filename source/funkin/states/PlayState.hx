@@ -442,7 +442,7 @@ class PlayState extends MusicBeatState
 	 * 
 	 * Can be manually changed.
 	 */
-	var songLength:Float = 0;
+	public var songLength:Float = 0;
 	
 	public var boyfriendCameraOffset:Array<Float> = [0, 0];
 	public var opponentCameraOffset:Array<Float> = [0, 0];
@@ -652,14 +652,13 @@ class PlayState extends MusicBeatState
 		practiceMode = ClientPrefs.getGameplaySetting('practice', false);
 		cpuControlled = ClientPrefs.getGameplaySetting('botplay', false);
 		
-		camGame = new FlxCameraEx();
-		camHUD = new FlxCameraEx();
-		camOther = new FlxCameraEx();
+		camGame = FlxG.camera;
+		camHUD = new FlxCamera();
+		camOther = new FlxCamera();
 		
 		camHUD.bgColor = 0x0;
 		camOther.bgColor = 0x0;
 		
-		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
 		
@@ -816,7 +815,6 @@ class PlayState extends MusicBeatState
 		
 		botplayTxt = new FlxText(400, 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.DEFAULT_FONT, 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
 		botplayTxt.visible = cpuControlled;
 		if (ClientPrefs.downScroll) botplayTxt.y = FlxG.height - botplayTxt.height - 55;
@@ -2290,11 +2288,6 @@ class PlayState extends MusicBeatState
 		CoolUtil.cancelMusicFadeTween();
 		
 		FlxG.switchState(ChartEditorState.new);
-		chartingMode = true;
-		
-		#if DISCORD_ALLOWED
-		DiscordClient.changePresence('Chart Editor');
-		#end
 	}
 	
 	function openCharacterEditor():Void
@@ -3128,7 +3121,7 @@ class PlayState extends MusicBeatState
 		scripts.call('onPopUpScorePost', [note, rating]);
 	}
 	
-	inline function getSongTime():Float
+	public inline function getSongTime():Float
 	{
 		if (audio.inst?.playing)
 		{
@@ -3550,7 +3543,7 @@ class PlayState extends MusicBeatState
 			if (SONG.notes[curSection].changeBPM)
 			{
 				Conductor.bpm = SONG.notes[curSection].bpm;
-				scripts.set('curBpm', Conductor.bpm);
+				scripts.set('bpm', Conductor.bpm);
 			}
 			scripts.set('mustHitSection', SONG.notes[curSection].mustHitSection);
 			scripts.set('altAnim', SONG.notes[curSection].altAnim);
