@@ -92,6 +92,8 @@
 
 	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED" version="1.2.4"/>
 	<haxelib name="hxvlc" if="VIDEOS_ALLOWED"/>
+	
+	<haxelib name="extension-androidtools" if="android" />
 
 	<!-- _______________ macros ... oh theres so many ... save me ... _______________ -->
 
@@ -142,7 +144,6 @@
 
 	<!-- Allow Access to Engine Files in MOBILE -->
 	<haxedef name="SHARE_MOBILE_FILES" if="mobile" />
-	<haxedef name="lime_use_old_deltatime" />
 	<haxedef name="openfl_dpi_aware" />
 	<haxedef name="openfl_pool_events" />
 	
