@@ -72,7 +72,7 @@ jobs:
           
       - name: Rebuild Android Lime so
         run: |
-          haxelib run lime rebuild android -release -HXCPP_ARM64
+          haxelib run lime rebuild android -release -D HXCPP_ARM64
           if [ ! -f .haxelib/lime/git/ndll/Android/liblime-64.so ]; then
             echo "ERROR: Missing Liblime 64 so"
             exit 1

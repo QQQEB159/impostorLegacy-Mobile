@@ -7,10 +7,6 @@ import flixel.util.FlxSave;
 import funkin.backend.DebugDisplay;
 import funkin.input.Controls;
 
-#if android
-import extension.androidtools.os.Build.VERSION as AndroidVersion;
-#end
-
 // i did this cuz options are stupid
 enum abstract VsyncMode(String) from String to String
 {
@@ -59,10 +55,6 @@ class ClientPrefs
 	@saveVar public static var controlsAlpha:Float = FlxG.onMobile ? 0.6 : 0;
 	
 	@saveVar public static var screensaver:Bool = false;
-	
-	#if android
-	@saveVar public static var storageType:String = (AndroidVersion.SDK_INT > 30) ? "EXTERNAL" : "EXTERNAL_DATA";
-	#end
 	
 	@saveVar public static var hitboxType:String = "Gradient";
 	

@@ -36,8 +36,8 @@
             },
             {
                 "name": "hxcpp",
-                "link": "https://github.com/FunkinCrew/hxcpp",
-                "branch": "bfe01edc20cdc54fe7f54f1f2124b8959646144c"
+                "link": "https://github.com/QQQEB159/hxcpp-Funkin",
+                "branch": "funkin"
             },
             {
                 "name": "hxvlc",

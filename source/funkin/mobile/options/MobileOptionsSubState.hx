@@ -26,16 +26,6 @@ import funkin.states.options.*;
 
 class MobileOptionsSubState extends BaseOptionsMenu
 {
-	#if android
-	var storageTypes:Array<String> = [
-        Lang.str('storage_external_data', 'EXTERNAL_DATA'),
-        Lang.str('storage_external_obb', 'EXTERNAL_OBB'),
-        Lang.str('storage_external_media', 'EXTERNAL_MEDIA'),
-        Lang.str('storage_external', 'EXTERNAL')
-    ];
-	var externalPaths:Array<String> = StorageUtil.checkExternalPaths(true);
-	final lastStorageType:String = ClientPrefs.storageType;
-	#end
 	final exControlTypes:Array<String> = ["NONE", "SINGLE", "DOUBLE"];
 	final hintOptions:Array<String> = [
         Lang.str('hint_noGradient', 'No Gradient'),
@@ -52,8 +42,6 @@ class MobileOptionsSubState extends BaseOptionsMenu
 
 	public function new()
 	{
-		#if android if (!externalPaths.contains('\n'))
-			storageTypes = storageTypes.concat(externalPaths); #end
 		title = 'mobileoptions';
 		rpcTitle = 'Mobile Options Menu'; // for Discord Rich Presence, fuck it
 
@@ -96,40 +84,9 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		}
 
 		#if android
-		var option:Option = new Option(Lang.str('opt_storageType', 'Storage Type'), Lang.str('opt_storageType_desc', 'Which folder NightmareVision Engine should use?\n(CHANGING THIS MAKES DELETE YOUR OLD FOLDER!!)'), 'storageType', 'string', 'EXTERNAL_DATA', storageTypes, ["EXTERNAL_DATA", "EXTERNAL_OBB", "EXTERNAL_MEDIA", "EXTERNAL"]);
-		addOption(option);
+		
 		#end
 
 		super();
-	}
-
-	#if android
-	function onStorageChange():Void
-	{
-		File.saveContent(lime.system.System.applicationStorageDirectory + 'storagetype.txt', ClientPrefs.storageType);
-
-		var lastStoragePath:String = StorageType.fromStrForce(lastStorageType) + '/';
-
-		try
-		{
-			if (ClientPrefs.storageType != "EXTERNAL")
-				Sys.command('rm', ['-rf', lastStoragePath]);
-		}
-		catch (e:haxe.Exception)
-			trace('Failed to remove last directory. (${e.message})');
-	}
-	#end
-
-	override public function destroy()
-	{
-		super.destroy();
-		#if android
-		if (ClientPrefs.storageType != lastStorageType)
-		{
-			onStorageChange();
-			CoolUtil.showPopUp('Storage Type has been changed and you needed restart the game!!\nPress OK to close the game.', 'Notice!');
-			lime.system.System.exit(0);
-		}
-		#end
 	}
 }

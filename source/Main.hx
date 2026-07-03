@@ -42,13 +42,6 @@ class Main extends Sprite
 	
 	public static function main():Void
 	{
-		#if mobile
-		#if android
-		StorageUtil.requestPermissions();
-		#end
-		Sys.setCwd(StorageUtil.getStorageDirectory());
-		#end
-		
 		Lib.current.addChild(new Main());
 		#if cpp
 		cpp.NativeGc.enable(true);
@@ -59,6 +52,12 @@ class Main extends Sprite
 	
 	public function new()
 	{
+		#if android
+		Sys.setCwd(Path.addTrailingSlash(extension.androidtools.Context.getExternalFilesDir()));
+		#elseif ios
+		Sys.setCwd(System.documentsDirectory);
+		#end
+		
 		#if ios
         wa = lime.app.Application.current.window.scale;
         openfl.Lib.current.stage.addEventListener(openfl.events.Event.ACTIVATE, onOpened);
