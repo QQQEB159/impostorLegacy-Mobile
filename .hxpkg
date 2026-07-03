@@ -4,13 +4,13 @@
         "pkgs": [
             {
                 "name": "flixel",
-                "link": "https://github.com/HaxeFlixel/flixel",
-                "branch": "64a1970940c4ea1e05c538ba28b49ea30e2ba422"
+                "link": "https://github.com/FunkinCrew/flixel",
+                "branch": "6fb97f4d9498c734b1cd8adbb3305e8bf1c6ad5e"
             },
             {
                 "name": "flixel-addons",
-                "link": "https://github.com/HaxeFlixel/flixel-addons",
-                "branch": "9c4b1b5770594d87bbb366b44cf483b862a25a02"
+                "link": "https://github.com/FunkinCrew/flixel-addons",
+                "branch": "187f93b34f93c6a405d634a42913c745e443463a"
             },
             {
                 "name": "flixel-ui",
@@ -36,23 +36,23 @@
             },
             {
                 "name": "hxcpp",
-                "link": "https://github.com/ShadowEngineTeam/hxcpp",
-                "branch": "7f441f3790b650642e8c4e2a56e048c44de67194"
+                "link": "https://github.com/FunkinCrew/hxcpp",
+                "branch": "bfe01edc20cdc54fe7f54f1f2124b8959646144c"
             },
             {
                 "name": "hxvlc",
-                "link": "https://github.com/ShadowEngineTeam/hxvlc",
-                "branch": "main"
+                "version": "2.2.6"
             },
             {
                 "name": "lime",
-                "link": "https://github.com/QQQEB159/lime-8.2.2",
-                "branch": "b60d13d75b97e927ef30abdbdb93d92078b8fa1e"
+                "link": "https://github.com/FunkinCrew/lime",
+                "branch": "6421de16b9dfa4fb55c19f12db65d392a57585c8"
             },
             {
-				"name": "openfl",
-				"version": "9.5.0"
-			},
+                "name": "openfl",
+                "link": "https://github.com/FunkinCrew/openfl",
+                "branch": "b5565adc75511b3e4c8b384ee25ce7401b11ef32"
+            },
             {
                 "name": "hxdiscord_rpc",
                 "version": "1.2.4"
