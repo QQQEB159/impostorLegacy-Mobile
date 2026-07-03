@@ -53,7 +53,7 @@ class Main extends Sprite
 	{
 		#if mobile
 		#if android
-		//StorageUtil.requestPermissions();
+		StorageUtil.requestPermissions();
 		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());
 		#end

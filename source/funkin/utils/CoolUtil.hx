@@ -5,6 +5,8 @@ import openfl.display.BlendMode;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxG;
 
+import lime.app.Application;
+
 /**
 	General Utility class for more one off functions
 **/
@@ -316,10 +318,6 @@ class CoolUtil
 	
 	public static function showPopUp(message:String, title:String):Void
 	{
-		#if android
-		extension.androidtools.Tools.showAlertDialog(title, message, {name: "OK", func: null}, null);
-		#else
-		FlxG.stage.window.alert(message, title);
-		#end
+		Application.current.window.alert(message, title);
 	}
 }
