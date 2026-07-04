@@ -98,7 +98,7 @@ class StorageUtil
 				final library:String = shit.replace(shit.substring(shit.indexOf('/', 0), shit.length), '');
 
 				@:privateAccess
-				Storage.copyFile(Assets.libraryPaths.exists(library) ? '$library:$file' : file, file);
+				StorageUtil.copyFile(Assets.libraryPaths.exists(library) ? '$library:$file' : file, file);
 			}
 		}
 		#end
