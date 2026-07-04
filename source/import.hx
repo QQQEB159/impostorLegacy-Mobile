@@ -2,6 +2,7 @@
 import haxe.io.Path;
 
 // mobile
+import funkin.mobile.StorageUtil;
 import funkin.mobile.MobileData;
 import funkin.mobile.IMobileControls;
 import funkin.mobile.MobileControls;
