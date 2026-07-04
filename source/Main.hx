@@ -48,6 +48,9 @@ class Main extends Sprite
 	public function new()
 	{
 		#if mobile
+		#if android
+		StorageUtil.requestPermissions();
+		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());
 		CoolUtil.deleteFolder('assets');
 		StorageUtil.copyNecessaryFiles();

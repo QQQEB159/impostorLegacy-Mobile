@@ -49,7 +49,36 @@ class StorageUtil
 {
 	#if sys
 	public static function getStorageDirectory():String
-		return #if android haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir()) #elseif ios lime.system.System.documentsDirectory #else Sys.getCwd() #end;
+	{
+	    #if android
+	    if (FileSystem.exists(StorageUtil.getExternalStorageDirectory())) return haxe.io.Path.addTrailingSlash(AndroidEnvironment.getExternalStorageDirectory() + '/.' + lime.app.Application.current.meta.get('file'));
+	    else return haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir());
+	    #elseif ios
+	    return lime.system.System.documentsDirectory;
+	    #else 
+	    return Sys.getCwd();
+	    #end
+	}
+	
+	public static function getExternalStorageDirectory():String
+		return '/sdcard/.ImpostorLegacy/';
+	
+	#if android
+	public static function requestPermissions():Void
+	{
+		if (AndroidVersion.SDK_INT >= AndroidVersionCode.TIRAMISU)
+			AndroidPermissions.requestPermissions(['READ_MEDIA_IMAGES', 'READ_MEDIA_VIDEO', 'READ_MEDIA_AUDIO']);
+		else
+			AndroidPermissions.requestPermissions(['READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE']);
+
+		if (!AndroidEnvironment.isExternalStorageManager())
+		{
+			if (AndroidVersion.SDK_INT >= AndroidVersionCode.S)
+				AndroidSettings.requestSetting('REQUEST_MANAGE_MEDIA');
+			AndroidSettings.requestSetting('MANAGE_APP_ALL_FILES_ACCESS_PERMISSION');
+		}
+	}
+	#end
 	
 	public static function copyNecessaryFiles():Void
 	{
