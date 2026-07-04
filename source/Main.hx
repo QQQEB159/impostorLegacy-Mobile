@@ -53,7 +53,7 @@ class Main extends Sprite
 	public function new()
 	{
 		#if android
-		Sys.setCwd(Path.addTrailingSlash(extension.androidtools.Context.getExternalFilesDir()));
+		Sys.setCwd(Path.addTrailingSlash(extension.androidtools.content.Context.getExternalFilesDir()));
 		#elseif ios
 		Sys.setCwd(System.documentsDirectory);
 		#end
