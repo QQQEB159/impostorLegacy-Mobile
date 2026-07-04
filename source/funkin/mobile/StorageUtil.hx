@@ -54,7 +54,7 @@ class StorageUtil
 	public static function copyNecessaryFiles():Void
 	{
 		#if MODS_ALLOWED
-		for (dir in ['data', 'lang', 'mobile'])
+		for (dir in ['data', 'lang', 'mobile', 'stages'])
 		{
 			for (file in Assets.list().filter(folder -> folder.startsWith('assets/$dir')))
 			{
@@ -70,7 +70,7 @@ class StorageUtil
 			}
 		}
 		
-		for (dir in ['data', 'scripts', 'songs'])
+		for (dir in ['data', 'scripts', 'songs', 'stages'])
 		{
 			for (file in Assets.list().filter(folder -> folder.startsWith('assets/$dir')))
 			{
@@ -86,6 +86,21 @@ class StorageUtil
 			}
 		}
 		
+		#end
+		
+		#if VIDEOS_ALLOWED
+		for (file in Assets.list().filter(folder -> folder.startsWith('assets/videos')))
+		{
+			if (Path.extension(file) == 'mp4')
+			{
+				// Ment for FNF's libraries system...
+				final shit:String = file.replace(file.substring(0, file.indexOf('/', 0) + 1), '');
+				final library:String = shit.replace(shit.substring(shit.indexOf('/', 0), shit.length), '');
+
+				@:privateAccess
+				Storage.copyFile(Assets.libraryPaths.exists(library) ? '$library:$file' : file, file);
+			}
+		}
 		#end
 
 		System.gc();

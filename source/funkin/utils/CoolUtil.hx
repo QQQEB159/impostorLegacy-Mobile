@@ -320,4 +320,24 @@ class CoolUtil
 	{
 		Application.current.window.alert(message, title);
 	}
+	
+	/**
+	 * Deletes a folder recursively
+	 * @param delete Path to the folder.
+	 */
+	@:noUsing public static function deleteFolder(delete:String) {
+		#if sys
+		if (!FileSystem.exists(delete)) return;
+		var files:Array<String> = FileSystem.readDirectory(delete);
+		for(file in files) {
+			if (FileSystem.isDirectory(delete + "/" + file)) {
+				deleteFolder(delete + "/" + file);
+				FileSystem.deleteDirectory(delete + "/" + file);
+			} else {
+				try FileSystem.deleteFile(delete + "/" + file);
+				catch(e) {}
+			}
+		}
+		#end
+	}
 }

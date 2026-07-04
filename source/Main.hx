@@ -49,6 +49,7 @@ class Main extends Sprite
 	{
 		#if mobile
 		Sys.setCwd(StorageUtil.getStorageDirectory());
+		CoolUtil.deleteFolder('assets');
 		StorageUtil.copyNecessaryFiles();
 		#end
 		
