@@ -26,6 +26,6 @@ class FunkinAssets
 	{
 		// this method is a bit chopped...
 		if (directory.trim().length == 0) return false;
-		return Assets.list().filter(path -> return path != directory && path.startsWith(directory)).length != 0;
+		return Assets.list().filter(path -> path != directory && path.startsWith(directory)).length != 0;
 	}
 }

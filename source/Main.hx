@@ -10,10 +10,6 @@ import flixel.input.keyboard.FlxKey;
 
 import funkin.backend.DebugDisplay;
 
-#if mobile
-import funkin.mobile.CopyState;
-#end
-
 @:nullSafety(Strict)
 class Main extends Sprite
 {
@@ -21,7 +17,6 @@ class Main extends Sprite
 	public static final NMV_VERSION:String = '1.0';
 	public static final FUNKIN_VERSION:String = '0.2.7';
 	public static final LEGACY_VERSION:String = '1.1.2';
-	var wa:Float = 1.0;
 	
 	public static final startMeta =
 		{
@@ -58,11 +53,6 @@ class Main extends Sprite
 		Sys.setCwd(lime.system.System.documentsDirectory);
 		#end
 		
-		#if ios
-        wa = lime.app.Application.current.window.scale;
-        openfl.Lib.current.stage.addEventListener(openfl.events.Event.ACTIVATE, onOpened);
-        #end
-		
 		super();
 		
 		funkin.Mods.updateModList();
@@ -83,7 +73,7 @@ class Main extends Sprite
 		ClientPrefs.loadDefaultKeys();
 		ClientPrefs.tryBindingSave('funkin');
 		
-		final game = new funkin.backend.FunkinGame(startMeta.width, startMeta.height, #if (mobile && MODS_ALLOWED) !CopyState.checkExistingFiles() ? CopyState : #end Init, startMeta.fps, startMeta.fps, true, startMeta.startFullScreen);
+		final game = new funkin.backend.FunkinGame(startMeta.width, startMeta.height, Init, startMeta.fps, startMeta.fps, true, startMeta.startFullScreen);
 		
 		// btw game has to be a variable for this to work ig - Orbyy
 		@:privateAccess
@@ -177,19 +167,4 @@ class Main extends Sprite
 		haxe.ui.tooltips.ToolTipManager.defaultDelay = 200;
 		#end
 	}
-	
-	//coded by MaysLastPlay
-	#if ios
-    private function onOpened(e:openfl.events.Event):Void 
-    {
-
-        @:privateAccess
-        lime.app.Application.current.window.__scale = wa;
-
-        haxe.Timer.delay(function() 
-        {
-            if (flixel.FlxG.scaleMode != null && openfl.Lib.current.stage != null) flixel.FlxG.scaleMode.onMeasure(openfl.Lib.current.stage.stageWidth, openfl.Lib.current.stage.stageHeight);
-        }, 100);
-    }
-    #end
 }

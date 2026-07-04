@@ -153,7 +153,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		exit.setGraphicSize(Std.int(exit.width) * 3);
 		exit.updateHitbox();
 		exit.x = FlxG.width - exit.width - 70;
-		exit.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		exit.label.setFormat(Paths.font('vcr.ttf', false), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
 		exit.label.fieldWidth = exit.width;
 		exit.label.x = ((exit.width - exit.label.width) / 2) + exit.x;
 		exit.label.offset.y = -10; // WHY THE FUCK I CAN'T CHANGE THE LABEL Y
@@ -168,7 +168,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		reset.color = FlxColor.RED;
 		reset.setGraphicSize(Std.int(reset.width) * 3);
 		reset.updateHitbox();
-		reset.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		reset.label.setFormat(Paths.font('vcr.ttf', false), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
 		reset.label.fieldWidth = reset.width;
 		reset.label.x = ((reset.width - reset.label.width) / 2) + reset.x;
 		reset.label.offset.y = -10;
