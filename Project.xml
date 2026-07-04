@@ -144,6 +144,8 @@
 
 	<!-- Allow Access to Engine Files in MOBILE -->
 	<haxedef name="SHARE_MOBILE_FILES" if="mobile" />
+	<haxedef name="HXCPP_ALIGN_ALLOC"/>
+	<haxedef name="HXCPP_GC_GENERATIONAL" />
 	<haxedef name="openfl_dpi_aware" />
 	<haxedef name="openfl_pool_events" />
 	
@@ -162,9 +164,6 @@
 		<config:android permission="android.permission.READ_MEDIA_DOCUMENTS" />
 		<config:android permission="android.permission.ACCESS_WIFI_STATE"/>
 		<config:android permission="android.permission.CAPTURE_AUDIO_OUTPUT" />
-		
-		<android target-sdk-version="35"/>
-	    <android min-sdk-version="24"/>
     </section>
 	
 	<!--Disables all tracing abilities. Enable this for a small performance improvement-->
