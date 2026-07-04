@@ -6,6 +6,8 @@ import funkin.FunkinAssets;
 import funkin.states.TitleState;
 import funkin.video.FunkinVideoSprite;
 
+import funkin.mobile.FunkinAssets as FunkinAssets2;
+
 using StringTools;
 
 @:access(flixel.FlxGame)
@@ -63,9 +65,9 @@ class Splash extends FlxState
 	function logoFunc()
 	{
 		var folder:Array<String> = [];
-		if (!FileSystem.isDirectory(Asset2File.path + 'assets/images/branding') || (folder = FileSystem.readDirectory(Asset2File.path + 'assets/images/branding')).length == 0) return finish();
+		if (!FunkinAssets2.isDirectory('assets/images/branding') || (folder = FunkinAssets2.readDirectory('assets/images/branding')).length == 0) return finish();
 		
-		folder = folder.filter(str -> !FileSystem.isDirectory(Asset2File.path + 'assets/images/branding/$str'));
+		folder = folder.filter(str -> !FunkinAssets2.isDirectory('assets/images/branding/$str'));
 		
 		var img = FlxG.random.getObject(folder);
 		

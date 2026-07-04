@@ -2,7 +2,6 @@
 import haxe.io.Path;
 
 // mobile
-import funkin.mobile.Asset2File;
 import funkin.mobile.MobileData;
 import funkin.mobile.IMobileControls;
 import funkin.mobile.MobileControls;
