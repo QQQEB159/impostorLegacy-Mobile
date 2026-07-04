@@ -334,8 +334,7 @@ class CoolUtil
 				deleteFolder(delete + "/" + file);
 				FileSystem.deleteDirectory(delete + "/" + file);
 			} else {
-				try FileSystem.deleteFile(delete + "/" + file);
-				catch(e) {}
+				FileSystem.deleteFile(delete + "/" + file);
 			}
 		}
 		#end
