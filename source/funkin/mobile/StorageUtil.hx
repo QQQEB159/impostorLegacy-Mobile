@@ -37,77 +37,104 @@ import extension.androidtools.Tools as AndroidTools;
 import extension.androidtools.os.Build.VERSION as AndroidVersion;
 import extension.androidtools.os.Build.VERSION_CODES as AndroidVersionCode;
 #end
+
+import haxe.io.Path;
+import haxe.Exception;
+
+import lime.utils.Assets;
+
+import openfl.system.System;
  
 class StorageUtil
 {
 	#if sys
 	public static function getStorageDirectory():String
 		return #if android haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir()) #elseif ios lime.system.System.documentsDirectory #else Sys.getCwd() #end;
-
-	public static function saveContent(fileName:String, fileData:String, ?alert:Bool = true):Void
+	
+	public static function copyNecessaryFiles():Void
 	{
-		final folder:String = #if android StorageUtil.getExternalStorageDirectory() + #else Sys.getCwd() + #end 'saves/';
-
-		try
+		#if MODS_ALLOWED
+		for (dir in ['data', 'lang', 'mobile'])
 		{
-			if (!FileSystem.exists(folder))
-				FileSystem.createDirectory(folder);
+			for (file in Assets.list().filter(folder -> folder.startsWith('assets/$dir')))
+			{
+				if (Path.extension(file) == 'json')
+				{
+					// Ment for FNF's libraries system...
+					final shit:String = file.replace(file.substring(0, file.indexOf('/', 0) + 1), '');
+					final library:String = shit.replace(shit.substring(shit.indexOf('/', 0), shit.length), '');
 
-			File.saveContent('$folder$fileName', fileData);
-			if (alert)
-				CoolUtil.showPopUp('$fileName has been saved.', "Success!");
+					@:privateAccess
+					StorageUtil.copyFile(Assets.libraryPaths.exists(library) ? '$library:$file' : file, file);
+				}
+			}
 		}
-		catch (e:Dynamic)
-			if (alert)
-				CoolUtil.showPopUp('$fileName couldn\'t be saved.\n(${e.message})', "Error!")
-			else
-				trace('$fileName couldn\'t be saved. (${e.message})');
+		
+		for (dir in ['data', 'scripts', 'songs'])
+		{
+			for (file in Assets.list().filter(folder -> folder.startsWith('assets/$dir')))
+			{
+				if (Path.extension(file) == 'hx' || Path.extension(file) == 'hscript')
+				{
+					// Ment for FNF's libraries system...
+					final shit:String = file.replace(file.substring(0, file.indexOf('/', 0) + 1), '');
+					final library:String = shit.replace(shit.substring(shit.indexOf('/', 0), shit.length), '');
+
+					@:privateAccess
+					StorageUtil.copyFile(Assets.libraryPaths.exists(library) ? '$library:$file' : file, file);
+				}
+			}
+		}
+		
+		#end
+
+		System.gc();
 	}
 
-	#if android
-	// always force path due to haxe
-	public static function getExternalStorageDirectory():String
-		return '/sdcard/.ImpostorLegacy/';
-
-	public static function requestPermissions():Void
+	/**
+	 * This is mostly a fork of https://github.com/openfl/hxp/blob/master/src/hxp/System.hx#L595
+	 */
+	public static function mkDirs(directory:String):Void
 	{
-		if (AndroidVersion.SDK_INT >= AndroidVersionCode.TIRAMISU)
-			AndroidPermissions.requestPermissions(['READ_MEDIA_IMAGES', 'READ_MEDIA_VIDEO', 'READ_MEDIA_AUDIO', 'READ_MEDIA_VISUAL_USER_SELECTED']);
-		else
-			AndroidPermissions.requestPermissions(['READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE']);
+		var total:String = '';
 
-		if (!AndroidEnvironment.isExternalStorageManager())
-			AndroidSettings.requestSetting('MANAGE_APP_ALL_FILES_ACCESS_PERMISSION');
+		if (directory.substr(0, 1) == '/')
+			total = '/';
 
-		if ((AndroidVersion.SDK_INT >= AndroidVersionCode.TIRAMISU
-			&& !AndroidPermissions.getGrantedPermissions().contains('android.permission.READ_MEDIA_IMAGES'))
-			|| (AndroidVersion.SDK_INT < AndroidVersionCode.TIRAMISU
-				&& !AndroidPermissions.getGrantedPermissions().contains('android.permission.READ_EXTERNAL_STORAGE')))
-			CoolUtil.showPopUp('If you accepted the permissions you are all good!' + '\nIf you didn\'t then expect a crash' + '\nPress OK to see what happens',
-				'Notice!');
+		final parts:Array<String> = directory.split('/');
 
-		try
-		{
-			if (!FileSystem.exists(StorageUtil.getStorageDirectory()))
-				FileSystem.createDirectory(StorageUtil.getStorageDirectory());
-		}
-		catch (e:Dynamic)
-		{
-			CoolUtil.showPopUp('Please create directory to\n' + StorageUtil.getStorageDirectory() + '\nPress OK to close the game', 'Error!');
-			lime.system.System.exit(1);
-		}
+		if (parts.length > 0 && parts[0].indexOf(':') > -1)
+			parts.shift();
 
-		try
+		for (part in parts)
 		{
-			if (!FileSystem.exists(StorageUtil.getExternalStorageDirectory() + 'content'))
-				FileSystem.createDirectory(StorageUtil.getExternalStorageDirectory() + 'content');
-		}
-		catch (e:Dynamic)
-		{
-			CoolUtil.showPopUp('Please create directory to\n' + StorageUtil.getExternalStorageDirectory() + '\nPress OK to close the game', 'Error!');
-			lime.system.System.exit(1);
+			if (part != '.' && part.length > 0)
+			{
+				if (total != '/' && total.length > 0)
+					total += '/';
+
+				total += part;
+
+				if (!FileSystem.exists(total))
+					FileSystem.createDirectory(total);
+			}
 		}
 	}
-	#end
+
+	public static function copyFile(copyPath:String, savePath:String):Void
+	{
+		try
+		{
+			if (!FileSystem.exists(savePath) && Assets.exists(copyPath))
+			{
+				if (!FileSystem.exists(Path.directory(savePath)))
+					StorageUtil.mkDirs(Path.directory(savePath));
+
+				File.saveBytes(savePath, Assets.getBytes(copyPath));
+			}
+		}
+		catch (e:Exception)
+			trace(e.message);
+	}
 	#end
 }

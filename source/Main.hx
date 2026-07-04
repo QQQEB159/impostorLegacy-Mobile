@@ -48,13 +48,11 @@ class Main extends Sprite
 	public function new()
 	{
 		#if mobile
-		#if android
-		StorageUtil.requestPermissions();
-		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());
+		StorageUtil.copyNecessaryFiles();
 		#end
 		
-		funkin.mobile.CrashHandler.init();
+		//funkin.mobile.CrashHandler.init();
 		
 		super();
 		
