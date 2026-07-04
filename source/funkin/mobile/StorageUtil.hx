@@ -36,7 +36,6 @@ import extension.androidtools.Settings as AndroidSettings;
 import extension.androidtools.Tools as AndroidTools;
 import extension.androidtools.os.Build.VERSION as AndroidVersion;
 import extension.androidtools.os.Build.VERSION_CODES as AndroidVersionCode;
-import extension.androidtools.os.BatteryManager as AndroidBatteryManager;
 #end
  
 class StorageUtil
@@ -100,8 +99,8 @@ class StorageUtil
 
 		try
 		{
-			if (!FileSystem.exists(StorageUtil.getExternalStorageDirectory() + 'mods'))
-				FileSystem.createDirectory(StorageUtil.getExternalStorageDirectory() + 'mods');
+			if (!FileSystem.exists(StorageUtil.getExternalStorageDirectory() + 'content'))
+				FileSystem.createDirectory(StorageUtil.getExternalStorageDirectory() + 'content');
 		}
 		catch (e:Dynamic)
 		{
