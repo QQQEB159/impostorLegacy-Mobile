@@ -79,7 +79,9 @@ class CosmicubeSubState extends MusicBeatSubstate
 		CosmicubeData.reload(false);
 		CosmeticsSubstate.preloadForFreeplay();
 		
+		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("Cosmicube Menu");
+		#end
 		
 		this.meta = (CosmicubeData.cosmicubeMetas.get(cosmicube) ?? CosmicubeData.fallbackMeta);
 		
@@ -296,10 +298,12 @@ class CosmicubeSubState extends MusicBeatSubstate
 				}
 			}
 			
+			#if !mobile
 			if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(menuBackButton, overlayCamera))
 			{
 				closeTween();
 			}
+			#end
 
 			#if mobile
 			var handledTouch:Bool = handleTouchInput();
@@ -650,7 +654,7 @@ class CosmicubeSubState extends MusicBeatSubstate
 			CosmicubeData.setMoney(node.meta.currency, CosmicubeData.getMoney(node.meta.currency) - node.price);
 			
 			ClientPrefs.cosmicubeUnlocks.push(node.id);
-			FlxG.sound.play(Paths.sound('shopbuy'));
+			FlxG.sound.play(Paths.sound('shopBuy'));
 			node.unlocked = true;
 			checkCosmiCollectorAward();
 			checkTheHundredAward();
