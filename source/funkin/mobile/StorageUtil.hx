@@ -51,6 +51,7 @@ class StorageUtil
 	public static function getStorageDirectory():String
 	{
 	    #if android
+	    if (!FileSystem.exists(StorageUtil.getExternalStorageDirectory()) && AndroidVersion.SDK_INT >= 30) FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/.' + lime.app.Application.current.meta.get('file'));
 	    if (FileSystem.exists(StorageUtil.getExternalStorageDirectory())) return haxe.io.Path.addTrailingSlash(AndroidEnvironment.getExternalStorageDirectory() + '/.' + lime.app.Application.current.meta.get('file'));
 	    else return haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir());
 	    #elseif ios
@@ -66,12 +67,10 @@ class StorageUtil
 	#if android
 	public static function requestPermissions():Void
 	{
-		if (!AndroidEnvironment.isExternalStorageManager())
-		{
-			if (AndroidVersion.SDK_INT >= AndroidVersionCode.S)
-				AndroidSettings.requestSetting('REQUEST_MANAGE_MEDIA');
-			AndroidSettings.requestSetting('MANAGE_APP_ALL_FILES_ACCESS_PERMISSION');
-		}
+		if (AndroidVersion.SDK_INT >= AndroidVersionCode.TIRAMISU)
+			AndroidPermissions.requestPermissions(['READ_MEDIA_IMAGES', 'READ_MEDIA_VIDEO', 'READ_MEDIA_AUDIO']);
+		else
+			AndroidPermissions.requestPermissions(['READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE']);
 	}
 	#end
 	
