@@ -298,12 +298,10 @@ class CosmicubeSubState extends MusicBeatSubstate
 				}
 			}
 			
-			#if !mobile
 			if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(menuBackButton, overlayCamera))
 			{
 				closeTween();
 			}
-			#end
 
 			#if mobile
 			var handledTouch:Bool = handleTouchInput();
