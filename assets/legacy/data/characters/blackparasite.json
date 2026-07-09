@@ -70,6 +70,7 @@
 	"healthicon": "black",
 	"gameover_character": null,
 	"vslice_sustains": false,
+	"afterimages": false,
 	"flip_x": false,
 	"healthbar_colour": -60826,
 	"camera_position": [
