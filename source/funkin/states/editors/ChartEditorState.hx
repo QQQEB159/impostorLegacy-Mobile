@@ -3710,7 +3710,7 @@ class ChartEditorState extends MusicBeatState
 		}
 	}
 	
-	function onSaveComplete(_):Void
+	function onSaveComplete(path:String):Void
 	{
 		FlxG.log.notice("Successfully saved LEVEL DATA.");
 	}
@@ -3718,7 +3718,7 @@ class ChartEditorState extends MusicBeatState
 	/**
 	 * Called when the save file dialog is cancelled.
 	 */
-	function onSaveCancel(_):Void {}
+	function onSaveCancel():Void {}
 	
 	function getSectionBeats(?section:Int):Null<Int>
 	{
