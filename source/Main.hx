@@ -49,8 +49,11 @@ class Main extends Sprite
 	{
 		#if mobile
 		Sys.setCwd(StorageUtil.getStorageDirectory());
-		if (!FileSystem.exists('content/')) FileSystem.createDirectory('content/');
-		CoolUtil.deleteFolder('assets');
+		if (!FileSystem.exists('assets/scripts/qqqeb.hx'))
+		{
+		    CoolUtil.deleteFolder('assets');
+		    //CoolUtil.deleteFolder('content');
+		}
 		StorageUtil.copyNecessaryFiles();
 		#end
 		

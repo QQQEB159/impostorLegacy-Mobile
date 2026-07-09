@@ -165,6 +165,9 @@
 		<config:android permission="android.permission.READ_MEDIA_DOCUMENTS" />
 		<config:android permission="android.permission.ACCESS_WIFI_STATE"/>
 		<config:android permission="android.permission.CAPTURE_AUDIO_OUTPUT" />
+		
+		<android extension="funkin.mobile.java.FileUtils" />
+        <java path="source" if="android"/>
     </section>
 	
 	<!--Disables all tracing abilities. Enable this for a small performance improvement-->

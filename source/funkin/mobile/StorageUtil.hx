@@ -51,9 +51,7 @@ class StorageUtil
 	public static function getStorageDirectory():String
 	{
 	    #if android
-	    //if (!FileSystem.exists(StorageUtil.getExternalStorageDirectory()) && AndroidVersion.SDK_INT >= 30) FileSystem.createDirectory(AndroidEnvironment.getExternalStorageDirectory() + '/.' + lime.app.Application.current.meta.get('file'));
-	    if (FileSystem.exists(StorageUtil.getExternalStorageDirectory())) return haxe.io.Path.addTrailingSlash(AndroidEnvironment.getExternalStorageDirectory() + '/.' + lime.app.Application.current.meta.get('file'));
-	    else return haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir());
+	    return haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir());
 	    #elseif ios
 	    return lime.system.System.documentsDirectory;
 	    #else 

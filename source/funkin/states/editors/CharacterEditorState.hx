@@ -187,6 +187,9 @@ class CharacterEditorState extends UIState // MUST EXTEND UI STATE needed for ac
 		pointerBounds = new DebugBounds(cameraPointer);
 		add(pointerBounds);
 		pointerBounds.alpha = 0;
+		
+		addTouchPad("NONE", "B");
+		addTouchPadCamera();
 	}
 	
 	function exitState()
@@ -895,7 +898,7 @@ class CharacterEditorState extends UIState // MUST EXTEND UI STATE needed for ac
 			FlxG.sound.volumeUpKeys = [];
 		}
 		
-		if (FlxG.keys.justPressed.ESCAPE)
+		if (FlxG.keys.justPressed.ESCAPE || touchPad != null && touchPad.buttonB.justPressed)
 		{
 			exitState();
 		}

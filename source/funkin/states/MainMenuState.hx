@@ -421,7 +421,7 @@ class MainMenuState extends MusicBeatState
 		starBG.x -= 4.5 * elapsed;
 		starFG.x -= 9 * elapsed;
 		
-		if (FlxG.keys.justPressed.SEVEN) FlxG.switchState(new MasterEditorMenu());
+		//if (FlxG.keys.justPressed.SEVEN) FlxG.switchState(new MasterEditorMenu());
 		
 		if (FlxG.keys.firstJustPressed() != FlxKey.NONE) mouseMode = false;
 		if (FlxG.mouse.justMoved) mouseMode = true;
