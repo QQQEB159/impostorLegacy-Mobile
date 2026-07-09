@@ -75,7 +75,7 @@ class FileUtil
 				}
 			};
 		_browseForFile(mimeType, callback);
-		#elseif desktop
+		#else
 		FileDialog.openFile(FlxG.stage.window, title, (files, filter) -> {
 			if (files != null && files.length > 0)
 			{
@@ -131,7 +131,7 @@ class FileUtil
 				};
 			_browseForMultipleFiles(mimeType, callback);
 		}
-		#elseif desktop
+		#else
 		final title = options.title;
 		final filters = options.typeFilter;
 		final startPath = options.defaultSearch;
@@ -193,7 +193,7 @@ class FileUtil
 			Logger.log('[FileUtil.saveFile] JNI Error: $e', ERROR);
 			if (onCancel != null) onCancel();
 		}
-		#elseif desktop
+		#else
 		var filters = null;
 		if (fileName != null && fileName.extension().length > 0)
 		{

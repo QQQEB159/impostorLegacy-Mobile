@@ -10,6 +10,10 @@ import flixel.input.keyboard.FlxKey;
 
 import funkin.backend.DebugDisplay;
 
+#if android
+import extension.androidtools.os.Build.VERSION as AndroidVersion;
+#end
+
 @:nullSafety(Strict)
 class Main extends Sprite
 {
@@ -52,7 +56,9 @@ class Main extends Sprite
 		if (!FileSystem.exists('assets/scripts/qqqeb.hx'))
 		{
 		    CoolUtil.deleteFolder('assets');
-		    //CoolUtil.deleteFolder('content');
+		    #if android
+		    if (AndroidVersion.SDK_INT >= 30) CoolUtil.deleteFolder('content');
+		    #end
 		}
 		StorageUtil.copyNecessaryFiles();
 		#end

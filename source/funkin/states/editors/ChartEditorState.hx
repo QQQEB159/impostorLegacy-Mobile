@@ -93,7 +93,7 @@ class OurLittleFriend extends FlxSprite
 	function buildOffsets(?path:String)
 	{
 		path ??= _offsetPath;
-		if (FunkinAssets.exists(Paths.getCorePath('$path.txt'))) for (k => i in File.getContent(Paths.getCorePath('$path.txt')).trim().split('\n'))
+		if (FunkinAssets.exists(Paths.getCorePath('$path.txt'))) for (k => i in FunkinAssets.getContent(Paths.getCorePath('$path.txt')).trim().split('\n'))
 		{
 			var value = i.trim().split(',');
 			offsets.set(k, [Std.parseFloat(value[0]), Std.parseFloat(value[1])]);
@@ -504,6 +504,9 @@ class ChartEditorState extends MusicBeatState
 		lastSong = currentSongName;
 		
 		updateGrid();
+		
+		addTouchPad("NONE", "B");
+		addTouchPadCamera();
 		
 		super.create();
 	}
@@ -1480,7 +1483,7 @@ class ChartEditorState extends MusicBeatState
 									}
 									else
 									{
-										eventStuff.push([fileToCheck, File.getContent(path)]);
+										eventStuff.push([fileToCheck, FunkinAssets.getContent(path)]);
 										break;
 									}
 								}
@@ -2268,7 +2271,7 @@ class ChartEditorState extends MusicBeatState
 				changeNoteSustain(-Conductor.stepCrotchet);
 			}
 			
-			if (FlxG.keys.justPressed.BACKSPACE)
+			if (FlxG.keys.justPressed.BACKSPACE || touchPad != null && touchPad.buttonB.justPressed)
 			{
 				PlayState.chartingMode = false;
 				FlxG.switchState(funkin.states.editors.MasterEditorMenu.new);
@@ -3678,11 +3681,7 @@ class ChartEditorState extends MusicBeatState
 		
 		if ((data != null) && (data.length > 0))
 		{
-			_file = new FileReference();
-			_file.addEventListener(Event.COMPLETE, onSaveComplete);
-			_file.addEventListener(Event.CANCEL, onSaveCancel);
-			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data.trim(), Paths.sanitize(_song.song) + ".json");
+		    FileUtil.saveFile(data.trim(), Paths.sanitize(song.song) + '.json', onSaveComplete, onSaveCancel);
 		}
 	}
 	
@@ -3707,45 +3706,19 @@ class ChartEditorState extends MusicBeatState
 		
 		if ((data != null) && (data.length > 0))
 		{
-			_file = new FileReference();
-			_file.addEventListener(Event.COMPLETE, onSaveComplete);
-			_file.addEventListener(Event.CANCEL, onSaveCancel);
-			_file.addEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-			_file.save(data.trim(), "events.json");
+	        FileUtil.saveFile(data.trim(), "events.json", onSaveComplete, onSaveCancel);
 		}
 	}
 	
 	function onSaveComplete(_):Void
 	{
-		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
-		_file.removeEventListener(Event.CANCEL, onSaveCancel);
-		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-		_file = null;
 		FlxG.log.notice("Successfully saved LEVEL DATA.");
 	}
 	
 	/**
 	 * Called when the save file dialog is cancelled.
 	 */
-	function onSaveCancel(_):Void
-	{
-		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
-		_file.removeEventListener(Event.CANCEL, onSaveCancel);
-		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-		_file = null;
-	}
-	
-	/**
-	 * Called if there is an error while saving the gameplay recording.
-	 */
-	function onSaveError(_):Void
-	{
-		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
-		_file.removeEventListener(Event.CANCEL, onSaveCancel);
-		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
-		_file = null;
-		FlxG.log.error("Problem saving Level data");
-	}
+	function onSaveCancel(_):Void {}
 	
 	function getSectionBeats(?section:Int):Null<Int>
 	{

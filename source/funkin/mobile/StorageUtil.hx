@@ -95,7 +95,7 @@ class StorageUtil
 		{
 			for (file in Assets.list().filter(folder -> folder.startsWith('assets/$dir')))
 			{
-				if (Path.extension(file) == 'hx' || Path.extension(file) == 'hscript')
+				if (Path.extension(file) == 'hx' || Path.extension(file) == 'hscript' || Path.extension(file) == 'hxs')
 				{
 					// Ment for FNF's libraries system...
 					final shit:String = file.replace(file.substring(0, file.indexOf('/', 0) + 1), '');
@@ -107,6 +107,21 @@ class StorageUtil
 			}
 		}
 		
+		for (dir in ['data'])
+		{
+			for (file in Assets.list().filter(folder -> folder.startsWith('assets/$dir')))
+			{
+				if (Path.extension(file) == 'txt')
+				{
+					// Ment for FNF's libraries system...
+					final shit:String = file.replace(file.substring(0, file.indexOf('/', 0) + 1), '');
+					final library:String = shit.replace(shit.substring(shit.indexOf('/', 0), shit.length), '');
+
+					@:privateAccess
+					StorageUtil.copyFile(Assets.libraryPaths.exists(library) ? '$library:$file' : file, file);
+				}
+			}
+		}
 		#end
 		
 		#if VIDEOS_ALLOWED

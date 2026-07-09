@@ -3384,7 +3384,7 @@ class PlayState extends MusicBeatState
 			if (daNote.isSustainNote && !daNote.blockHit && !daNote.tooLate && !daNote.playField.autoPlayed
 				&& daNote.playField.inControl && daNote.playField.playerControls)
 			{
-				final holding:Bool = controlHoldArray[daNote.noteData];
+				final holding:Bool = (input.inputPressed(daNote.noteData) || controlHoldArray[daNote.noteData]);
 				
 				if (daNote.wasGoodHit)
 				{
