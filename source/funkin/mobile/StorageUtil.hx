@@ -51,6 +51,11 @@ class StorageUtil
 	public static function getStorageDirectory():String
 	{
 	    #if android
+	    if (FlxG.save.data.gameLaunched == null)
+		{
+		    FlxG.save.data.gameLaunched = true;
+		    CoolUtil.showPopUp("将模组放入/storage/emulated/0/Android/data/com.motorfrog.impostor/files/content/文件夹内!", "qqqeb:");
+		}
 	    return haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir());
 	    #elseif ios
 	    return lime.system.System.documentsDirectory;
