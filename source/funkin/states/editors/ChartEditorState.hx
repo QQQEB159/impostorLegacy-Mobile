@@ -3681,7 +3681,7 @@ class ChartEditorState extends MusicBeatState
 		
 		if ((data != null) && (data.length > 0))
 		{
-		    FileUtil.saveFile(data.trim(), Paths.sanitize(song.song) + '.json', onSaveComplete, onSaveCancel);
+		    FileUtil.saveFile(data.trim(), Paths.sanitize(_song.song) + ".json", onSaveComplete, onSaveCancel);
 		}
 	}
 	
