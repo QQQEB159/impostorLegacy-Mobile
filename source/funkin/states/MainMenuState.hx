@@ -424,7 +424,7 @@ class MainMenuState extends MusicBeatState
 		//if (FlxG.keys.justPressed.SEVEN) FlxG.switchState(new MasterEditorMenu());
 		
 		if (FlxG.keys.firstJustPressed() != FlxKey.NONE) mouseMode = false;
-		if (FlxG.mouse.justMoved || controls.mobileC) mouseMode = true;
+		if (FlxG.mouse.justMoved || controls.mobileC || FlxG.mouse.justPressed) mouseMode = true;
 		
 		if (!lockMovement && !introActive && mouseMode)
 		{
