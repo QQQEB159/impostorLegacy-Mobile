@@ -12,6 +12,7 @@ import funkin.mobile.TouchUtil;
 import funkin.mobile.TouchButton;
 import funkin.mobile.input.MobileInputID;
 import funkin.mobile.input.MobileInputManager;
+import lime.system.JNI;
 
 // flixel
 import flixel.FlxG;
