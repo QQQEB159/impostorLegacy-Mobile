@@ -159,6 +159,7 @@ class PauseSubState extends funkin.backend.MusicBeatSubstate
 		
 		var cam = cameras != null && cameras.length > 0 ? cameras[0] : FlxG.camera;
 		var mousePos:FlxPoint = FlxG.mouse.getScreenPosition(cam);
+		var touchPos:FlxPoint = TouchUtil.touch.getScreenPosition(cam);
 		
 		if (!viewingMode)
 		{
@@ -194,11 +195,11 @@ class PauseSubState extends funkin.backend.MusicBeatSubstate
 		// quick bugfix
 		pauseBG.alpha = FlxMath.lerp(pauseBG.alpha, 0.8, FlxMath.bound(elapsed * 15.6, 0, 1)) * pauseGroup.alpha;
 		
-		var looksieHover = looksie.overlapsPoint(mousePos, true, cam);
+		var looksieHover = looksie.overlapsPoint(mousePos, true, cam) || looksie.overlapsPoint(touchPos, true, cam);
 		var looksieScale:Float = FlxMath.lerp(looksie.scale.x, looksieHover ? 1.25 : 1, FlxMath.bound(elapsed * 15.6, 0, 1));
 		looksie.scale.set(looksieScale, looksieScale);
 		
-		if (looksieHover && FlxG.mouse.justPressed)
+		if (looksieHover && (FlxG.mouse.justPressed || TouchUtil.justPressed))
 		{
 			changeView(!viewingMode);
 		}
@@ -208,7 +209,7 @@ class PauseSubState extends funkin.backend.MusicBeatSubstate
 		
 		for (item in optionText)
 		{
-			if (item.overlapsPoint(mousePos, true, cam) && FlxG.mouse.justPressed && !viewingMode)
+			if ((item.overlapsPoint(mousePos, true, cam) && FlxG.mouse.justPressed || item.overlapsPoint(touchPos, true, cam) && TouchUtil.justPressed) && !viewingMode)
 			{
 				if (curSelect == item.ID)
 				{

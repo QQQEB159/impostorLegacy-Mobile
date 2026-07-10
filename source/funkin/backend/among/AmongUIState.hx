@@ -63,7 +63,7 @@ class AmongUIState extends MusicBeatState
 	
 	public override function update(elapsed:Float):Void
 	{
-		if (!lockMovement && (controls.BACK || (backButton.alive && FlxG.mouse.justPressed && FlxG.mouse.overlaps(backButton, camUpper)))) exit();
+		if (!lockMovement && (controls.BACK || (backButton.alive && (FlxG.mouse.justPressed && FlxG.mouse.overlaps(backButton, camUpper) || TouchUtil.justPressed && TouchUtil.overlaps(backButton, camUpper))))) exit();
 		
 		super.update(elapsed);
 	}

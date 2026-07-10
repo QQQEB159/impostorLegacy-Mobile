@@ -309,7 +309,7 @@ class OptionsState extends MusicBeatState
 		{
 			hoveredOption = -1;
 			
-			if (FlxG.mouse.justMoved || FlxG.mouse.justPressed)
+			if (FlxG.mouse.justMoved || FlxG.mouse.justPressed || TouchUtil.justPressed)
 			{
 				mouseControlActive = true;
 			}
@@ -320,7 +320,7 @@ class OptionsState extends MusicBeatState
 			
 			if (subState != null && subState is funkin.states.substates.CreditsRollSubState) mouseControlActive = false;
 			
-			if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(menuBackButton) && !blockAllInput)
+			if ((FlxG.mouse.justPressed && FlxG.mouse.overlaps(menuBackButton) || TouchUtil.justPressed && TouchUtil.overlaps(menuBackButton)) && !blockAllInput)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				if (onPlayState)
@@ -337,11 +337,12 @@ class OptionsState extends MusicBeatState
 			{
 				// left bar mouse
 				var themouseshit2 = FlxG.mouse;
+				var thetouchshit2 = TouchUtil.touch;
 				for (txt in optionTexts.members)
 				{
-					if (!themouseshit2.overlaps(txt)) continue;
+					if (!themouseshit2.overlaps(txt) || !thetouchshit2.overlaps(txt)) continue;
 					hoveredOption = txt.ID;
-					if (themouseshit2.justPressed)
+					if (themouseshit2.justPressed || thetouchshit2.justPressed)
 					{
 						if (txt.ID != curSelected)
 						{

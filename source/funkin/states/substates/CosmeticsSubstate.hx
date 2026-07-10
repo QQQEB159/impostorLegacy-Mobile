@@ -1122,20 +1122,20 @@ class CosmeticsSubstate extends MusicBeatSubstate
 		
 		if (canMove && !isClosing)
 		{
-			if (FlxG.mouse.justMoved || FlxG.mouse.wheel != 0) mouseMode = true;
+			if (FlxG.mouse.justMoved || FlxG.mouse.wheel != 0 || TouchUtil.justPressed) mouseMode = true;
 			
-			if (FlxG.mouse.justReleased)
+			if (FlxG.mouse.justReleased || TouchUtil.justReleased)
 			{
-				if (FlxG.mouse.overlaps(menuBackButton, overlayCamera))
+				if (FlxG.mouse.overlaps(menuBackButton, overlayCamera) || TouchUtil.overlaps(menuBackButton, overlayCamera))
 				{
 					if (inGrid) closeGrid();
 					else confirmAndClose();
 				}
-				else if (FlxG.mouse.overlaps(resetButton, overlayCamera))
+				else if (FlxG.mouse.overlaps(resetButton, overlayCamera) || TouchUtil.overlaps(resetButton, overlayCamera))
 				{
 					if (resetButton.visible) resetToDefaults();
 				}
-				else if (FlxG.mouse.overlaps(randomButton, overlayCamera))
+				else if (FlxG.mouse.overlaps(randomButton, overlayCamera) || TouchUtil.overlaps(randomButton, overlayCamera))
 				{
 					if (randomButton.visible) randomizeLoadout();
 				}
@@ -1179,7 +1179,7 @@ class CosmeticsSubstate extends MusicBeatSubstate
 					var hovered:Int = -1;
 					for (i in 0...gridNodes.length)
 					{
-						if (gridNodes[i].visible && FlxG.mouse.overlaps(gridNodes[i], gridCamera))
+						if (gridNodes[i].visible && (FlxG.mouse.overlaps(gridNodes[i], gridCamera) || TouchUtil.overlaps(gridNodes[i], gridCamera)))
 						{
 							hovered = i;
 							break;
@@ -1194,11 +1194,11 @@ class CosmeticsSubstate extends MusicBeatSubstate
 					}
 				}
 				
-				if (FlxG.mouse.justPressed)
+				if (FlxG.mouse.justPressed || TouchUtil.justPressed)
 				{
 					for (i in 0...gridNodes.length)
 					{
-						if (gridNodes[i].visible && FlxG.mouse.overlaps(gridNodes[i], gridCamera))
+						if (gridNodes[i].visible && (FlxG.mouse.overlaps(gridNodes[i], gridCamera) || TouchUtil.overlaps(gridNodes[i], gridCamera)))
 						{
 							gridCursorIndex = i;
 							updateGridHighlights();
@@ -1233,11 +1233,11 @@ class CosmeticsSubstate extends MusicBeatSubstate
 					confirmAndClose();
 				}
 				
-				if (mouseMode && FlxG.mouse.justMoved)
+				if (mouseMode && (FlxG.mouse.justMoved || TouchUtil.justPressed))
 				{
 					for (i in 0...categoryTexts.length)
 					{
-						final isOver = FlxG.mouse.overlaps(categoryTexts[i], overlayCamera) || (categoryPreviewBgs[i] != null && FlxG.mouse.overlaps(categoryPreviewBgs[i], overlayCamera));
+						final isOver = (FlxG.mouse.overlaps(categoryTexts[i], overlayCamera) || TouchUtil.overlaps(categoryTexts[i], overlayCamera)) || (categoryPreviewBgs[i] != null && (FlxG.mouse.overlaps(categoryPreviewBgs[i], overlayCamera) || TouchUtil.overlaps(categoryPreviewBgs[i], overlayCamera)));
 						if (isOver)
 						{
 							if (selectedCategory != i)
@@ -1251,11 +1251,11 @@ class CosmeticsSubstate extends MusicBeatSubstate
 					}
 				}
 				
-				if (FlxG.mouse.justPressed)
+				if (FlxG.mouse.justPressed || TouchUtil.justPressed)
 				{
 					for (i in 0...categoryTexts.length)
 					{
-						final isOver = FlxG.mouse.overlaps(categoryTexts[i], overlayCamera) || (categoryPreviewBgs[i] != null && FlxG.mouse.overlaps(categoryPreviewBgs[i], overlayCamera));
+						final isOver = (FlxG.mouse.overlaps(categoryTexts[i], overlayCamera) || TouchUtil.overlaps(categoryTexts[i], overlayCamera)) || (categoryPreviewBgs[i] != null && (FlxG.mouse.overlaps(categoryPreviewBgs[i], overlayCamera) || TouchUtil.overlaps(categoryPreviewBgs[i], overlayCamera)));
 						
 						if (isOver)
 						{

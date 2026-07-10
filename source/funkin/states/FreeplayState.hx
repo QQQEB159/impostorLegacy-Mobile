@@ -615,7 +615,7 @@ class FreeplayState extends AmongUIState
 				openSubState(new CosmeticsSubstate());
 				removeTouchPad();
 			}
-			if (FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(Y) || (FlxG.mouse.overlaps(menuWeekSelect) && FlxG.mouse.justPressed))
+			if (FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(Y) || (FlxG.mouse.overlaps(menuWeekSelect) && FlxG.mouse.justPressed) || (TouchUtil.overlaps(menuWeekSelect) && TouchUtil.justPressed))
 			{
 				lockMovement = true;
 				FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
@@ -680,7 +680,7 @@ class FreeplayState extends AmongUIState
 			
 			tab.alpha = Math.max(0, 1 - FlxEase.quintIn(Math.abs(scrollDiff / 5)) * .6 - FlxEase.quintOut(Math.abs(scrollDiff / 5)) * .4);
 			
-			if (!lockMovement && clickedTab == null && FlxG.mouse.justPressed && FlxG.mouse.overlaps(tab))
+			if (!lockMovement && clickedTab == null && (FlxG.mouse.justPressed && FlxG.mouse.overlaps(tab) || TouchUtil.justPressed && TouchUtil.overlaps(tab)))
 			{
 				/*if (
 					clickedTab == null ||
@@ -704,7 +704,7 @@ class FreeplayState extends AmongUIState
 		{
 			moveCard(c, smoothSelect);
 			
-			if (FlxG.mouse.y >= (upperBar.y + upperBar.height) && FlxG.mouse.overlaps(c) && FlxG.mouse.justPressed && !lockMovement && cutscenePhase == NONE && !controls.mobileC)
+			if (FlxG.mouse.y >= (upperBar.y + upperBar.height) && (FlxG.mouse.overlaps(c) || TouchUtil.overlaps(c)) && FlxG.mouse.justPressed && !lockMovement && cutscenePhase == NONE && !controls.mobileC)
 			{
 				if (curSelect != c.ID)
 				{

@@ -179,17 +179,18 @@ class WeekPickerSubstate extends MusicBeatSubstate
 			return;
 		}
 		
-		if (FlxG.mouse.justPressed)
+		if (FlxG.mouse.justPressed || TouchUtil.justPressed)
 		{
 			var mousePos = FlxG.mouse.getWorldPosition();
+			var touchPos = TouchUtil.touch.getWorldPosition();
 			
-			if (menuBackButton.overlapsPoint(mousePos))
+			if (menuBackButton.overlapsPoint(mousePos) || menuBackButton.overlapsPoint(touchPos))
 			{
 				closeWeek();
 			}
 			for (i in bubl.members)
 			{
-				if (FlxG.mouse.overlaps(i, cubeCamera))
+				if (FlxG.mouse.overlaps(i, cubeCamera) || TouchUtil.overlaps(i, cubeCamera))
 				{
 					if (curSelection == i.ID)
 					{
