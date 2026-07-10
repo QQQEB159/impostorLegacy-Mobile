@@ -67,15 +67,19 @@ class ScrollBar extends FlxSpriteGroup
 			return;
 		}
 		
-		if (interactable && FlxG.mouse.justPressed && FlxG.mouse.overlaps(this))
+		if (interactable && (FlxG.mouse.justPressed && FlxG.mouse.overlaps(this) || TouchUtil.justPressed && TouchUtil.overlaps(this)))
 		{
 			interacting = true;
 			
+			#if !ios
 			mouseDiff = (FlxG.mouse.getWorldPosition(this.camera).y - thumb.y);
+			#else
+			mouseDiff = (TouchUtil.touch.getWorldPosition(this.camera).y - thumb.y);
+			#end
 			
 			onInteract.dispatch();
 			
-			if (FlxG.mouse.overlaps(thumb))
+			if (FlxG.mouse.overlaps(thumb) || TouchUtil.overlaps(thumb))
 			{
 				draggingThumb = true;
 				
@@ -91,14 +95,18 @@ class ScrollBar extends FlxSpriteGroup
 		
 		if (interactable) updateInteract(elapsed);
 		
+		#if !ios
 		thumb.alpha = (draggingThumb ? .75 : (FlxG.mouse.overlaps(this) ? 1 : .875));
+		#else
+		thumb.alpha = (draggingThumb ? .75 : (TouchUtil.overlaps(this) ? 1 : .875));
+		#end
 		
 		setScroll(MathUtil.fpsLerp(scroll, progress, .3));
 	}
 	
 	public function updateInteract(elapsed:Float):Void
 	{
-		if (interacting && !FlxG.mouse.pressed)
+		if (interacting && (!FlxG.mouse.pressed || !TouchUtil.pressed))
 		{
 			interacting = false;
 			
@@ -121,13 +129,20 @@ class ScrollBar extends FlxSpriteGroup
 				jack -= rate;
 			}
 			
-			if ((FlxG.mouse.getWorldPosition(this.camera).y > (getYFromScroll(progress) + thumb.height * .5 + track.y) ? 1 : -1) != mod)
-				jack = -1;
+			#if !ios
+			if ((FlxG.mouse.getWorldPosition(this.camera).y > (getYFromScroll(progress) + thumb.height * .5 + track.y) ? 1 : -1) != mod) jack = -1;
+			#else
+			if ((TouchUtil.touch.getWorldPosition(this.camera).y > (getYFromScroll(progress) + thumb.height * .5 + track.y) ? 1 : -1) != mod) jack = -1;
+			#end
 		}
 		
 		if (draggingThumb)
 		{
+			#if !ios
 			final y:Float = (FlxG.mouse.getWorldPosition(this.camera).y - mouseDiff);
+			#else
+			final y:Float = (TouchUtil.touch.getWorldPosition(this.camera).y - mouseDiff);
+			#end
 			
 			progress = setScroll(getScrollFromY(y - track.y));
 		}
