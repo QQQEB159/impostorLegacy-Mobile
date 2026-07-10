@@ -424,20 +424,20 @@ class MainMenuState extends MusicBeatState
 		//if (FlxG.keys.justPressed.SEVEN) FlxG.switchState(new MasterEditorMenu());
 		
 		if (FlxG.keys.firstJustPressed() != FlxKey.NONE) mouseMode = false;
-		if (FlxG.mouse.justMoved || controls.mobileC || FlxG.mouse.justPressed) mouseMode = true;
+		if (FlxG.mouse.justMoved || controls.mobileC || TouchUtil.justPressed) mouseMode = true;
 		
 		if (!lockMovement && !introActive && mouseMode)
 		{
 			for (i in 0...menuButtons.length)
 			{
-				if (FlxG.mouse.overlaps(menuButtons[i]))
+				if (FlxG.mouse.overlaps(menuButtons[i]) || TouchUtil.overlaps(menuButtons[i]))
 				{
 					if (curMenuItem != i)
 					{
 						curMenuItem = i;
 						updateMenuSelection();
 					}
-					if (FlxG.mouse.justPressed) select();
+					if (FlxG.mouse.justPressed || TouchUtil.justPressed) select();
 					break;
 				}
 			}
