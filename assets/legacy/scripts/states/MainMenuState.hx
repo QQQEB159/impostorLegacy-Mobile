@@ -3,7 +3,6 @@ import funkin.data.FinaleState;
 import funkin.data.CosmicubeData;
 import funkin.states.TitleState;
 import funkin.states.editors.MasterEditorMenu;
-import funkin.mobile.TouchUtil;
 
 import flixel.text.FlxText;
 
@@ -158,7 +157,7 @@ function onUpdate()
 		trace('no money :(');
 	}
 	
-    if (keyboard != null && TouchUtil.overlaps(keyboard) && TouchUtil.justPressed)
+    if (keyboard != null && FlxG.mouse.overlaps(keyboard) && FlxG.mouse.justPressed)
 	{
         FlxG.stage.window.textInputEnabled = true;
 		curCode = '';

@@ -177,7 +177,7 @@ class TitleState extends MusicBeatState
 			return;
 		}
 		
-		final pressedEnter:Bool = FlxG.gamepads.lastActive?.justPressed.START || FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed || TouchUtil.justPressed;
+		final pressedEnter:Bool = FlxG.gamepads.lastActive?.justPressed.START || FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed;
 		
 		if (!transitioning && skippedIntro)
 		{

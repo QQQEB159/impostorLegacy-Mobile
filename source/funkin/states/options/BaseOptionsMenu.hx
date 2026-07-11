@@ -226,7 +226,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		for (box in addGroup)
 		{
 			if (box.y < topBound || box.y + box.height > bottomBound) continue;
-			if (FlxG.mouse.overlaps(box) || TouchUtil.overlaps(box)) return box;
+			if (FlxG.mouse.overlaps(box)) return box;
 		}
 		return null;
 	}
@@ -385,7 +385,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		var mouseDirectionPressed:Int = 0;
 		var mouseDirectionReleased:Int = 0;
 		
-		if (FlxG.mouse.justPressed || TouchUtil.justPressed)
+		if (FlxG.mouse.justPressed)
 		{
 			var hoveredBox = getHoveredAddbox();
 			if (hoveredBox != null)
@@ -395,12 +395,12 @@ class BaseOptionsMenu extends MusicBeatSubstate
 				selectOption(hoveredBox.ID);
 			}
 		}
-		if ((!FlxG.mouse.pressed || !TouchUtil.pressed) && mouseHeldDirection != 0)
+		if (!FlxG.mouse.pressed && mouseHeldDirection != 0)
 		{
 			mouseDirectionReleased = mouseHeldDirection;
 			mouseHeldDirection = 0;
 		}
-		if (FlxG.mouse.justMoved || FlxG.mouse.justPressed || TouchUtil.justPressed)
+		if (FlxG.mouse.justMoved || FlxG.mouse.justPressed)
 		{
 			mouseControlActive = true;
 		}
@@ -438,15 +438,15 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
                 if (hasCheckbox && !isOverOptionBounds(item, getCheckboxById(item.ID))) continue;
                 if (hasAddbox && !isOverOptionBounds(item, getAddboxID(item.ID))) continue;
-                if (!hasCheckbox && !hasAddbox && (!FlxG.mouse.overlaps(item) || !TouchUtil.overlaps(item))) continue;
+                if (!hasCheckbox && !hasAddbox && !FlxG.mouse.overlaps(item)) continue;
 				
 				autoScroll = true;
 				
 				lastHovered = hoveredOption = item.ID;
 				
-				var hoveringCheckbox = (getCheckboxById(item.ID) != null && (FlxG.mouse.overlaps(getCheckboxById(item.ID)) || TouchUtil.overlaps(getCheckboxById(item.ID))));
+				var hoveringCheckbox = (getCheckboxById(item.ID) != null && FlxG.mouse.overlaps(getCheckboxById(item.ID)));
 				
-				if ((FlxG.mouse.justPressed || TouchUtil.justPressed) && nextAccept <= 0)
+				if (FlxG.mouse.justPressed && nextAccept <= 0)
 				{
 					if (item.ID != curSelected)
 					{
@@ -622,7 +622,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		final minY = Math.min(opt1.y, opt2.y);
 		final maxY = Math.max(opt1.y + opt1.height, opt2.y + opt2.height);
 		
-		return (FlxG.mouse.x >= minX && FlxG.mouse.x <= maxX && FlxG.mouse.y >= minY && FlxG.mouse.y <= maxY || TouchUtil.touch.x >= minX && TouchUtil.touch.x <= maxX && TouchUtil.touch.y >= minY && TouchUtil.touch.y <= maxY);
+		return (FlxG.mouse.x >= minX && FlxG.mouse.x <= maxX && FlxG.mouse.y >= minY && FlxG.mouse.y <= maxY);
 	}
 	
 	function updateTextFrom(option:Option)

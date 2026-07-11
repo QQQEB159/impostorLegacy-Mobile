@@ -188,18 +188,17 @@ class ResetScoreSubState extends MusicBeatSubstate
 		
 		if (!lockMovement)
 		{
-			if ((FlxG.mouse.justPressed || TouchUtil.justPressed) && !controls.mobileC)
+			if (FlxG.mouse.justPressed && !controls.mobileC)
 			{
 				mouseMode = true;
 				var mousePos = FlxG.mouse.getWorldPosition();
-				var touchPos = TouchUtil.touch.getWorldPosition();
 				
-				if (menuBackButton.overlapsPoint(mousePos) || menuBackButton.overlapsPoint(touchPos))
+				if (menuBackButton.overlapsPoint(mousePos))
 				{
 					FlxG.sound.play(Paths.sound('cancelMenu'), 1);
 					closeTween();
 				}
-				else if (yesButton.overlapsPoint(mousePos) || yesButton.overlapsPoint(touchPos))
+				else if (yesButton.overlapsPoint(mousePos))
 				{
 					if (onYes)
 					{
@@ -212,7 +211,7 @@ class ResetScoreSubState extends MusicBeatSubstate
 						updateOptions();
 					}
 				}
-				else if (noButton.overlapsPoint(mousePos) || noButton.overlapsPoint(touchPos))
+				else if (noButton.overlapsPoint(mousePos))
 				{
 					if (!onYes)
 					{

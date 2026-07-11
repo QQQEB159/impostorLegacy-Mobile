@@ -125,11 +125,11 @@ class CosmicubeSelectState extends AmongUIState
 		
 		final lerp:Float = Math.exp(-elapsed * 3);
 		
-		if (!lockMovement && (FlxG.mouse.justPressed || TouchUtil.justPressed))
+		if (!lockMovement && FlxG.mouse.justPressed)
 		{
 			for (i => card in cards.members)
 			{
-				if (FlxG.mouse.overlaps(card.border) || TouchUtil.overlaps(card.border))
+				if (FlxG.mouse.overlaps(card.border))
 				{
 					select(i - curSelect);
 					break;
@@ -145,15 +145,15 @@ class CosmicubeSelectState extends AmongUIState
 			card.looksie.alpha = MathUtil.fpsLerp(card.looksie.alpha, looksie && card.selected ? 1 : .5, .2);
 			card.checkbox.alpha = MathUtil.fpsLerp(card.checkbox.alpha, !looksie && card.selected ? 1 : .5, .2);
 			
-			if (!lockMovement && card.selected && (FlxG.mouse.justMoved || FlxG.mouse.justPressed || TouchUtil.justPressed))
+			if (!lockMovement && card.selected && (FlxG.mouse.justMoved || FlxG.mouse.justPressed))
 			{
-				final overlapLooksie:Bool = (FlxG.mouse.overlaps(card.looksie) || TouchUtil.overlaps(card.looksie)), overlapCheckbox:Bool = (FlxG.mouse.overlaps(card.checkbox) || TouchUtil.overlaps(card.checkbox));
+				final overlapLooksie:Bool = FlxG.mouse.overlaps(card.looksie), overlapCheckbox:Bool = FlxG.mouse.overlaps(card.checkbox);
 				
 				if (overlapLooksie || overlapCheckbox)
 				{
 					selectLooksie(overlapLooksie);
 					
-					if (FlxG.mouse.justPressed || TouchUtil.justPressed) accept();
+					if (FlxG.mouse.justPressed) accept();
 				}
 			}
 		}

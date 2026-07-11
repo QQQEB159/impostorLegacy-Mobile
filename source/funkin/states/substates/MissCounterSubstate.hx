@@ -130,11 +130,11 @@ class MissCounterSubstate extends MusicBeatSubstate
 			if (controls.UI_RIGHT_P) changeSelection(1);
 			if (controls.UI_LEFT_P) changeSelection(-1);
 			
-			if ((FlxG.mouse.justPressed || TouchUtil.justPressed) && !controls.mobileC)
+			if (FlxG.mouse.justPressed && !controls.mobileC)
 			{
 				for (d in dummySprites)
 				{
-					if (!FlxG.mouse.overlaps(d, camera) || !TouchUtil.overlaps(d, camera)) continue;
+					if (!FlxG.mouse.overlaps(d, camera)) continue;
 					
 					if (curSelection != d.ID)
 					{

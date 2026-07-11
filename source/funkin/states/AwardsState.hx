@@ -269,9 +269,9 @@ class AwardsState extends AmongUIState
 		var newHovered:Int = -1;
 		for (icon in achArray)
 		{
-			if (!FlxG.mouse.overlaps(icon) || !TouchUtil.overlaps(icon)) continue;
+			if (!FlxG.mouse.overlaps(icon)) continue;
 			newHovered = icon.ID;
-			if (FlxG.mouse.justPressed || TouchUtil.justPressed)
+			if (FlxG.mouse.justPressed)
 			{
 				if (curSel != icon.ID)
 				{
@@ -295,7 +295,7 @@ class AwardsState extends AmongUIState
 	{
 		refreshPlayTimeText();
 		
-		if (FlxG.mouse.justMoved || controls.mobileC || TouchUtil.justPressed)
+		if (FlxG.mouse.justMoved)
 		{
 			mouseControlActive = true;
 		}

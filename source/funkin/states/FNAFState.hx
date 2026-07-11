@@ -876,7 +876,7 @@ class FNAFState extends MusicBeatState
 		compInput.text = " " + enteredCode + (cursorVisible ? "|" : " ");
 		updateInputLayout();
 		
-		if (compInput.visible && TouchUtil.overlaps(compInput) && TouchUtil.justPressed) FlxG.stage.window.textInputEnabled = true;
+		if (compInput.visible && FlxG.mouse.overlaps(compInput) && FlxG.mouse.justPressed) FlxG.stage.window.textInputEnabled = true;
 	}
 	
 	function errorMessage(msg:String)
@@ -1381,7 +1381,7 @@ class FNAFState extends MusicBeatState
 		// dialogue advance
 		var keyDown = FlxG.keys.pressed.ENTER || FlxG.keys.pressed.SPACE;
 		var keyEdge = keyDown && !advanceKeyHeld;
-		var mouseDown = (FlxG.mouse.pressed || TouchUtil.pressed);
+		var mouseDown = FlxG.mouse.pressed;
 		var mouseEdge = mouseDown && !advanceMouseHeld;
 		
 		if (monitorDialogueActive && (keyEdge || mouseEdge))
@@ -1454,33 +1454,26 @@ class FNAFState extends MusicBeatState
 		// camera pan
 		var mx = FlxG.mouse.x / FlxG.width;
 		var my = FlxG.mouse.y / FlxG.height;
-		var tx = TouchUtil.touch.x / FlxG.width;
-		var ty = TouchUtil.touch.y / FlxG.height;
 		var bx = (FlxG.width - camTarget.width) * 0.5;
 		var by = (FlxG.height - camTarget.height) * 0.5;
-		#if !ios
 		camTarget.x += (bx + (mx - 0.5) * 2 * -camRangeX - camTarget.x) * camDrag;
 		camTarget.y += (by + (my - 0.5) * 2 * -camRangeY - camTarget.y) * camDrag;
-		#else
-		camTarget.x += (bx + (tx - 0.5) * 2 * -camRangeX - camTarget.x) * camDrag;
-		camTarget.y += (by + (ty - 0.5) * 2 * -camRangeY - camTarget.y) * camDrag;
-		#end
 		
 		// room clicks
-		if (!videoPlaying && !screenZooming && !monitorDialogueActive && clickCooldown <= 0 && (FlxG.mouse.justPressed || TouchUtil.justPressed))
+		if (!videoPlaying && !screenZooming && !monitorDialogueActive && clickCooldown <= 0 && FlxG.mouse.justPressed)
 		{
-			if (glow != null && (glow.overlapsPoint(FlxG.mouse.getWorldPosition()) || glow.overlapsPoint(TouchUtil.touch.getWorldPosition())))
+			if (glow != null && glow.overlapsPoint(FlxG.mouse.getWorldPosition()))
 			{
 				openComputer();
 				return;
 			}
-			if (leftscreen != null && (leftscreen.overlapsPoint(FlxG.mouse.getWorldPosition()) || leftscreen.overlapsPoint(TouchUtil.touch.getWorldPosition())))
+			if (leftscreen != null && leftscreen.overlapsPoint(FlxG.mouse.getWorldPosition()))
 			{
 				showMonitorMessage(Lang.str('weirdroute5'));
 				clickCooldown = 0.5;
 				return;
 			}
-			if (rightscreen != null && (rightscreen.overlapsPoint(FlxG.mouse.getWorldPosition()) || rightscreen.overlapsPoint(TouchUtil.touch.getWorldPosition())))
+			if (rightscreen != null && rightscreen.overlapsPoint(FlxG.mouse.getWorldPosition()))
 			{
 				showMonitorMessage(Lang.str('weirdroute6'));
 				clickCooldown = 0.5;
@@ -1495,7 +1488,7 @@ class FNAFState extends MusicBeatState
 	
 	function updateHover(spr:FlxSprite, wasHovering:Bool, peak:Float):Bool
 	{
-		var hovering = (spr.overlapsPoint(FlxG.mouse.getWorldPosition()) || spr.overlapsPoint(TouchUtil.touch.getWorldPosition()));
+		var hovering = spr.overlapsPoint(FlxG.mouse.getWorldPosition());
 		if (hovering != wasHovering)
 		{
 			FlxTween.cancelTweensOf(spr);

@@ -113,7 +113,7 @@ class HenryState extends MusicBeatState
 		{
 			for (i in [mic, sock, stare])
 			{
-				if (FlxG.mouse.overlaps(i) || TouchUtil.overlaps(i))
+				if (FlxG.mouse.overlaps(i))
 				{
 					if (!over)
 					{
@@ -121,7 +121,7 @@ class HenryState extends MusicBeatState
 						FlxG.sound.play(Paths.sound('henrycutscene/' + objNames[i.ID]), 0.6);
 						i.animation.play('select', true);
 					}
-					else if (FlxG.mouse.justPressed || TouchUtil.justPressed)
+					else if (FlxG.mouse.justPressed)
 					{
 						fail(objNames[i.ID]);
 					}
@@ -132,7 +132,7 @@ class HenryState extends MusicBeatState
 				}
 			}
 			
-			if (!FlxG.mouse.overlaps(stare) && !FlxG.mouse.overlaps(mic) && !FlxG.mouse.overlaps(sock) || !TouchUtil.overlaps(stare) && !TouchUtil.overlaps(mic) && !TouchUtil.overlaps(sock)) over = false; // i feel like this kind of sucks but whatever
+			if (!FlxG.mouse.overlaps(stare) && !FlxG.mouse.overlaps(mic) && !FlxG.mouse.overlaps(sock)) over = false; // i feel like this kind of sucks but whatever
 		}
 	}
 	
