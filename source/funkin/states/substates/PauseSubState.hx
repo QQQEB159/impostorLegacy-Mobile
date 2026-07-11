@@ -195,7 +195,7 @@ class PauseSubState extends funkin.backend.MusicBeatSubstate
 		// quick bugfix
 		pauseBG.alpha = FlxMath.lerp(pauseBG.alpha, 0.8, FlxMath.bound(elapsed * 15.6, 0, 1)) * pauseGroup.alpha;
 		
-		var looksieHover = looksie.overlapsPoint(mousePos, true, cam) || looksie.overlapsPoint(touchPos, true, cam);
+		var looksieHover = (looksie.overlapsPoint(mousePos, true, cam) || looksie.overlapsPoint(touchPos, true, cam));
 		var looksieScale:Float = FlxMath.lerp(looksie.scale.x, looksieHover ? 1.25 : 1, FlxMath.bound(elapsed * 15.6, 0, 1));
 		looksie.scale.set(looksieScale, looksieScale);
 		
