@@ -876,7 +876,7 @@ class FNAFState extends MusicBeatState
 		compInput.text = " " + enteredCode + (cursorVisible ? "|" : " ");
 		updateInputLayout();
 		
-		if (compInput.visible && FlxG.mouse.overlaps(compInput) && FlxG.mouse.justPressed) FlxG.stage.window.textInputEnabled = true;
+		if (compInput.visible && TouchUtil.overlaps(compInput) && TouchUtil.justPressed) FlxG.stage.window.textInputEnabled = true;
 	}
 	
 	function errorMessage(msg:String)
