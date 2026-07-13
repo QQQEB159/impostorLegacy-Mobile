@@ -11,7 +11,7 @@ import flixel.input.keyboard.FlxKey;
 import funkin.backend.DebugDisplay;
 
 #if android
-import extension.androidtools.os.Build.VERSION as AndroidVersion;
+import android.os.Build.VERSION as AndroidVersion;
 #end
 
 @:nullSafety(Strict)
