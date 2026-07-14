@@ -511,6 +511,13 @@ class ChartEditorState extends MusicBeatState
 		super.create();
 	}
 	
+	override function destroy():Void
+	{
+		Conductor.bpmChangeMap.resize(0);
+		
+		super.destroy();
+	}
+	
 	function createFriends()
 	{
 		// temp
@@ -2639,9 +2646,9 @@ class ChartEditorState extends MusicBeatState
 			{
 				var note:StrumNote = new StrumNote(0, 0, 0, i % _song.keys);
 				
-				note.setPosition(GRID_SIZE * (i + 1), strumLine.y);
-				note.setGraphicSize(GRID_SIZE, GRID_SIZE);
 				note.playAnim('static', true);
+				note.setPosition(GRID_SIZE * (i + 1), strumLine.y);
+				note.setGraphicSize(GRID_SIZE);
 				note.scrollFactor.set(1, 1);
 				note.updateHitbox();
 				note.alpha = 0;
@@ -3411,7 +3418,7 @@ class ChartEditorState extends MusicBeatState
 			note.noteData = -1;
 		}
 		
-		note.setGraphicSize(GRID_SIZE, GRID_SIZE);
+		note.setGraphicSize(GRID_SIZE);
 		note.updateHitbox();
 		
 		updateSustain(note, getYfromStrum(note.strumTime + note.sustainLength) - getYfromStrum(note.strumTime) + GRID_SIZE * .5);
