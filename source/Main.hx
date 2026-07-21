@@ -11,7 +11,7 @@ import flixel.input.keyboard.FlxKey;
 import funkin.backend.DebugDisplay;
 
 #if mobile
-import funkin.mobile.CopyState;
+import funkin.mobile.states.CopyState;
 #end
 
 @:nullSafety(Strict)
