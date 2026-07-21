@@ -1,4 +1,4 @@
-package funkin.mobile;
+package funkin.mobile.utils;
 
 import flixel.FlxObject;
 import flixel.input.touch.FlxTouch;

@@ -1,7 +1,6 @@
 import flixel.FlxSprite;
 
 import funkin.states.FNAFState;
-import funkin.mobile.TouchUtil;
 
 var ext = 'stages/skeld/monotone/';
 var vent:FlxSprite;

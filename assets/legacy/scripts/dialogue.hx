@@ -1,7 +1,6 @@
 import flixel.addons.text.FlxTypeText;
 
 import funkin.FunkinAssets;
-import funkin.mobile.TouchUtil;
 
 using StringTools;
 

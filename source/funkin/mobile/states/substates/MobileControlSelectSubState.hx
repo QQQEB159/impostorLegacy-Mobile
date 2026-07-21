@@ -1,4 +1,4 @@
-package funkin.mobile;
+package funkin.mobile.states.substates;
 
 import flixel.FlxObject;
 import flixel.addons.display.FlxBackdrop;

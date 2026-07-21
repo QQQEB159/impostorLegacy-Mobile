@@ -3,7 +3,6 @@ import funkin.data.FinaleState;
 import funkin.data.CosmicubeData;
 import funkin.states.TitleState;
 import funkin.states.editors.MasterEditorMenu;
-import funkin.mobile.TouchUtil;
 
 import flixel.text.FlxText;
 

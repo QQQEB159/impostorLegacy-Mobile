@@ -327,6 +327,7 @@ class FunkinScript extends IrisEx implements IFlxDestroyable
 		set("GameFlags", funkin.data.GameFlags);
 		set("CoolUtil", funkin.utils.CoolUtil);
 		set('WindowUtil', funkin.utils.WindowUtil);
+		set("TouchUtil", funkin.mobile.utils.TouchUtil);
 		
 		set("StageData", funkin.data.StageData);
 		set("PlayState", PlayState);

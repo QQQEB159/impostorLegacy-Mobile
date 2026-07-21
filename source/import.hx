@@ -2,16 +2,16 @@
 import haxe.io.Path;
 
 // mobile
-import funkin.mobile.StorageUtil;
-import funkin.mobile.MobileData;
-import funkin.mobile.IMobileControls;
-import funkin.mobile.MobileControls;
-import funkin.mobile.Hitbox;
-import funkin.mobile.TouchPad;
-import funkin.mobile.TouchUtil;
-import funkin.mobile.TouchButton;
+import funkin.mobile.backend.MobileData;
+import funkin.mobile.backend.IMobileControls;
+import funkin.mobile.backend.MobileControls;
 import funkin.mobile.input.MobileInputID;
 import funkin.mobile.input.MobileInputManager;
+import funkin.mobile.objects.Hitbox;
+import funkin.mobile.objects.TouchPad;
+import funkin.mobile.objects.TouchButton;
+import funkin.mobile.utils.StorageUtil;
+import funkin.mobile.utils.TouchUtil;
 
 // flixel
 import flixel.FlxG;

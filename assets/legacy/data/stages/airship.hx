@@ -1,5 +1,4 @@
 import StringTools;
-import funkin.mobile.TouchUtil;
 
 public var whiteAwkward:FlxSprite;
 var henryTeleporter:FlxSprite;

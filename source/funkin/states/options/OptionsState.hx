@@ -96,7 +96,7 @@ class OptionsState extends MusicBeatState
 			case 'misc':
 				openSubState(new funkin.states.options.MiscSubState());
 			case 'mobileoptions':
-				openSubState(new funkin.mobile.options.MobileOptionsSubState());
+				openSubState(new funkin.mobile.states.options.MobileOptionsSubState());
 			case 'credits':
 				openSubState(new funkin.states.substates.CreditsRollSubState(true, resumeMenuMusic, resumeMenuMusic));
 		}

@@ -1,4 +1,4 @@
-package funkin.mobile;
+package funkin.mobile.states;
 
 #if mobile
 import lime.utils.Assets as LimeAssets;
