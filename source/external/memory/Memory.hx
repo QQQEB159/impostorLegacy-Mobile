@@ -20,6 +20,6 @@ extern class Memory
 	 * in bytes, or zero if the value cannot be determined on this OS.
 	 */
 	@:native("getCurrentRSS")
-	public static function getCurrentUsage():cpp.SizeT;
+	public static function getCurrentUsage():cpp.cpp.UInt64;
 }
 #end
