@@ -1,35 +1,11 @@
-/*
- * Copyright (C) 2026 Mobile Porting Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- */
-
 package funkin.mobile;
 
-/**
- * A storage class for mobile.
- * @author Karim Akra and Homura Akemi (HomuHomu833)
- */
- 
+import lime.system.System as LimeSystem;
+
+import haxe.Exception;
+
 #if android
 import android.content.Context as AndroidContext;
-import android.widget.Toast as AndroidToast;
 import android.os.Environment as AndroidEnvironment;
 import android.Permissions as AndroidPermissions;
 import android.Settings as AndroidSettings;
@@ -38,30 +14,52 @@ import android.os.Build.VERSION as AndroidVersion;
 import android.os.Build.VERSION_CODES as AndroidVersionCode;
 #end
 
-import haxe.io.Path;
-import haxe.Exception;
-
-import lime.utils.Assets;
-
-import openfl.system.System;
- 
+/**
+ * A storage class for mobile.
+ * @author Karim Akra and Lily Ross (mcagabe19)
+ */
 class StorageUtil
 {
 	#if sys
-	public static function getStorageDirectory():String
+	// root directory, used for handling the saved storage type and path
+	public static final rootDir:String = LimeSystem.applicationStorageDirectory;
+
+	public static function getStorageDirectory(?force:Bool = false):String
 	{
-	    #if android
-	    return haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir());
-	    #elseif ios
-	    return lime.system.System.documentsDirectory;
-	    #else 
-	    return Sys.getCwd();
-	    #end
+		var daPath:String = '';
+		#if android
+		if (!FileSystem.exists(rootDir + 'storagetype.txt'))
+			File.saveContent(rootDir + 'storagetype.txt', ClientPrefs.storageType);
+		var curStorageType:String = File.getContent(rootDir + 'storagetype.txt');
+		daPath = force ? StorageType.fromStrForce(curStorageType) : StorageType.fromStr(curStorageType);
+		daPath = Path.addTrailingSlash(daPath);
+		#elseif ios
+		daPath = LimeSystem.documentsDirectory;
+		#else
+		daPath = Sys.getCwd();
+		#end
+
+		return daPath;
 	}
-	
-	public static function getExternalStorageDirectory():String
-		return '/sdcard/.ImpostorLegacy/';
-	
+
+	public static function saveContent(fileName:String, fileData:String, ?alert:Bool = true):Void
+	{
+		try
+		{
+			if (!FileSystem.exists('saves'))
+				FileSystem.createDirectory('saves');
+
+			File.saveContent('saves/$fileName', fileData);
+			if (alert)
+				CoolUtil.showPopUp('$fileName has been saved.', "Success!");
+		}
+		catch (e:Exception)
+			if (alert)
+				CoolUtil.showPopUp('$fileName couldn\'t be saved.\n(${e.message})', "Error!")
+			else
+				trace('$fileName couldn\'t be saved. (${e.message})');
+	}
+
 	#if android
 	public static function requestPermissions():Void
 	{
@@ -69,123 +67,101 @@ class StorageUtil
 			AndroidPermissions.requestPermissions(['READ_MEDIA_IMAGES', 'READ_MEDIA_VIDEO', 'READ_MEDIA_AUDIO']);
 		else
 			AndroidPermissions.requestPermissions(['READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE']);
-	}
-	#end
-	
-	public static function copyNecessaryFiles():Void
-	{
-		#if MODS_ALLOWED
-		for (dir in ['data', 'lang', 'mobile', 'stages'])
+
+		if (!AndroidEnvironment.isExternalStorageManager())
 		{
-			for (file in Assets.list().filter(folder -> folder.startsWith('assets/$dir')))
-			{
-				if (Path.extension(file) == 'json')
-				{
-					// Ment for FNF's libraries system...
-					final shit:String = file.replace(file.substring(0, file.indexOf('/', 0) + 1), '');
-					final library:String = shit.replace(shit.substring(shit.indexOf('/', 0), shit.length), '');
-
-					@:privateAccess
-					StorageUtil.copyFile(Assets.libraryPaths.exists(library) ? '$library:$file' : file, file);
-				}
-			}
+			if (AndroidVersion.SDK_INT >= AndroidVersionCode.S)
+				AndroidSettings.requestSetting('REQUEST_MANAGE_MEDIA');
+			AndroidSettings.requestSetting('MANAGE_APP_ALL_FILES_ACCESS_PERMISSION');
 		}
-		
-		for (dir in ['data', 'scripts', 'songs', 'stages'])
-		{
-			for (file in Assets.list().filter(folder -> folder.startsWith('assets/$dir')))
-			{
-				if (Path.extension(file) == 'hx' || Path.extension(file) == 'hscript' || Path.extension(file) == 'hxs')
-				{
-					// Ment for FNF's libraries system...
-					final shit:String = file.replace(file.substring(0, file.indexOf('/', 0) + 1), '');
-					final library:String = shit.replace(shit.substring(shit.indexOf('/', 0), shit.length), '');
 
-					@:privateAccess
-					StorageUtil.copyFile(Assets.libraryPaths.exists(library) ? '$library:$file' : file, file);
-				}
-			}
-		}
-		
-		for (dir in ['data'])
-		{
-			for (file in Assets.list().filter(folder -> folder.startsWith('assets/$dir')))
-			{
-				if (Path.extension(file) == 'txt')
-				{
-					// Ment for FNF's libraries system...
-					final shit:String = file.replace(file.substring(0, file.indexOf('/', 0) + 1), '');
-					final library:String = shit.replace(shit.substring(shit.indexOf('/', 0), shit.length), '');
+		if ((AndroidVersion.SDK_INT >= AndroidVersionCode.TIRAMISU
+			&& !AndroidPermissions.getGrantedPermissions().contains('android.permission.READ_MEDIA_IMAGES'))
+			|| (AndroidVersion.SDK_INT < AndroidVersionCode.TIRAMISU
+				&& !AndroidPermissions.getGrantedPermissions().contains('android.permission.READ_EXTERNAL_STORAGE')))
+			CoolUtil.showPopUp('If you accepted the permissions you are all good!' + '\nIf you didn\'t then expect a crash' + '\nPress OK to see what happens',
+				'Notice!');
 
-					@:privateAccess
-					StorageUtil.copyFile(Assets.libraryPaths.exists(library) ? '$library:$file' : file, file);
-				}
-			}
-		}
-		#end
-		
-		#if VIDEOS_ALLOWED
-		for (file in Assets.list().filter(folder -> folder.startsWith('assets/videos')))
-		{
-			if (Path.extension(file) == 'mp4')
-			{
-				// Ment for FNF's libraries system...
-				final shit:String = file.replace(file.substring(0, file.indexOf('/', 0) + 1), '');
-				final library:String = shit.replace(shit.substring(shit.indexOf('/', 0), shit.length), '');
-
-				@:privateAccess
-				StorageUtil.copyFile(Assets.libraryPaths.exists(library) ? '$library:$file' : file, file);
-			}
-		}
-		#end
-
-		System.gc();
-	}
-
-	/**
-	 * This is mostly a fork of https://github.com/openfl/hxp/blob/master/src/hxp/System.hx#L595
-	 */
-	public static function mkDirs(directory:String):Void
-	{
-		var total:String = '';
-
-		if (directory.substr(0, 1) == '/')
-			total = '/';
-
-		final parts:Array<String> = directory.split('/');
-
-		if (parts.length > 0 && parts[0].indexOf(':') > -1)
-			parts.shift();
-
-		for (part in parts)
-		{
-			if (part != '.' && part.length > 0)
-			{
-				if (total != '/' && total.length > 0)
-					total += '/';
-
-				total += part;
-
-				if (!FileSystem.exists(total))
-					FileSystem.createDirectory(total);
-			}
-		}
-	}
-
-	public static function copyFile(copyPath:String, savePath:String):Void
-	{
 		try
 		{
-			if (!FileSystem.exists(savePath) && Assets.exists(copyPath))
-			{
-				if (!FileSystem.exists(Path.directory(savePath)))
-					StorageUtil.mkDirs(Path.directory(savePath));
-
-				File.saveBytes(savePath, Assets.getBytes(copyPath));
-			}
+			if (!FileSystem.exists(StorageUtil.getStorageDirectory()))
+				FileSystem.createDirectory(StorageUtil.getStorageDirectory());
 		}
-		catch (e:Exception)
-			trace(e.message);
+		catch (e:Dynamic)
+		{
+			CoolUtil.showPopUp('Please create directory to\n' + StorageUtil.getStorageDirectory(true) + '\nPress OK to close the game', 'Error!');
+			LimeSystem.exit(1);
+		}
+	}
+
+	public static function checkExternalPaths(?splitStorage = false):Array<String>
+	{
+		var process = new sys.io.Process('grep -o "/storage/....-...." /proc/mounts | paste -sd \',\'');
+		var paths:String = process.stdout.readAll().toString();
+		if (splitStorage)
+			paths = paths.replace('/storage/', '');
+		return paths.split(',');
+	}
+
+	public static function getExternalDirectory(externalDir:String):String
+	{
+		var daPath:String = '';
+		for (path in checkExternalPaths())
+			if (path.contains(externalDir))
+				daPath = path;
+
+		daPath = Path.addTrailingSlash(daPath.endsWith("\n") ? daPath.substr(0, daPath.length - 1) : daPath);
+		return daPath;
 	}
 	#end
+	#end
 }
+
+#if android
+@:runtimeValue
+enum abstract StorageType(String) from String to String
+{
+	final forcedPath = '/storage/emulated/0/';
+	final packageNameLocal = 'com.motorfrog.impostor';
+	final fileLocal = 'ImpostorLegacy';
+
+	var EXTERNAL_DATA = "EXTERNAL_DATA";
+	var EXTERNAL_OBB = "EXTERNAL_OBB";
+	var EXTERNAL_MEDIA = "EXTERNAL_MEDIA";
+	var EXTERNAL = "EXTERNAL";
+
+	public static function fromStr(str:String):StorageType
+	{
+		final EXTERNAL_DATA = AndroidContext.getExternalFilesDir();
+		final EXTERNAL_OBB = AndroidContext.getObbDir();
+		final EXTERNAL_MEDIA = AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + lime.app.Application.current.meta.get('packageName');
+		final EXTERNAL = AndroidEnvironment.getExternalStorageDirectory() + '/.' + lime.app.Application.current.meta.get('file');
+	
+		return switch (str)
+		{
+			case "EXTERNAL_DATA": EXTERNAL_DATA;
+			case "EXTERNAL_OBB": EXTERNAL_OBB;
+			case "EXTERNAL_MEDIA": EXTERNAL_MEDIA;
+			case "EXTERNAL": EXTERNAL;
+			default: StorageUtil.getExternalDirectory(str) + '.' + fileLocal;
+		}
+	}
+
+	public static function fromStrForce(str:String):StorageType
+	{
+		final EXTERNAL_DATA = forcedPath + 'Android/data/' + packageNameLocal + '/files';
+		final EXTERNAL_OBB = forcedPath + 'Android/obb/' + packageNameLocal;
+		final EXTERNAL_MEDIA = forcedPath + 'Android/media/' + packageNameLocal;
+		final EXTERNAL = forcedPath + '.' + fileLocal;
+
+		return switch (str)
+		{
+			case "EXTERNAL_DATA": EXTERNAL_DATA;
+			case "EXTERNAL_OBB": EXTERNAL_OBB;
+			case "EXTERNAL_MEDIA": EXTERNAL_MEDIA;
+			case "EXTERNAL": EXTERNAL;
+			default: StorageUtil.getExternalDirectory(str) + '.' + fileLocal;
+		}
+	}
+}
+#end

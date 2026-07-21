@@ -1,31 +1,19 @@
-/*
- * Copyright (C) 2026 Mobile Porting Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- */
-
 package funkin.mobile.options;
 
 import funkin.states.options.*;
 
 class MobileOptionsSubState extends BaseOptionsMenu
 {
+	#if android
+	var storageTypes:Array<String> = [
+        Lang.str('storage_external_data', 'EXTERNAL_DATA'),
+        Lang.str('storage_external_obb', 'EXTERNAL_OBB'),
+        Lang.str('storage_external_media', 'EXTERNAL_MEDIA'),
+        Lang.str('storage_external', 'EXTERNAL')
+    ];
+	var externalPaths:Array<String> = StorageUtil.checkExternalPaths(true);
+	final lastStorageType:String = ClientPrefs.storageType;
+	#end
 	final exControlTypes:Array<String> = ["NONE", "SINGLE", "DOUBLE"];
 	final hintOptions:Array<String> = [
         Lang.str('hint_noGradient', 'No Gradient'),
@@ -42,6 +30,8 @@ class MobileOptionsSubState extends BaseOptionsMenu
 
 	public function new()
 	{
+		#if android if (!externalPaths.contains('\n'))
+			storageTypes = storageTypes.concat(externalPaths); #end
 		title = 'mobileoptions';
 		rpcTitle = 'Mobile Options Menu'; // for Discord Rich Presence, fuck it
 
@@ -84,9 +74,41 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		}
 
 		#if android
-		
+		var option:Option = new Option(Lang.str('opt_storageType', 'Storage Type'), Lang.str('opt_storageType_desc', 'Which folder NightmareVision Engine should use?\n(CHANGING THIS MAKES DELETE YOUR OLD FOLDER!!)'), 'storageType', 'string', 'EXTERNAL_DATA', storageTypes, ["EXTERNAL_DATA", "EXTERNAL_OBB", "EXTERNAL_MEDIA", "EXTERNAL"]);
+		addOption(option);
 		#end
 
 		super();
+	}
+
+	#if android
+	function onStorageChange():Void
+	{
+		File.saveContent(lime.system.System.applicationStorageDirectory + 'storagetype.txt', ClientPrefs.storageType);
+
+		var lastStoragePath:String = StorageType.fromStrForce(lastStorageType) + '/';
+
+		try
+		{
+			if (ClientPrefs.storageType != "EXTERNAL")
+				Sys.command('rm', ['-rf', lastStoragePath]);
+		}
+		catch (e:haxe.Exception)
+			trace('Failed to remove last directory. (${e.message})');
+	}
+	#end
+
+	override public function destroy()
+	{
+		super.destroy();
+		ClientPrefs.flush();
+		#if android
+		if (ClientPrefs.storageType != lastStorageType)
+		{
+			onStorageChange();
+			CoolUtil.showPopUp('Storage Type has been changed and you needed restart the game!!\nPress OK to close the game.', 'Notice!');
+			lime.system.System.exit(0);
+		}
+		#end
 	}
 }

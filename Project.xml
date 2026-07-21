@@ -142,19 +142,15 @@
 
 	<!-- Allow Access to Engine Files in MOBILE -->
 	<haxedef name="SHARE_MOBILE_FILES" if="mobile" />
-	<!-- <haxedef name="HXCPP_ALIGN_ALLOC"/>
-	<haxedef name="HXCPP_GC_GENERATIONAL" /> -->
 	<haxedef name="openfl_dpi_aware" />
 	<haxedef name="openfl_pool_events" />
 	
+	<!-- Category Type for Apple Systems -->
+	<config:ios category_type="public.app-category.music-games" />
+	<config:mac category_type="public.app-category.music-games" />
+	
 	<!-- Do whatever you want I'm tired uninstall and install everytime -->
 	<certificate path="key.keystore" password="psychengine" alias="psychport" alias-password="psychengine" if="android" unless="debug" />
-	
-    <!-- Mobile Shit -->
-    <section if="android">
-		<android extension="funkin.mobile.java.FileUtils" />
-        <java path="source" if="android"/>
-    </section>
 	
 	<!--Disables all tracing abilities. Enable this for a small performance improvement-->
 	<!-- <define name="DISABLE_TRACES" if="desktop release"/> -->

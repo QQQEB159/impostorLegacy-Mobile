@@ -52,18 +52,11 @@ class Main extends Sprite
 	public function new()
 	{
 		#if mobile
-		Sys.setCwd(StorageUtil.getStorageDirectory());
-		if (!FileSystem.exists('assets/scripts/qqqeb.hx'))
-		{
-		    CoolUtil.deleteFolder('assets');
-		    #if android
-		    if (AndroidVersion.SDK_INT >= 30) CoolUtil.deleteFolder('content');
-		    #end
-		}
-		StorageUtil.copyNecessaryFiles();
+		#if android
+		StorageUtil.requestPermissions();
 		#end
-		
-		//funkin.mobile.CrashHandler.init();
+		Sys.setCwd(StorageUtil.getStorageDirectory());
+		#end
 		
 		super();
 		

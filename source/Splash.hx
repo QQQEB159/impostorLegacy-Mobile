@@ -6,8 +6,6 @@ import funkin.FunkinAssets;
 import funkin.states.TitleState;
 import funkin.video.FunkinVideoSprite;
 
-import funkin.mobile.FunkinAssets as FunkinAssets2;
-
 using StringTools;
 
 @:access(flixel.FlxGame)

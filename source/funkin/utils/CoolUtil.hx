@@ -10,6 +10,9 @@ import lime.app.Application;
 /**
 	General Utility class for more one off functions
 **/
+#if cpp
+@:cppFileCode('#include <thread>')
+#end
 @:nullSafety(Strict)
 class CoolUtil
 {
@@ -318,25 +321,20 @@ class CoolUtil
 	
 	public static function showPopUp(message:String, title:String):Void
 	{
-		Application.current.window.alert(message, title);
+		/*#if android
+		android.Tools.showAlertDialog(title, message, {name: "OK", func: null}, null);
+		#else*/
+		FlxG.stage.window.alert(message, title);
+		//#end
 	}
 	
-	/**
-	 * Deletes a folder recursively
-	 * @param delete Path to the folder.
-	 */
-	@:noUsing public static function deleteFolder(delete:String) {
-		#if sys
-		if (!FileSystem.exists(delete)) return;
-		var files:Array<String> = FileSystem.readDirectory(delete);
-		for(file in files) {
-			if (FileSystem.isDirectory(delete + "/" + file)) {
-				deleteFolder(delete + "/" + file);
-				FileSystem.deleteDirectory(delete + "/" + file);
-			} else {
-				FileSystem.deleteFile(delete + "/" + file);
-			}
-		}
-		#end
-	}
+	#if cpp
+    @:functionCode('
+        return std::thread::hardware_concurrency();
+    ')
+	#end
+    public static function getCPUThreadsCount():Int
+    {
+        return 1;
+    }
 }
