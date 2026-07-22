@@ -36,7 +36,7 @@
             },
             {
                 "name": "hxcpp",
-                "link": "https://github.com/ShadowEngineTeam/hxcpp",
+                "link": "https://github.com/NovaFlare-Engine-haxelib/hxcpp-4.3.2-new",
                 "branch": "main"
             },
             {
