@@ -2,7 +2,7 @@
 
 uniform float block;
 
-vec4 screenColor = vec4(0., 198. / 255. * .75, 134 / 255. * .75, .75);
+vec4 screenColor = vec4(0., 198. / 255. * .75, 134. / 255. * .75, .75);
 
 float intensity(vec4 color) {
 	return max(max(color.r, color.g), color.b);
